@@ -7,14 +7,12 @@ interface Props {}
 
 function App({}: Props): ReactElement {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <ThemeProvider theme={theme}>
-        <Router>
-          <AppRouter />
-        </Router>
-      </ThemeProvider>
-    </>
+      <Router>
+        <AppRouter />
+      </Router>
+    </ThemeProvider>
   );
 }
 
