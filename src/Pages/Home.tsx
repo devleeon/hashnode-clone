@@ -1,166 +1,237 @@
 import {
   Box,
   Button,
-  Container,
-  Grid,
-  Paper,
   styled,
+  Theme,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
+import { lightGreen } from "@material-ui/core/colors";
+import { MenuBookOutlined } from "@material-ui/icons";
 import React, { ReactElement } from "react";
+import LayOut from "../Components/LayOut";
 
-const Backgound = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.light,
-  width: "100%",
-  height: "100%",
-}));
-const GridContainer = styled(Grid)(({ theme }) => ({ margin: 0 }));
-const GridItem = styled(Grid)({
-  width: "100%",
-  height: "100%",
-  position: "relative",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-});
-const Nav = styled(Box)({
-  height: "100%",
-  paddingTop: "1.25rem",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  position: "fixed",
-  width: "144px",
-  top: 0,
-});
-const Logo = styled(Box)({
-  paddingTop: "0.5rem",
-  width: "144px",
-  fontSize: "2rem",
-  fontWeight: 700,
-});
-const MenuContainer = styled(Box)({
-  marginTop: "30px",
-  height: "344px",
-  width: "100%",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-});
-const Menu = styled(Box)({
-  marginTop: "40px",
-  width: "100%",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-});
-const MainPage = styled(Box)(({ theme }) => ({
-  width: "100%",
-  height: "100%",
-  backgroundColor: "white",
-  border: `1px solid ${theme.palette.secondary.main}`,
-  borderTop: 0,
-}));
-const TopBar = styled(Box)(({ theme }) => ({
+const Container = styled(Box)(({ theme }) => ({
   width: "100%",
   backgroundColor: "white",
-  borderBottom: `1px solid ${theme.palette.secondary.main}`,
-  position: "sticky",
-  top: 0,
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
+  border: `solid 1px ${theme.palette.secondary.main}`,
+  height: "100%",
+  [theme.breakpoints.up("sm")]: {
+    gridColumnEnd: "span 9",
+    borderTop: 0,
+  },
+  [theme.breakpoints.up("md")]: {
+    gridColumnEnd: "span 10",
+    borderTop: 0,
+  },
+  [theme.breakpoints.up("lg")]: {
+    gridColumnEnd: "span 7",
+  },
 }));
-const TopBarText = styled(Typography)(({ theme }) => ({
+const BlueButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: "white",
+  fontWeight: 600,
+  height: "48px",
+  fontSize: "1rem",
+  textTransform: "none",
+  padding: "12px 20px",
+  "&:hover": {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
+const WhiteButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "white",
+  color: "black",
+  fontWeight: 600,
+  height: "48px",
+  fontSize: "1rem",
+  textTransform: "none",
+  marginRight: "15px",
+  padding: "12px 20px",
+  "&:hover": {
+    backgroundColor: "white",
+  },
+}));
+const Title = styled(Typography)(({ theme }) => ({
+  textAlign: "center",
+  fontWeight: 600,
+  letterSpacing: "-0.075rem",
+  [theme.breakpoints.up("xs")]: { fontSize: "30px" },
+  [theme.breakpoints.up("sm")]: { fontSize: "36px", letterSpacing: "-0.1rem" },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "48px",
+    letterSpacing: "-0.125rem",
+  },
+  marginBottom: "32px",
+}));
+const Explain = styled(Typography)(({ theme }) => ({
   color: theme.palette.secondary.dark,
-  fontSize: "1.25rem",
-  fontWeight: 700,
-  top: 0,
+  textAlign: "center",
+  fontSize: "24px",
+  letterSpacing: "-0.125rem",
+  marginBottom: "40px",
+}));
+const ItemContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  [theme.breakpoints.down("sm")]: {
+    "&:not(:last-child)": { marginBottom: "30px" },
+  },
+}));
+const Item = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light,
+  width: "130px",
+  height: "130px",
+  marginBottom: "20px",
+}));
+const ItemText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.secondary.dark,
+  textAlign: "center",
+  fontSize: "20px",
+  letterSpacing: "-0.125rem",
+  fontWeight: 600,
+}));
+const ItemContainer2 = styled(Box)(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  [theme.breakpoints.down("sm")]: {
+    "&:not(:last-child)": { marginBottom: "40px" },
+  },
+}));
+const Item2Title = styled(Typography)(({ theme }) => ({
+  fontWeight: 600,
+  fontSize: "36px",
+}));
+const Item2Text = styled(Typography)(({ theme }) => ({
+  fontSize: "18px",
 }));
 interface Props {}
+
 function Home({}: Props): ReactElement {
+  const small = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
+  const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+
+  const theme = useTheme();
   return (
-    <Backgound>
-      <Container fixed maxWidth="lg">
-        <GridContainer container spacing={2}>
-          <GridItem sm={12} md={3} lg={2}>
-            <Nav>
-              <Logo>cashnode</Logo>
-              <MenuContainer>
-                <Button> write</Button>
-                <Menu></Menu>
-              </MenuContainer>
-            </Nav>
-          </GridItem>
-          <GridItem sm={12} md={9} lg={10}>
-            <MainPage>
-              <TopBar paddingX="40px" paddingY="20px">
-                <TopBarText variant="h3">
-                  Blogging as a developer, done right!
-                </TopBarText>
-                <Box>
-                  <Button>create an account</Button>
-                </Box>
-              </TopBar>
-              <Box height="2000px" padding="10px">
-                What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled it to make a
-                type specimen book. It has survived not only five centuries, but
-                also the leap into electronic typesetting, remaining essentially
-                unchanged. It was popularised in the 1960s with the release of
-                Letraset sheets containing Lorem Ipsum passages, and more
-                recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum. Why do we use it? It is a
-                long established fact that a reader will be distracted by the
-                readable content of a page when looking at its layout. The point
-                of using Lorem Ipsum is that it has a more-or-less normal
-                distribution of letters, as opposed to using 'Content here,
-                content here', making it look like readable English. Many
-                desktop publishing packages and web page editors now use Lorem
-                Ipsum as their default model text, and a search for 'lorem
-                ipsum' will uncover many web sites still in their infancy.
-                Various versions have evolved over the years, sometimes by
-                accident, sometimes on purpose (injected humour and the like).
-                Where does it come from? Contrary to popular belief, Lorem Ipsum
-                is not simply random text. It has roots in a piece of classical
-                Latin literature from 45 BC, making it over 2000 years old.
-                Richard McClintock, a Latin professor at Hampden-Sydney College
-                in Virginia, looked up one of the more obscure Latin words,
-                consectetur, from a Lorem Ipsum passage, and going through the
-                cites of the word in classical literature, discovered the
-                undoubtable source. Lorem Ipsum comes from sections 1.10.32 and
-                1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good
-                and Evil) by Cicero, written in 45 BC. This book is a treatise
-                on the theory of ethics, very popular during the Renaissance.
-                The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
-                comes from a line in section 1.10.32. The standard chunk of
-                Lorem Ipsum used since the 1500s is reproduced below for those
-                interested. Sections 1.10.32 and 1.10.33 from "de Finibus
-                Bonorum et Malorum" by Cicero are also reproduced in their exact
-                original form, accompanied by English versions from the 1914
-                translation by H. Rackham. Where can I get some? There are many
-                variations of passages of Lorem Ipsum available, but the
-                majority have suffered alteration in some form, by injected
-                humour, or randomised words which don't look even slightly
-                believable. If you are going to use a passage of Lorem Ipsum,
-                you need to be sure there isn't anything embarrassing hidden in
-                the middle of text. All the Lorem Ipsum generators on the
-                Internet tend to repeat predefined chunks as necessary, making
-                this the first true generator on the Internet. It uses a
-                dictionary of over 200 Latin words, combined with a handful of
-                model sentence structures, to generate Lorem Ipsum which looks
-                reasonable. The generated Lorem Ipsum is therefore always free
-                from repetition, injected humour, or non-characteristic words
-                etc.
+    <LayOut>
+      <Container>
+        {/* sticky box start */}
+        {small && (
+          <Box
+            position="sticky"
+            top={0}
+            color="secondary.dark"
+            borderBottom={`solid 1px ${theme.palette.secondary.main}`}
+            width="100%"
+            display="flex"
+            bgcolor="white"
+            flexDirection={medium ? "row" : "column"}
+            justifyContent={medium ? "space-between" : "center"}
+            alignItems="center"
+            paddingX="40px"
+            paddingY="20px"
+            zIndex={9}
+          >
+            <Box
+              fontSize="18px"
+              fontWeight={600}
+              letterSpacing="-0.025rem"
+              paddingBottom={medium ? "0px" : "20px"}
+            >
+              Blogging as a developer, done right!
+            </Box>
+            <Box>
+              <WhiteButton variant="contained">Login</WhiteButton>
+              <BlueButton variant="contained">Create an account</BlueButton>
+            </Box>
+          </Box>
+        )}
+        {/* sticky box end */}
+        {/* first box start */}
+        <Box>
+          <Box
+            paddingX="40px"
+            paddingY="96px"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+          >
+            <Title variant="h1">
+              Everything you need to start blogging as a developer!
+            </Title>
+            <Explain variant="h3">
+              Own your content, share ideas, and connect with the global dev
+              community!
+            </Explain>
+            <BlueButton>Start your personal blog for FREE</BlueButton>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection={medium ? "row" : "column"}
+            alignItems="center"
+            padding="0px 64px 80px"
+            justifyContent="space-between"
+            borderBottom={`solid 1px ${theme.palette.secondary.main}`}
+          >
+            <ItemContainer>
+              <Item />
+              <ItemText>Start a developer blog</ItemText>
+            </ItemContainer>
+            <ItemContainer>
+              <Item />
+              <ItemText>Map your custom domain</ItemText>
+            </ItemContainer>
+            <ItemContainer>
+              <Item />
+              <ItemText>Connect with community</ItemText>
+            </ItemContainer>
+          </Box>
+          {/* first box end */}
+          {/* second box start */}
+          <Box
+            paddingY="80px"
+            display="flex"
+            flexDirection={medium ? "row" : "column"}
+            alignItems="center"
+          >
+            <ItemContainer2>
+              <Box paddingX="20px">
+                <Item2Title>What? 👀</Item2Title>
+                <Item2Text>
+                  Cashnode is a free developer blogging platform that allows you
+                  to publish articles on your own domain and helps you stay
+                  connected with a global developer community.
+                </Item2Text>
               </Box>
-            </MainPage>
-          </GridItem>
-        </GridContainer>
+            </ItemContainer2>
+            <ItemContainer2>
+              <Box paddingX="20px">
+                <Item2Title>Why? 😍</Item2Title>
+                <Item2Text>
+                  This gives you a huge advantage: Google and other search
+                  engines send traffic directly to your domain, and Cashnode
+                  community members discover your articles on their feed.
+                </Item2Text>
+              </Box>
+            </ItemContainer2>
+            <ItemContainer2>
+              <Box paddingX="20px" display="flex">
+                <Box
+                  {...(medium
+                    ? { width: "200px", height: "150px", alignSelf: "center" }
+                    : { width: "300px", height: "200px" })}
+                  bgcolor={lightGreen[500]}
+                />
+              </Box>
+            </ItemContainer2>
+          </Box>
+        </Box>
       </Container>
-    </Backgound>
+    </LayOut>
   );
 }
 

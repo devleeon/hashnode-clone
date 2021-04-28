@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { CssBaseline, NoSsr, ThemeProvider } from "@material-ui/core";
 import React, { ReactElement } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import theme from "../styles/theme";
@@ -7,12 +7,14 @@ interface Props {}
 
 function App({}: Props): ReactElement {
   return (
-    <ThemeProvider theme={theme}>
+    <NoSsr>
       <CssBaseline />
-      <Router>
-        <AppRouter />
-      </Router>
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <AppRouter />
+        </Router>
+      </ThemeProvider>
+    </NoSsr>
   );
 }
 
