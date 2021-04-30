@@ -16,6 +16,7 @@ import {
   WbSunnyOutlined,
 } from "@material-ui/icons";
 import React, { ReactElement, useState } from "react";
+import { useHistory } from "react-router";
 import MenuItems from "./MenuItems";
 
 const LogoText = styled(Typography)(({ theme }) => ({
@@ -23,6 +24,7 @@ const LogoText = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
   color: theme.palette.secondary.dark,
   marginBottom: "25px",
+  cursor: "pointer",
 }));
 const IconMenuButton = styled(Button)(({ theme }) => ({
   fontSize: "24px",
@@ -36,6 +38,7 @@ const IconMenuButton = styled(Button)(({ theme }) => ({
 }));
 
 const MenuButtons = styled(Button)(({ theme }) => ({
+  position: "relative",
   fontSize: "24px",
   padding: "8px",
   width: "24px",
@@ -50,6 +53,7 @@ const MenuButtons = styled(Button)(({ theme }) => ({
 interface Props {}
 
 function SideBar({}: Props): ReactElement {
+  const history = useHistory();
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -59,6 +63,9 @@ function SideBar({}: Props): ReactElement {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const refreshHome = () => {
+    history.replace("/");
   };
   return (
     <Box
@@ -81,19 +88,6 @@ function SideBar({}: Props): ReactElement {
             <IconMenuButton aria-haspopup="true" onClick={handleClick}>
               <ViewHeadlineRounded />
             </IconMenuButton>
-            {/* {menuVisible && (
-                <Box
-                  position="absolute"
-                  left={0}
-                  bgcolor="white"
-                  top={"90px"}
-                  width="400px"
-                  padding="20px"
-                  boxShadow="rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;"
-                >
-                    <MenuItems />
-                </Box>
-              )} */}
 
             <Popover
               anchorEl={anchorEl}
@@ -114,7 +108,9 @@ function SideBar({}: Props): ReactElement {
             </Popover>
           </>
         )}
-        <LogoText variant="h1">cashnode</LogoText>
+        <LogoText variant="h1" onClick={refreshHome}>
+          cashnode
+        </LogoText>
         {!small && <MenuItems />}
       </Box>
       <Box

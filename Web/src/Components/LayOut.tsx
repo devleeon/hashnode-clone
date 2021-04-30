@@ -1,17 +1,7 @@
-import {
-  Box,
-  Container,
-  styled,
-  Theme,
-  useMediaQuery,
-} from "@material-ui/core";
+import { Box, Container, styled } from "@material-ui/core";
 import React, { ReactChild, ReactElement } from "react";
 import SideBar from "./SideBar";
-import WhiteBox from "./WhiteBox";
 
-interface Props {
-  children: ReactChild;
-}
 const LayOutContainer = styled(Container)(({ theme }) => ({
   paddingRight: "8px",
   paddingLeft: "8px",
@@ -34,7 +24,6 @@ const GridContainer = styled(Box)(({ theme }) => ({
 
 const GridLeftItem = styled(Box)(({ theme }) => ({
   width: "100%",
-  position: "sticky",
   top: 0,
   [theme.breakpoints.up("sm")]: {
     gridColumnEnd: "span 3",
@@ -46,10 +35,11 @@ const GridLeftItem = styled(Box)(({ theme }) => ({
     gridColumnEnd: "span 1",
   },
 }));
-
-function LayOut({ children }: Props): ReactElement {
-  const small = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
-
+interface Props {
+  children: ReactChild;
+  sticky?: boolean;
+}
+function LayOut({ children, sticky }: Props): ReactElement {
   return (
     <Box
       bgcolor="secondary.light"
@@ -59,7 +49,7 @@ function LayOut({ children }: Props): ReactElement {
     >
       <LayOutContainer maxWidth="xl" fixed>
         <GridContainer>
-          <GridLeftItem>
+          <GridLeftItem {...(sticky && { position: "sticky", top: 0 })}>
             <SideBar />
           </GridLeftItem>
           {children}

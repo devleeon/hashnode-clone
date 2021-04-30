@@ -10,7 +10,7 @@ import {
 import React, { ReactElement } from "react";
 import LayOut from "../Components/LayOut";
 import RightSideBar from "../Components/RightSideBar";
-import WhiteBox from "../Components/WhiteBox";
+import { WhiteBox } from "../styles/Styles";
 const GridContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   [theme.breakpoints.up("sm")]: {
@@ -28,7 +28,11 @@ const GridContainer = styled(Box)(({ theme }) => ({
   },
 }));
 const GridLeftItem = styled(Box)(({ theme }) => ({
+  paddingTop: "10px",
   width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    gridColumnEnd: "span 9",
+  },
   [theme.breakpoints.up("md")]: {
     gridColumnEnd: "span 6",
   },
@@ -37,6 +41,8 @@ const GridLeftItem = styled(Box)(({ theme }) => ({
   },
 }));
 const GridRightItem = styled(Box)(({ theme }) => ({
+  paddingTop: "10px",
+
   [theme.breakpoints.up("md")]: {
     gridColumnEnd: "span 4",
   },
@@ -52,7 +58,7 @@ function Feed({}: Props): ReactElement {
     <LayOut>
       <>
         <GridLeftItem>
-          <WhiteBox>dkf</WhiteBox>
+          <WhiteBox>Community Feed Recent articles from the community</WhiteBox>
         </GridLeftItem>
         {medium && (
           <GridRightItem>
