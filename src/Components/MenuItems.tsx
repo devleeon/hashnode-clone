@@ -10,6 +10,7 @@ import {
 } from "@material-ui/icons";
 import React, { ReactElement } from "react";
 import { useHistory, useLocation } from "react-router";
+import { useLoggedIn } from "./App";
 const Icons = styled(Box)({
   marginRight: "10px",
   display: "flex",
@@ -46,11 +47,17 @@ const PageItems = styled(Button)(({ theme }) => ({
 interface Props {}
 
 function MenuItems({}: Props): ReactElement {
+  const { loggedIn } = useLoggedIn();
+
   const theme = useTheme();
   const { pathname } = useLocation();
   const history = useHistory();
   const moveToFeed = () => {
-    history.push("/community");
+    if (loggedIn) {
+      history.push("/");
+    } else {
+      history.push("/community");
+    }
   };
   const moveToExplore = () => {
     history.push("/explore");
@@ -75,14 +82,14 @@ function MenuItems({}: Props): ReactElement {
       <PageItems
         onClick={moveToFeed}
         style={
-          pathname.startsWith("/community")
+          pathname.startsWith("/community") || (pathname === "/" && loggedIn)
             ? { color: theme.palette.primary.main }
             : { color: "black" }
         }
       >
         <Icons
           color={
-            pathname.startsWith("/community")
+            pathname.startsWith("/community") || (pathname === "/" && loggedIn)
               ? "primary.main"
               : "secondary.main"
           }

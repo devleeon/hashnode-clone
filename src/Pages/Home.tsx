@@ -1,5 +1,6 @@
 import { Box, styled, Theme, useMediaQuery, useTheme } from "@material-ui/core";
 import React, { ReactElement } from "react";
+import { useHistory } from "react-router";
 import FirstBox from "../Components/Home/FirstBox";
 import FourthBox from "../Components/Home/FourthBox";
 import SecondBox from "../Components/Home/SecondBox";
@@ -32,11 +33,16 @@ function Home({}: Props): ReactElement {
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   const theme = useTheme();
+  const history = useHistory();
+
+  function moveToAuth() {
+    history.push("/auth");
+  }
   return (
     <LayOut sticky>
       <Container>
         {/* sticky box start */}
-        {small && <StickyBox medium={medium} />}
+        {small && <StickyBox medium={medium} moveToAuth={moveToAuth} />}
         {/* sticky box end */}
         <Box>
           {/* first box start */}

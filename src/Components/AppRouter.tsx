@@ -1,18 +1,22 @@
 import React, { ReactElement } from "react";
 import { Redirect, Route, Switch } from "react-router";
 import About from "../Pages/About";
+import Auth from "../Pages/Auth";
 import Explore from "../Pages/Explore";
 import Feed from "../Pages/Feed";
 import Home from "../Pages/Home";
 import Search from "../Pages/Search";
 import Tags from "../Pages/Tags";
+import { useLoggedIn } from "./App";
 
 interface Props {}
 
-function AppRouter({}: Props): ReactElement {
+const LoggedOutPage = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route path="/auth" component={Auth} />
+
       <Route path="/explore" component={Explore} />
       <Route path="/community" component={Feed} />
       <Route path="/search" component={Search} />
@@ -22,6 +26,27 @@ function AppRouter({}: Props): ReactElement {
       <Redirect from="*" to="/" />
     </Switch>
   );
+};
+
+const LoggedInPage = () => {
+  return (
+    <Switch>
+      <Route exact path="/" component={Feed} />
+
+      <Route path="/explore" component={Explore} />
+      <Route path="/community" component={Feed} />
+      <Route path="/search" component={Search} />
+      <Route path="/about" component={About} />
+      <Route path="/tags" component={Tags} />
+
+      <Redirect from="*" to="/" />
+    </Switch>
+  );
+};
+function AppRouter({}: Props): ReactElement {
+  const { loggedIn } = useLoggedIn();
+
+  return <>{loggedIn ? <LoggedInPage /> : <LoggedOutPage />}</>;
 }
 
 export default AppRouter;
