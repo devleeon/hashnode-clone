@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import { Box, Button, styled, useTheme } from "@material-ui/core";
 import {
   BookmarkBorderOutlined,
@@ -10,7 +11,7 @@ import {
 } from "@material-ui/icons";
 import React, { ReactElement } from "react";
 import { useHistory, useLocation } from "react-router";
-import { useLoggedIn } from "./App";
+import { isLoggedInVar } from "../Apollo/localState";
 const Icons = styled(Box)({
   marginRight: "10px",
   display: "flex",
@@ -47,8 +48,7 @@ const PageItems = styled(Button)(({ theme }) => ({
 interface Props {}
 
 function MenuItems({}: Props): ReactElement {
-  const { loggedIn } = useLoggedIn();
-
+  const loggedIn = isLoggedInVar();
   const theme = useTheme();
   const { pathname } = useLocation();
   const history = useHistory();

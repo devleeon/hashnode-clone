@@ -33,16 +33,12 @@ function Home({}: Props): ReactElement {
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   const theme = useTheme();
-  const history = useHistory();
 
-  function moveToAuth() {
-    history.push("/auth");
-  }
   return (
     <LayOut sticky>
       <Container>
         {/* sticky box start */}
-        {small && <StickyBox medium={medium} moveToAuth={moveToAuth} />}
+        {small && <StickyBox medium={medium} />}
         {/* sticky box end */}
         <Box>
           {/* first box start */}

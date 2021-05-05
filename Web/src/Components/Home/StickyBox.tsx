@@ -1,13 +1,20 @@
 import { Box, Theme, useTheme } from "@material-ui/core";
 import React, { MouseEventHandler, ReactElement } from "react";
+import { useHistory } from "react-router";
 import { BlueButton, WhiteButton } from "../../styles/Styles";
 
 interface Props {
   medium: boolean;
-  moveToAuth: MouseEventHandler<HTMLButtonElement>;
 }
 
-function StickyBox({ medium, moveToAuth }: Props): ReactElement {
+function StickyBox({ medium }: Props): ReactElement {
+  const history = useHistory();
+  function moveToSignUp() {
+    history.push("/auth", { signup: true });
+  }
+  function moveToLogin() {
+    history.push("/auth", { signup: false });
+  }
   const theme = useTheme();
   return (
     <Box
@@ -34,10 +41,10 @@ function StickyBox({ medium, moveToAuth }: Props): ReactElement {
         Blogging as a developer, done right!
       </Box>
       <Box>
-        <WhiteButton variant="contained" onClick={moveToAuth}>
+        <WhiteButton variant="contained" onClick={moveToLogin}>
           Login
         </WhiteButton>
-        <BlueButton variant="contained" onClick={moveToAuth}>
+        <BlueButton variant="contained" onClick={moveToSignUp}>
           Create an account
         </BlueButton>
       </Box>

@@ -1,5 +1,7 @@
+import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import React, { ReactElement } from "react";
 import { Redirect, Route, Switch } from "react-router";
+import { isLoggedInVar } from "../Apollo/localState";
 import About from "../Pages/About";
 import Auth from "../Pages/Auth";
 import Explore from "../Pages/Explore";
@@ -7,8 +9,12 @@ import Feed from "../Pages/Feed";
 import Home from "../Pages/Home";
 import Search from "../Pages/Search";
 import Tags from "../Pages/Tags";
-import { useLoggedIn } from "./App";
 
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
 interface Props {}
 
 const LoggedOutPage = () => {
@@ -44,9 +50,8 @@ const LoggedInPage = () => {
   );
 };
 function AppRouter({}: Props): ReactElement {
-  const { loggedIn } = useLoggedIn();
-
-  return <>{loggedIn ? <LoggedInPage /> : <LoggedOutPage />}</>;
+  const { data } = useQuery(IS_LOGGED_IN);
+  return <>{data?.isLoggedIn ? <LoggedInPage /> : <LoggedOutPage />}</>;
 }
 
 export default AppRouter;

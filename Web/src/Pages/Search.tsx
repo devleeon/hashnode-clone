@@ -1,34 +1,9 @@
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  Paper,
-  styled,
-  Theme,
-  useMediaQuery,
-} from "@material-ui/core";
+import { Box, Divider, styled, Theme, useMediaQuery } from "@material-ui/core";
 import { blueGrey, grey } from "@material-ui/core/colors";
 import React, { ReactElement } from "react";
 import LayOut from "../Components/LayOut";
-import RightSideBar from "../Components/RightSideBar";
 import { WhiteBox } from "../styles/Styles";
-const GridContainer = styled(Box)(({ theme }) => ({
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    display: "flex",
-  },
-  [theme.breakpoints.up("md")]: {
-    display: "grid",
-    gridTemplateColumns: "repeat(10, 1fr)",
-    gridGap: "10px",
-  },
-  [theme.breakpoints.up("lg")]: {
-    display: "grid",
-    gridTemplateColumns: "repeat(7, 1fr)",
-    gridGap: "15px",
-  },
-}));
+
 const GridLeftItem = styled(Box)(({ theme }) => ({
   paddingTop: "10px",
   width: "100%",

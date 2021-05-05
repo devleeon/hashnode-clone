@@ -2,8 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Menu,
-  Paper,
   Popover,
   styled,
   Theme,
@@ -15,7 +13,7 @@ import {
   ViewHeadlineRounded,
   WbSunnyOutlined,
 } from "@material-ui/icons";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { useHistory } from "react-router";
 import MenuItems from "./MenuItems";
 

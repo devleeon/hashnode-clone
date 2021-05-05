@@ -1,13 +1,5 @@
 import { Box, Container, styled } from "@material-ui/core";
-import axios from "axios";
-import React, {
-  createContext,
-  ReactChild,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ReactChild, ReactElement } from "react";
 import SideBar from "./SideBar";
 
 const LayOutContainer = styled(Container)(({ theme }) => ({
@@ -44,43 +36,11 @@ const GridLeftItem = styled(Box)(({ theme }) => ({
   },
 }));
 
-export type CurrentUserType = {
-  currentUser: {
-    username: string;
-    email: string;
-    avatar: string;
-  };
-  setCurrentUser: Function;
-};
-
-export const CurrentUser = createContext<CurrentUserType>({
-  currentUser: {
-    username: "",
-    email: "",
-    avatar: "",
-  },
-  setCurrentUser: () => {},
-});
-export const useCurrentUser = () => useContext(CurrentUser);
-
 interface Props {
   children: ReactChild;
   sticky?: boolean;
 }
 function LayOut({ children, sticky }: Props): ReactElement {
-  const [currentUser, setCurrentUser] = useState({
-    username: "",
-    email: "",
-    avatar: "",
-  });
-  const getUser = async () => {
-    const { data } = await axios.post("user");
-    setCurrentUser(data);
-  };
-  console.log(currentUser);
-  useEffect(() => {
-    getUser();
-  }, []);
   return (
     <Box
       bgcolor="secondary.light"
@@ -89,14 +49,12 @@ function LayOut({ children, sticky }: Props): ReactElement {
       position="relative"
     >
       <LayOutContainer maxWidth="xl" fixed>
-        <CurrentUser.Provider value={{ currentUser, setCurrentUser }}>
-          <GridContainer>
-            <GridLeftItem {...(sticky && { position: "sticky", top: 0 })}>
-              <SideBar />
-            </GridLeftItem>
-            {children}
-          </GridContainer>
-        </CurrentUser.Provider>
+        <GridContainer>
+          <GridLeftItem {...(sticky && { position: "sticky", top: 0 })}>
+            <SideBar />
+          </GridLeftItem>
+          {children}
+        </GridContainer>
       </LayOutContainer>
     </Box>
   );

@@ -1,22 +1,25 @@
-import axios from "axios";
 import React, { ReactElement } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Redirect, useHistory } from "react-router";
-import { useLoggedIn } from "../Components/App";
+import { Redirect, useHistory, useLocation } from "react-router";
+import { isLoggedInVar } from "../Apollo/localState";
+import { useLoginMutation, useSignUpMutation } from "../generated/graphql";
 
 interface Props {}
 
 type FormInputs = {
   email: string;
   password: string;
+  username: string;
 };
-type ResponseReturn = {
-  error: boolean;
-  message: string;
+type State = {
+  signup: boolean;
 };
 function Auth({}: Props): ReactElement {
-  const { setLoggedIn } = useLoggedIn();
+  const { state } = useLocation<State>();
   const history = useHistory();
+  const [login] = useLoginMutation();
+  const [signUp] = useSignUpMutation();
+
   const {
     register,
     handleSubmit,
@@ -28,19 +31,41 @@ function Auth({}: Props): ReactElement {
     shouldFocusError: true,
   });
   const onLogin: SubmitHandler<FormInputs> = async (data) => {
-    const response = await axios.post("login", {
-      ...data,
+    await login({
+      variables: { ...data },
+      update: (_, { data }) => {
+        if (data?.login.token) {
+          localStorage.setItem("token", data?.login.token);
+          isLoggedInVar(true);
+          history.replace("/");
+        } else if (data?.login.errors) {
+          // throw an error
+          // setError(data?.login.errors?.field, {
+          //   message: data?.login.errors?.message,
+          // });
+        }
+      },
     });
-    if (!response.data.error) {
-      const token = response.data.message;
-      localStorage.setItem("token", token);
-      setLoggedIn(true);
-      history.push("/");
-    }
+  };
+  const onSignUp: SubmitHandler<FormInputs> = async (data) => {
+    await signUp({
+      variables: { ...data },
+      update: (_, { data }) => {
+        if (data?.signUp.token) {
+          localStorage.setItem("token", data?.signUp.token);
+          isLoggedInVar(true);
+          history.replace("/");
+        }
+      },
+    });
   };
   return (
     <div>
-      <form onSubmit={handleSubmit(onLogin)}>
+      <form onSubmit={handleSubmit(state.signup ? onSignUp : onLogin)}>
+        {state.signup && (
+          <input {...register("username", { required: true })} />
+        )}
+        {errors.username && <p>username is required</p>}
         <input {...register("email", { required: true })} />
         {errors.email && <p>email is required</p>}
         <input {...register("password", { required: true })} />

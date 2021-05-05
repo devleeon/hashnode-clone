@@ -1,4 +1,12 @@
-import { Box, Button, styled } from "@material-ui/core";
+import {
+  Box,
+  BoxProps,
+  Button,
+  styled,
+  Typography,
+  TypographyVariant,
+  useTheme,
+} from "@material-ui/core";
 
 export const WhiteBox = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
@@ -31,3 +39,53 @@ export const WhiteButton = styled(Button)(({ theme }) => ({
     backgroundColor: "white",
   },
 }));
+
+interface BoldTextProps extends BoxProps {
+  variant: TypographyVariant;
+}
+
+export const BoldText = ({
+  fontSize,
+  children,
+  variant,
+  letterSpacing,
+  color,
+}: BoldTextProps) => {
+  const theme = useTheme();
+  return (
+    <Typography variant={variant}>
+      <Box
+        fontSize={fontSize}
+        color={color ? color : theme.palette.secondary.dark}
+        fontWeight={600}
+        letterSpacing={letterSpacing}
+      >
+        {children}
+      </Box>
+    </Typography>
+  );
+};
+interface LightTextProps extends BoxProps {
+  variant?: TypographyVariant;
+}
+
+export const LightText = ({
+  fontSize,
+  children,
+  variant,
+  letterSpacing,
+  color,
+}: LightTextProps) => {
+  const theme = useTheme();
+  return (
+    <Typography variant={variant ? variant : "inherit"}>
+      <Box
+        fontSize={fontSize}
+        color={color ? color : theme.palette.secondary.dark}
+        letterSpacing={letterSpacing}
+      >
+        {children}
+      </Box>
+    </Typography>
+  );
+};
