@@ -1,7 +1,7 @@
 import { Box, styled, Typography, useTheme } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import React, { ReactElement } from "react";
-import { BlueButton } from "../../styles/Styles";
+import ButtonAuth from "./ButtonAuth";
 
 const ItemText = styled(Typography)(({ theme }) => ({
   color: theme.palette.secondary.dark,
@@ -106,7 +106,7 @@ function ThirdBox({ medium }: Props): ReactElement {
           </ItemText>
         </ThirdBoxItems>
       </Box>
-      <BlueButton>Get Started</BlueButton>
+      <ButtonAuth>Get Started</ButtonAuth>
     </Box>
   );
 }

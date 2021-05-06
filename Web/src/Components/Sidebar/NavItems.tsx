@@ -1,17 +1,18 @@
-import { useReactiveVar } from "@apollo/client";
 import { Box, Button, styled, useTheme } from "@material-ui/core";
 import {
   BookmarkBorderOutlined,
   CreateOutlined,
+  ExpandLessRounded,
   ExpandMoreRounded,
   ExploreOutlined,
   LocalOfferOutlined,
   SearchOutlined,
+  UnfoldMoreRounded,
   ViewHeadlineRounded,
 } from "@material-ui/icons";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { useHistory, useLocation } from "react-router";
-import { isLoggedInVar } from "../Apollo/localState";
+import { isLoggedInVar } from "../../Apollo/localState";
 const Icons = styled(Box)({
   marginRight: "10px",
   display: "flex",
@@ -30,6 +31,7 @@ const BlueButton = styled(Button)(({ theme }) => ({
   },
 }));
 const PageItems = styled(Button)(({ theme }) => ({
+  borderRadius: "0.5rem",
   fontSize: "18px",
   lineHeight: 1.375,
   textTransform: "capitalize",
@@ -47,11 +49,24 @@ const PageItems = styled(Button)(({ theme }) => ({
 
 interface Props {}
 
-function MenuItems({}: Props): ReactElement {
+function NavItems({}: Props): ReactElement {
   const loggedIn = isLoggedInVar();
   const theme = useTheme();
   const { pathname } = useLocation();
   const history = useHistory();
+  const [openMore, setOpenMore] = useState<Boolean>(false);
+
+  const onClickWrite = () => {
+    if (loggedIn) {
+      history.push("/p/create");
+    } else {
+      history.push("/auth", { signup: false });
+    }
+  };
+
+  const handleClick = () => {
+    setOpenMore(!openMore);
+  };
   const moveToFeed = () => {
     if (loggedIn) {
       history.push("/");
@@ -75,7 +90,7 @@ function MenuItems({}: Props): ReactElement {
       alignItems="center"
       position="relative"
     >
-      <BlueButton variant="contained">
+      <BlueButton variant="contained" onClick={onClickWrite}>
         <CreateOutlined style={{ marginRight: "5px" }} />
         write
       </BlueButton>
@@ -161,14 +176,27 @@ function MenuItems({}: Props): ReactElement {
         </Icons>
         search
       </PageItems>
-      <PageItems>
+      <PageItems onClick={handleClick}>
         <Icons>
-          <ExpandMoreRounded />
+          {openMore ? <ExpandLessRounded /> : <ExpandMoreRounded />}
         </Icons>
         more
       </PageItems>
+      <Box
+        marginTop="4px"
+        borderLeft="1px solid"
+        borderColor="secondary.main"
+        paddingLeft="8px"
+        width="100%"
+        display={openMore ? {} : "none"}
+      >
+        <PageItems>RFAs</PageItems>
+        <PageItems>About</PageItems>
+        <PageItems>Careers</PageItems>
+        <PageItems>Official Blog</PageItems>
+      </Box>
     </Box>
   );
 }
 
-export default MenuItems;
+export default NavItems;

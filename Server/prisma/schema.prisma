@@ -16,11 +16,14 @@ model Post {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt()
   title         String
-  content       String?
+  content       String
+  text          String      @default("")
   published     Boolean     @default(false)
+  photo         String?     
   author        User        @relation(fields: [authorId], references: [id])
   authorId      String
   likes         Like[]
+  likesCount    Int         @default(0)
   bookmarked    Bookmark[]
   tags          Tags[]      @relation("TagPosts", references: [id])
 }
@@ -30,8 +33,10 @@ model User {
   email         String      @unique
   username      String
   password      String
-  firstname     String?     @default("")
-  lastname      String?     @default("")
+  firstname     String      @default("")
+  lastname      String      @default("")
+  avatar        String      @default("")
+  cover         String      @default("")
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt()
   followedBy    User[]      @relation("UserFollows", references: [id])

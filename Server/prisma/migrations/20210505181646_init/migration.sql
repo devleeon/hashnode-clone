@@ -4,7 +4,7 @@ CREATE TABLE "Post" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "title" TEXT NOT NULL,
-    "content" TEXT,
+    "content" TEXT NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
     "authorId" TEXT NOT NULL,
 
@@ -17,8 +17,10 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "firstname" TEXT DEFAULT E'',
-    "lastname" TEXT DEFAULT E'',
+    "firstname" TEXT NOT NULL DEFAULT E'',
+    "lastname" TEXT NOT NULL DEFAULT E'',
+    "avatar" TEXT NOT NULL DEFAULT E'',
+    "cover" TEXT NOT NULL DEFAULT E'',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

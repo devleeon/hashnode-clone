@@ -1,10 +1,9 @@
 import {
   Box,
-  BoxProps,
   Button,
   styled,
   Typography,
-  TypographyVariant,
+  TypographyProps,
   useTheme,
 } from "@material-ui/core";
 
@@ -40,52 +39,58 @@ export const WhiteButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-interface BoldTextProps extends BoxProps {
-  variant: TypographyVariant;
+interface BoldTextProps extends TypographyProps {
+  fontSize: string | number;
+  textColor?: string;
+  letterSpacing?: string;
 }
 
 export const BoldText = ({
-  fontSize,
-  children,
-  variant,
+  fontSize = "24px",
+  textColor,
   letterSpacing,
-  color,
+  ...props
 }: BoldTextProps) => {
   const theme = useTheme();
   return (
-    <Typography variant={variant}>
-      <Box
-        fontSize={fontSize}
-        color={color ? color : theme.palette.secondary.dark}
-        fontWeight={600}
-        letterSpacing={letterSpacing}
-      >
-        {children}
-      </Box>
+    <Typography
+      {...props}
+      style={{
+        color: textColor ? textColor : theme.palette.secondary.dark,
+        fontWeight: 600,
+        fontSize: fontSize,
+        letterSpacing: letterSpacing ? letterSpacing : "0",
+      }}
+    >
+      {props.children}
     </Typography>
   );
 };
-interface LightTextProps extends BoxProps {
-  variant?: TypographyVariant;
+interface LightTextProps extends TypographyProps {
+  fontSize?: string | number;
+  textColor?: string;
+  letterSpacing?: string;
 }
 
 export const LightText = ({
-  fontSize,
+  fontSize = "16px",
   children,
-  variant,
   letterSpacing,
-  color,
+  textColor,
+  ...props
 }: LightTextProps) => {
   const theme = useTheme();
   return (
-    <Typography variant={variant ? variant : "inherit"}>
-      <Box
-        fontSize={fontSize}
-        color={color ? color : theme.palette.secondary.dark}
-        letterSpacing={letterSpacing}
-      >
-        {children}
-      </Box>
+    <Typography
+      {...props}
+      style={{
+        color: textColor ? textColor : theme.palette.secondary.dark,
+        fontWeight: 600,
+        fontSize: fontSize,
+        letterSpacing: letterSpacing ? letterSpacing : "0",
+      }}
+    >
+      {children}
     </Typography>
   );
 };

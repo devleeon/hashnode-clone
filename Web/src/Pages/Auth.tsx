@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Redirect, useHistory, useLocation } from "react-router";
-import { isLoggedInVar } from "../Apollo/localState";
+import { cache, isLoggedInVar, setToken } from "../Apollo/localState";
 import { useLoginMutation, useSignUpMutation } from "../generated/graphql";
 
 interface Props {}
@@ -17,7 +17,7 @@ type State = {
 function Auth({}: Props): ReactElement {
   const { state } = useLocation<State>();
   const history = useHistory();
-  const [login] = useLoginMutation();
+  const [loginMutation] = useLoginMutation();
   const [signUp] = useSignUpMutation();
 
   const {
@@ -31,13 +31,13 @@ function Auth({}: Props): ReactElement {
     shouldFocusError: true,
   });
   const onLogin: SubmitHandler<FormInputs> = async (data) => {
-    await login({
+    await loginMutation({
       variables: { ...data },
       update: (_, { data }) => {
         if (data?.login.token) {
-          localStorage.setItem("token", data?.login.token);
-          isLoggedInVar(true);
-          history.replace("/");
+          // set token
+          const token = data?.login.token;
+          setToken(token);
         } else if (data?.login.errors) {
           // throw an error
           // setError(data?.login.errors?.field, {
@@ -52,9 +52,8 @@ function Auth({}: Props): ReactElement {
       variables: { ...data },
       update: (_, { data }) => {
         if (data?.signUp.token) {
-          localStorage.setItem("token", data?.signUp.token);
-          isLoggedInVar(true);
-          history.replace("/");
+          const token = data?.signUp.token;
+          setToken(token);
         }
       },
     });

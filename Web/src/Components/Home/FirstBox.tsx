@@ -1,6 +1,6 @@
 import { Box, styled, Typography } from "@material-ui/core";
 import React, { ReactElement } from "react";
-import { BlueButton } from "../../styles/Styles";
+import ButtonAuth from "./ButtonAuth";
 
 const MainTitle = styled(Typography)(({ theme }) => ({
   textAlign: "center",
@@ -64,7 +64,7 @@ function FirstBox({ medium }: Props): ReactElement {
           Own your content, share ideas, and connect with the global dev
           community!
         </MainSubtitle>
-        <BlueButton>Start your personal blog for FREE</BlueButton>
+        <ButtonAuth>Start your personal blog for FREE</ButtonAuth>
       </Box>
       <Box
         display="flex"

@@ -10,11 +10,6 @@ import Home from "../Pages/Home";
 import Search from "../Pages/Search";
 import Tags from "../Pages/Tags";
 
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
 interface Props {}
 
 const LoggedOutPage = () => {
@@ -50,8 +45,8 @@ const LoggedInPage = () => {
   );
 };
 function AppRouter({}: Props): ReactElement {
-  const { data } = useQuery(IS_LOGGED_IN);
-  return <>{data?.isLoggedIn ? <LoggedInPage /> : <LoggedOutPage />}</>;
+  const isLoggedIn = isLoggedInVar();
+  return <>{isLoggedIn ? <LoggedInPage /> : <LoggedOutPage />}</>;
 }
 
 export default AppRouter;

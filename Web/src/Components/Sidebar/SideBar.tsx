@@ -15,7 +15,10 @@ import {
 } from "@material-ui/icons";
 import React, { ReactElement } from "react";
 import { useHistory } from "react-router";
-import MenuItems from "./MenuItems";
+import { meVar } from "../../Apollo/localState";
+import { useMeQuery } from "../../generated/graphql";
+import NavItems from "./NavItems";
+import ProfileItems from "./ProfileItems";
 
 const LogoText = styled(Typography)(({ theme }) => ({
   fontSize: "2rem",
@@ -53,14 +56,24 @@ interface Props {}
 function SideBar({}: Props): ReactElement {
   const history = useHistory();
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [navEl, setNavEl] = React.useState<null | HTMLElement>(null);
+  const [profileEl, setProfileEl] = React.useState<null | HTMLElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const { data } = useMeQuery();
+  meVar(data?.me);
+  const handleNavClick = (event: React.MouseEvent<HTMLElement>) => {
+    setNavEl(event.currentTarget);
   };
-
+  const handleProfileClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (data) {
+      setProfileEl(event.currentTarget);
+    } else {
+      history.push("/auth");
+    }
+  };
   const handleClose = () => {
-    setAnchorEl(null);
+    setNavEl(null);
+    setProfileEl(null);
   };
   const refreshHome = () => {
     history.replace("/");
@@ -83,13 +96,13 @@ function SideBar({}: Props): ReactElement {
       >
         {small && (
           <>
-            <IconMenuButton aria-haspopup="true" onClick={handleClick}>
+            <IconMenuButton aria-haspopup="true" onClick={handleNavClick}>
               <ViewHeadlineRounded />
             </IconMenuButton>
 
             <Popover
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
+              anchorEl={navEl}
+              open={Boolean(navEl)}
               onClose={handleClose}
               anchorOrigin={{
                 vertical: "bottom",
@@ -101,7 +114,7 @@ function SideBar({}: Props): ReactElement {
               }}
             >
               <Box bgcolor="white" width="400px" padding="20px">
-                <MenuItems />
+                <NavItems />
               </Box>
             </Popover>
           </>
@@ -109,7 +122,7 @@ function SideBar({}: Props): ReactElement {
         <LogoText variant="h1" onClick={refreshHome}>
           cashnode
         </LogoText>
-        {!small && <MenuItems />}
+        {!small && <NavItems />}
       </Box>
       <Box
         display="flex"
@@ -123,9 +136,28 @@ function SideBar({}: Props): ReactElement {
         <MenuButtons>
           <NotificationsNoneOutlined fontSize="inherit" color="secondary" />
         </MenuButtons>
-        <MenuButtons>
-          <Avatar />
+        <MenuButtons aria-haspopup="true" onClick={handleProfileClick}>
+          <Avatar
+            {...(data?.me?.avatar === "" ? {} : { src: data?.me?.avatar })}
+          />
         </MenuButtons>
+        <Popover
+          anchorEl={profileEl}
+          open={Boolean(profileEl)}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: small ? "left" : "right",
+          }}
+          transformOrigin={{
+            vertical: small ? "top" : "bottom",
+            horizontal: "left",
+          }}
+        >
+          <Box bgcolor="white" width="258px">
+            <ProfileItems />
+          </Box>
+        </Popover>
       </Box>
     </Box>
   );

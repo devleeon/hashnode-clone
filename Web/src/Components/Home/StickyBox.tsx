@@ -1,5 +1,5 @@
-import { Box, Theme, useTheme } from "@material-ui/core";
-import React, { MouseEventHandler, ReactElement } from "react";
+import { Box, useTheme } from "@material-ui/core";
+import React, { ReactElement } from "react";
 import { useHistory } from "react-router";
 import { BlueButton, WhiteButton } from "../../styles/Styles";
 

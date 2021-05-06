@@ -1,6 +1,6 @@
 import { Box, Container, styled } from "@material-ui/core";
 import React, { ReactChild, ReactElement } from "react";
-import SideBar from "./SideBar";
+import SideBar from "./Sidebar";
 
 const LayOutContainer = styled(Container)(({ theme }) => ({
   paddingRight: "8px",

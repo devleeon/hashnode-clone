@@ -1,6 +1,5 @@
 import { Box, styled, Theme, useMediaQuery, useTheme } from "@material-ui/core";
 import React, { ReactElement } from "react";
-import { useHistory } from "react-router";
 import FirstBox from "../Components/Home/FirstBox";
 import FourthBox from "../Components/Home/FourthBox";
 import SecondBox from "../Components/Home/SecondBox";

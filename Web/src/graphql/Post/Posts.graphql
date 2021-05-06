@@ -1,0 +1,15 @@
+query Posts($take: Int, $cursor: PostWhereUniqueInput) {
+  posts(
+    where: { published: { equals: true } }
+    take: $take
+    orderBy: { id: asc }
+    cursor: $cursor
+  ) {
+    id
+    title
+    content
+    authorId
+    authorname
+    createdAt
+  }
+}

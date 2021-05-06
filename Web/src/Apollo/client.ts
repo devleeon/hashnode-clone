@@ -1,5 +1,5 @@
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
-import { resolvers, cache } from "./localState";
+import { cache } from "./localState";
 import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
@@ -43,7 +43,6 @@ const link = split(
   httpLink
 );
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-  resolvers,
   cache,
   link: authLink.concat(link),
 });

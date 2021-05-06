@@ -1,13 +1,14 @@
-import { Box, Grid, styled, Typography, useTheme } from "@material-ui/core";
+import { Box, styled, Typography, useTheme } from "@material-ui/core";
 import { blueGrey } from "@material-ui/core/colors";
 import React, { ReactElement } from "react";
-import { BlueButton } from "../../styles/Styles";
+import ButtonAuth from "./ButtonAuth";
 
 const GridContainer = styled(Box)({
   padding: "0 40px",
   marginBottom: "40px",
-  display: "grid",
-  gridTemplateColumns: "repeat(6, 1fr)",
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
 });
 const GridItem = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -16,13 +17,10 @@ const GridItem = styled(Box)(({ theme }) => ({
   padding: "32px",
   textAlign: "center",
   [theme.breakpoints.down("sm")]: {
-    gridColumnEnd: "span 3",
-    "(&:last-child)": {
-      gridColumnEnd: "span 6",
-    },
+    width: "50%",
   },
   [theme.breakpoints.up("md")]: {
-    gridColumnEnd: "span 2",
+    width: "33%",
     "&:nth-child(odd)": {
       border: `solid 1px ${theme.palette.secondary.main}`,
       borderRadius: ".5rem",
@@ -81,7 +79,7 @@ function FourthBox({ medium }: Props): ReactElement {
           return <GridItems />;
         })}
       </GridContainer>
-      <BlueButton>Get Started</BlueButton>
+      <ButtonAuth>Get Started</ButtonAuth>
     </Box>
   );
 }
