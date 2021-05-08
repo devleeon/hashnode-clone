@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Redirect, useHistory, useLocation } from "react-router";
-import { cache, isLoggedInVar, setToken } from "../Apollo/localState";
+import { cache, isLoggedInVar, meVar, setToken } from "../Apollo/localState";
 import { useLoginMutation, useSignUpMutation } from "../generated/graphql";
 
 interface Props {}
@@ -38,6 +38,8 @@ function Auth({}: Props): ReactElement {
           // set token
           const token = data?.login.token;
           setToken(token);
+        } else if (data?.login.user) {
+          meVar(data.login.user);
         } else if (data?.login.errors) {
           // throw an error
           // setError(data?.login.errors?.field, {
@@ -54,6 +56,8 @@ function Auth({}: Props): ReactElement {
         if (data?.signUp.token) {
           const token = data?.signUp.token;
           setToken(token);
+        } else if (data?.signUp.user) {
+          meVar(data.signUp.user);
         }
       },
     });

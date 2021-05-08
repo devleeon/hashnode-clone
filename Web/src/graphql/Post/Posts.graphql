@@ -1,8 +1,12 @@
-query Posts($take: Int, $cursor: PostWhereUniqueInput) {
+query Posts(
+  $take: Int
+  $cursor: PostWhereUniqueInput
+  $orderBy: [PostOrderByInput!]
+) {
   posts(
     where: { published: { equals: true } }
     take: $take
-    orderBy: { id: asc }
+    orderBy: $orderBy
     cursor: $cursor
   ) {
     id
@@ -10,6 +14,12 @@ query Posts($take: Int, $cursor: PostWhereUniqueInput) {
     content
     authorId
     authorname
+    authorAvatar
     createdAt
+    likesCount
+    text
+    commentsCount
+    isBookmarked
+    photo
   }
 }

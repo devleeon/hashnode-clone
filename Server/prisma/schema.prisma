@@ -23,9 +23,9 @@ model Post {
   author        User        @relation(fields: [authorId], references: [id])
   authorId      String
   likes         Like[]
-  likesCount    Int         @default(0)
   bookmarked    Bookmark[]
   tags          Tags[]      @relation("TagPosts", references: [id])
+  comments      Comment[]
 }
 
 model User {
@@ -45,10 +45,20 @@ model User {
   likes         Like[]
   bookmarks     Bookmark[]
   followingTags Tags[]      @relation("TagFollows", references: [id])
+  comments      Comment[]
 }
 
 model Like{
   id            String      @id @default(uuid())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String
+  post          Post        @relation(fields: [postId], references: [id])
+  postId        String
+}
+
+model Comment{
+  id            Int         @id @default(autoincrement())
+  createdAt     DateTime    @default(now())
   user          User        @relation(fields: [userId], references: [id])
   userId        String
   post          Post        @relation(fields: [postId], references: [id])

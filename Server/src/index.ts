@@ -8,7 +8,13 @@ import Redis from "ioredis";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { COOKIE_NAME, __prod__ } from "./constants";
-import { PostCrudResolver, resolvers } from "./generated/typegraphql-prisma";
+import {
+  BookmarkCrudResolver,
+  BookmarkRelationsResolver,
+  PostCrudResolver,
+  resolvers,
+  UserRelationsResolver,
+} from "./generated/typegraphql-prisma";
 import { PrismaClient } from "@prisma/client";
 import { UserResolver } from "./resolvers/User";
 import { verifyToken } from "./utils/verifyToken";
@@ -74,7 +80,13 @@ const init = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, PostCrudResolver, CustomPostResolver],
+      resolvers: [
+        UserResolver,
+        PostCrudResolver,
+        CustomPostResolver,
+        BookmarkCrudResolver,
+        BookmarkRelationsResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res, connection }) => {

@@ -1,6 +1,6 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
 import { useHistory } from "react-router";
-import { RegularUserFragment } from "../generated/graphql";
+import { RegularUserFragment, User } from "../generated/graphql";
 
 export const isLoggedInVar = makeVar<boolean>(
   localStorage.getItem("token") === null ? false : true

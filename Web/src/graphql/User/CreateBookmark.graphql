@@ -1,0 +1,12 @@
+mutation CreateBookmark($userId: String!, $postId: String!) {
+  createBookmark(
+    data: {
+      user: { connect: { id: $userId } }
+      post: { connect: { id: $postId } }
+    }
+  ) {
+    id
+    userId
+    postId
+  }
+}

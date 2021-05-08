@@ -70,6 +70,7 @@ interface LightTextProps extends TypographyProps {
   fontSize?: string | number;
   textColor?: string;
   letterSpacing?: string;
+  fontWeight?: number;
 }
 
 export const LightText = ({
@@ -77,6 +78,7 @@ export const LightText = ({
   children,
   letterSpacing,
   textColor,
+  fontWeight,
   ...props
 }: LightTextProps) => {
   const theme = useTheme();
@@ -85,7 +87,7 @@ export const LightText = ({
       {...props}
       style={{
         color: textColor ? textColor : theme.palette.secondary.dark,
-        fontWeight: 600,
+        fontWeight: fontWeight ? fontWeight : 500,
         fontSize: fontSize,
         letterSpacing: letterSpacing ? letterSpacing : "0",
       }}

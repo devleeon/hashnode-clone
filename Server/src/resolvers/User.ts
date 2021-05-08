@@ -62,7 +62,7 @@ export class UserResolver {
       },
     });
     const token = genToken(newUser.id);
-    return { token };
+    return { token, user: newUser };
   }
   @Mutation(() => UserResponse)
   async login(
@@ -94,6 +94,6 @@ export class UserResolver {
     }
     // if no errors => store id in session
     const token = genToken(user.id);
-    return { token };
+    return { token, user };
   }
 }

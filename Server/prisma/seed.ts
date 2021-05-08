@@ -27,11 +27,33 @@ async function main() {
       lastname: "Lee",
       password: "6tyX9yc0et9bSxvWjyHuVYOAj2c31bXtmNO2uJlBEN4",
       posts: {
-        create: {
-          title: "new bruce's title",
-          content: "https://naver.com",
-          published: false,
-        },
+        create: [
+          {
+            title: "new bruce's title",
+            content: "https://naver.com",
+            published: false,
+          },
+          {
+            title: "new bruce's title2",
+            content: "https://naver.com",
+            published: true,
+          },
+          {
+            title: "new bruce's title3",
+            content: "https://naver.com",
+            published: true,
+          },
+          {
+            title: "new bruce's title4",
+            content: "https://naver.com",
+            published: true,
+          },
+          {
+            title: "new bruce's title5",
+            content: "https://naver.com",
+            published: true,
+          },
+        ],
       },
     },
   });

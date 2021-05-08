@@ -43,7 +43,11 @@ function Feed({}: Props): ReactElement {
         {medium && (
           <GridRightItem>
             <WhiteBox marginBottom="8px">search box</WhiteBox>
-            <WhiteBox marginBottom="8px">top articles</WhiteBox>
+            <WhiteBox>top articles</WhiteBox>
+            <Box paddingTop="8px" position="sticky" top={0}>
+              <WhiteBox marginBottom="8px">tranding blogs</WhiteBox>
+              <WhiteBox marginBottom="8px">footer</WhiteBox>
+            </Box>
           </GridRightItem>
         )}
       </>

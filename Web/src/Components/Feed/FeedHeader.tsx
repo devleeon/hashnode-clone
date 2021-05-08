@@ -1,7 +1,8 @@
 import { Box, Avatar, Button, styled } from "@material-ui/core";
 import { LocalOfferOutlined } from "@material-ui/icons";
 import React, { ReactElement } from "react";
-import { isLoggedInVar } from "../../Apollo/localState";
+import { useHistory } from "react-router";
+import { isLoggedInVar, meVar } from "../../Apollo/localState";
 import {
   WhiteBox,
   BoldText,
@@ -42,7 +43,11 @@ interface Props {}
 
 function FeedHeader({}: Props): ReactElement {
   const loggedIn = isLoggedInVar();
+  const history = useHistory();
 
+  const sendUserProfile = () => {
+    history.push(`/u/${meVar()?.username}`);
+  };
   return (
     <>
       {!loggedIn && (
@@ -80,7 +85,13 @@ function FeedHeader({}: Props): ReactElement {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box display="flex" flexDirection="row" alignItems="center">
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              onClick={sendUserProfile}
+              style={{ cursor: "pointer" }}
+            >
               <Avatar style={{ marginRight: "8px" }} />
               <LightText textColor="black">username</LightText>
             </Box>
