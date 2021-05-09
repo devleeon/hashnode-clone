@@ -50,7 +50,9 @@ function LayOut({ children, sticky }: Props): ReactElement {
     >
       <LayOutContainer maxWidth="xl" fixed>
         <GridContainer>
-          <GridLeftItem {...(sticky && { position: "sticky", top: 0 })}>
+          <GridLeftItem
+            {...(sticky && { position: "sticky", top: 0, zIndex: 9 })}
+          >
             <SideBar />
           </GridLeftItem>
           {children}

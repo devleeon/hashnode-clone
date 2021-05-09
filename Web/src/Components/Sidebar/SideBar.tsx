@@ -42,10 +42,10 @@ const MenuButtons = styled(Button)(({ theme }) => ({
   position: "relative",
   fontSize: "24px",
   padding: "8px",
-  width: "24px",
   justifyContent: "center",
   display: "flex",
   alignItems: "center",
+  minWidth: 0,
   "&:hover": {
     backgroundColor: "white",
   },

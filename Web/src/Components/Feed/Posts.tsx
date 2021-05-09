@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, styled, useTheme } from "@material-ui/core";
+import {
+  Avatar,
+  Box,
+  Button,
+  styled,
+  Theme,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import {
   BookmarkBorderRounded,
   BookmarkRounded,
@@ -26,6 +34,14 @@ const IconButton = styled(Button)(({ theme }) => ({
   padding: "6px 8px",
   minWidth: 0,
 }));
+const TextImage = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  [theme.breakpoints.down("sm")]: { flexDirection: "column" },
+  [theme.breakpoints.up("md")]: {
+    flexDirection: "row",
+  },
+}));
 interface Props {}
 
 function Posts({}: Props): ReactElement {
@@ -35,6 +51,7 @@ function Posts({}: Props): ReactElement {
   const [bookmark] = useCreateBookmarkMutation();
   const [unBookmark] = useUnBookmarkMutation();
   const me = meVar();
+  const small = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
 
   const bookmarkPost = (postId: string, isBookmarked: boolean) => {
     const userId = me?.id as string;
@@ -89,53 +106,58 @@ function Posts({}: Props): ReactElement {
                 {...(post.authorAvatar && { src: post.authorAvatar })}
               />
               <Box>
-                <LightText>{post.authorname}</LightText>
+                <LightText textColor="black">{post.authorname}</LightText>
                 <LightText>{date}</LightText>
               </Box>
             </Box>
-            <Box
+            <TextImage
               display="flex"
               flexDirection="row"
               alignItems="center"
               justifyContent="space-between"
+              paddingY="20px"
             >
-              <Box
+              {/* <Box
                 paddingY="20px"
                 display="flex"
                 flexDirection="row"
                 alignItems="center"
                 width="100%"
                 justifyContent="space-between"
+              > */}
+              <Box
+                display="flex"
+                flexDirection="column"
+                {...(!small && post.photo && { maxWidth: "65%" })}
               >
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  {...(post.photo ? { maxWidth: "65%" } : {})}
-                >
-                  <BoldText
-                    variant="h4"
-                    textColor="black"
-                    fontSize="20px"
-                    style={{ textTransform: "initial" }}
+                <BoldText variant="h4" textColor="black" fontSize="24px">
+                  {post.title}
+                </BoldText>
+                <Box paddingY="6px">
+                  <LightText
+                    textColor={theme.palette.secondary.dark}
+                    fontWeight={600}
                   >
-                    {post.title}
-                  </BoldText>
-                  <Box paddingY="4px">
-                    <LightText>{post.content}</LightText>
-                  </Box>
-                  <LightText>
-                    {post.text
-                      ? post.text
-                      : `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
+                    {post.content}
                   </LightText>
                 </Box>
-                {post.photo && (
-                  <Box width="30%" height="auto">
-                    <img src={post.photo} width="100%" />
-                  </Box>
-                )}
+                <LightText textColor="black">
+                  {post.text
+                    ? post.text
+                    : `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`}
+                </LightText>
               </Box>
-            </Box>
+              {post.photo && (
+                <Box
+                  width={small ? "100%" : "30%"}
+                  height="auto"
+                  marginTop={small && "14px"}
+                >
+                  <img src={post.photo} width="100%" />
+                </Box>
+              )}
+              {/* </Box> */}
+            </TextImage>
             <Box
               display="flex"
               flexDirection="row"
@@ -148,12 +170,28 @@ function Posts({}: Props): ReactElement {
                   flexDirection="row"
                   alignItems="center"
                   marginRight="20px"
+                  color="secondary.dark"
                 >
-                  <ThumbUpAltOutlined style={{ marginRight: "8px" }} />
+                  <ThumbUpAltOutlined
+                    style={{
+                      marginRight: "8px",
+                      color: theme.palette.secondary.dark,
+                    }}
+                  />
                   {post.likesCount}
                 </Box>
-                <Box display="flex" flexDirection="row" alignItems="center">
-                  <ChatOutlined style={{ marginRight: "8px" }} />
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  alignItems="center"
+                  color="secondary.dark"
+                >
+                  <ChatOutlined
+                    style={{
+                      marginRight: "8px",
+                      color: theme.palette.secondary.dark,
+                    }}
+                  />
                   {post.commentsCount}
                 </Box>
               </Box>

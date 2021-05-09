@@ -34,7 +34,7 @@ interface Props {}
 function Feed({}: Props): ReactElement {
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
   return (
-    <LayOut>
+    <LayOut sticky={true}>
       <>
         <GridLeftItem>
           <FeedHeader />
