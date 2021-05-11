@@ -63,6 +63,11 @@ export class CustomPostResolver {
     });
     return bookmarked ? true : false;
   }
+  @FieldResolver(() => String, { nullable: true })
+  async shortenedText(@Root() post: Post): Promise<string> {
+    const shortened = post.text.slice(0, 200);
+    return shortened;
+  }
   @Mutation(() => Boolean)
   async unBookmark(
     @Arg("postId") postId: string,

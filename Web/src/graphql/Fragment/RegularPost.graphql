@@ -1,0 +1,14 @@
+fragment RegularPost on Post {
+  id
+  title
+  content
+  authorId
+  authorname
+  authorAvatar
+  createdAt
+  likesCount
+  shortenedText
+  commentsCount
+  isBookmarked
+  photo
+}

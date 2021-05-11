@@ -941,6 +941,7 @@ export type Post = {
   likesCount?: Maybe<Scalars['Float']>;
   commentsCount?: Maybe<Scalars['Float']>;
   isBookmarked?: Maybe<Scalars['Boolean']>;
+  shortenedText?: Maybe<Scalars['String']>;
 };
 
 export type PostCountAggregate = {
@@ -2369,9 +2370,30 @@ export type UserWhereUniqueInput = {
   email?: Maybe<Scalars['String']>;
 };
 
+export type BookmarksQueryVariables = Exact<{
+  userId?: Maybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+
+export type BookmarksQuery = (
+  { __typename?: 'Query' }
+  & { bookmarks: Array<(
+    { __typename?: 'Bookmark' }
+    & { post: (
+      { __typename?: 'Post' }
+      & RegularPostFragment
+    ) }
+  )> }
+);
+
 export type RegularErrorFragment = (
   { __typename?: 'FieldError' }
   & Pick<FieldError, 'field' | 'message'>
+);
+
+export type RegularPostFragment = (
+  { __typename?: 'Post' }
+  & Pick<Post, 'id' | 'title' | 'content' | 'authorId' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'shortenedText' | 'commentsCount' | 'isBookmarked' | 'photo'>
 );
 
 export type RegularUserFragment = (
@@ -2381,8 +2403,8 @@ export type RegularUserFragment = (
 
 export type PostsQueryVariables = Exact<{
   take?: Maybe<Scalars['Int']>;
-  cursor?: Maybe<PostWhereUniqueInput>;
   orderBy?: Maybe<Array<PostOrderByInput> | PostOrderByInput>;
+  skip?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -2390,7 +2412,7 @@ export type PostsQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'content' | 'authorId' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'text' | 'commentsCount' | 'isBookmarked' | 'photo'>
+    & RegularPostFragment
   )> }
 );
 
@@ -2478,6 +2500,22 @@ export const RegularErrorFragmentDoc = gql`
   message
 }
     `;
+export const RegularPostFragmentDoc = gql`
+    fragment RegularPost on Post {
+  id
+  title
+  content
+  authorId
+  authorname
+  authorAvatar
+  createdAt
+  likesCount
+  shortenedText
+  commentsCount
+  isBookmarked
+  photo
+}
+    `;
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
@@ -2486,29 +2524,61 @@ export const RegularUserFragmentDoc = gql`
   avatar
 }
     `;
+export const BookmarksDocument = gql`
+    query Bookmarks($userId: [String!]) {
+  bookmarks(where: {userId: {in: $userId}}) {
+    post {
+      ...RegularPost
+    }
+  }
+}
+    ${RegularPostFragmentDoc}`;
+export type BookmarksComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<BookmarksQuery, BookmarksQueryVariables>, 'query'>;
+
+    export const BookmarksComponent = (props: BookmarksComponentProps) => (
+      <ApolloReactComponents.Query<BookmarksQuery, BookmarksQueryVariables> query={BookmarksDocument} {...props} />
+    );
+    
+
+/**
+ * __useBookmarksQuery__
+ *
+ * To run a query within a React component, call `useBookmarksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBookmarksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBookmarksQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useBookmarksQuery(baseOptions?: Apollo.QueryHookOptions<BookmarksQuery, BookmarksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BookmarksQuery, BookmarksQueryVariables>(BookmarksDocument, options);
+      }
+export function useBookmarksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookmarksQuery, BookmarksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BookmarksQuery, BookmarksQueryVariables>(BookmarksDocument, options);
+        }
+export type BookmarksQueryHookResult = ReturnType<typeof useBookmarksQuery>;
+export type BookmarksLazyQueryHookResult = ReturnType<typeof useBookmarksLazyQuery>;
+export type BookmarksQueryResult = Apollo.QueryResult<BookmarksQuery, BookmarksQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($take: Int, $cursor: PostWhereUniqueInput, $orderBy: [PostOrderByInput!]) {
+    query Posts($take: Int, $orderBy: [PostOrderByInput!], $skip: Int) {
   posts(
     where: {published: {equals: true}}
     take: $take
     orderBy: $orderBy
-    cursor: $cursor
+    skip: $skip
   ) {
-    id
-    title
-    content
-    authorId
-    authorname
-    authorAvatar
-    createdAt
-    likesCount
-    text
-    commentsCount
-    isBookmarked
-    photo
+    ...RegularPost
   }
 }
-    `;
+    ${RegularPostFragmentDoc}`;
 export type PostsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<PostsQuery, PostsQueryVariables>, 'query'>;
 
     export const PostsComponent = (props: PostsComponentProps) => (
@@ -2529,8 +2599,8 @@ export type PostsComponentProps = Omit<ApolloReactComponents.QueryComponentOptio
  * const { data, loading, error } = usePostsQuery({
  *   variables: {
  *      take: // value for 'take'
- *      cursor: // value for 'cursor'
  *      orderBy: // value for 'orderBy'
+ *      skip: // value for 'skip'
  *   },
  * });
  */

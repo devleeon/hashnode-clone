@@ -13,12 +13,31 @@ import {
   ViewHeadlineRounded,
   WbSunnyOutlined,
 } from "@material-ui/icons";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { useHistory } from "react-router";
 import { meVar } from "../../Apollo/localState";
 import { useMeQuery } from "../../generated/graphql";
 import NavItems from "./NavItems";
 import ProfileItems from "./ProfileItems";
+
+const Container = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  paddingTop: "1.25rem",
+  flexDirection: "column",
+
+  [theme.breakpoints.down("xs")]: {
+    width: "100%",
+    flexDirection: "row",
+    paddingLeft: "10px",
+    paddingRight: "10px",
+  },
+  [theme.breakpoints.up("sm")]: {
+    height: "100%",
+    position: "fixed",
+  },
+}));
 
 const LogoText = styled(Typography)(({ theme }) => ({
   fontSize: "2rem",
@@ -78,8 +97,12 @@ function SideBar({}: Props): ReactElement {
   const refreshHome = () => {
     history.replace("/");
   };
+
+  useEffect(() => {
+    setNavEl(null);
+  }, []);
   return (
-    <Box
+    <Container
       {...(small ? { width: "100%" } : { height: "100%", position: "fixed" })}
       display="flex"
       flexDirection={small ? "row" : "column"}
@@ -159,7 +182,7 @@ function SideBar({}: Props): ReactElement {
           </Box>
         </Popover>
       </Box>
-    </Box>
+    </Container>
   );
 }
 

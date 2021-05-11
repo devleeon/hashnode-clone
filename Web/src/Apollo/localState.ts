@@ -1,10 +1,11 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
 import { useHistory } from "react-router";
-import { RegularUserFragment, User } from "../generated/graphql";
+import { RegularUserFragment, useMeQuery, User } from "../generated/graphql";
 
 export const isLoggedInVar = makeVar<boolean>(
   localStorage.getItem("token") === null ? false : true
 );
+
 export const meVar = makeVar<RegularUserFragment | null>(null);
 
 export const setToken = (token: string) => {
@@ -20,7 +21,25 @@ export const removeToken = () => {
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
     Query: {
-      fields: {},
+      fields: {
+        posts: {
+          merge(existing, incoming) {
+            console.log("incoming: ", incoming);
+            console.log("existing: ", existing);
+            const merged = existing !== undefined ? existing.slice(0) : [];
+            let offset = merged.length;
+            for (let i = 0; i < incoming.length; ++i) {
+              merged[offset + i] = incoming[i];
+            }
+
+            return merged;
+          },
+
+          read(existing) {
+            return existing;
+          },
+        },
+      },
     },
   },
 });

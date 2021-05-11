@@ -80,6 +80,9 @@ function NavItems({}: Props): ReactElement {
   const moveToTags = () => {
     history.push("/tags");
   };
+  const moveToBookmark = () => {
+    history.push("/bookmarks");
+  };
   const moveToSearch = () => {
     history.push("/search");
   };
@@ -147,7 +150,14 @@ function NavItems({}: Props): ReactElement {
         </Icons>
         tags
       </PageItems>
-      <PageItems>
+      <PageItems
+        onClick={moveToBookmark}
+        style={
+          pathname.startsWith("/bookmarks")
+            ? { color: theme.palette.primary.main }
+            : { color: "black" }
+        }
+      >
         <Icons
           color={
             pathname.startsWith("/bookmarks")

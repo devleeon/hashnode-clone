@@ -1,25 +1,10 @@
-query Posts(
-  $take: Int
-  $cursor: PostWhereUniqueInput
-  $orderBy: [PostOrderByInput!]
-) {
+query Posts($take: Int, $orderBy: [PostOrderByInput!], $skip: Int) {
   posts(
     where: { published: { equals: true } }
     take: $take
     orderBy: $orderBy
-    cursor: $cursor
+    skip: $skip
   ) {
-    id
-    title
-    content
-    authorId
-    authorname
-    authorAvatar
-    createdAt
-    likesCount
-    text
-    commentsCount
-    isBookmarked
-    photo
+    ...RegularPost
   }
 }

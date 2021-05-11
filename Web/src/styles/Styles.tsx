@@ -38,7 +38,14 @@ export const WhiteButton = styled(Button)(({ theme }) => ({
     backgroundColor: "white",
   },
 }));
-
+export const FlexRowBox = styled(Box)({
+  display: "flex",
+  flexDirection: "row",
+});
+export const FlexColumnBox = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+});
 interface BoldTextProps extends TypographyProps {
   fontSize: string | number;
   textColor?: string;
@@ -71,6 +78,7 @@ interface LightTextProps extends TypographyProps {
   textColor?: string;
   letterSpacing?: string;
   fontWeight?: number;
+  margin?: string;
 }
 
 export const LightText = ({
@@ -79,6 +87,7 @@ export const LightText = ({
   letterSpacing,
   textColor,
   fontWeight,
+  margin,
   ...props
 }: LightTextProps) => {
   const theme = useTheme();
@@ -90,9 +99,33 @@ export const LightText = ({
         fontWeight: fontWeight ? fontWeight : 500,
         fontSize: fontSize,
         letterSpacing: letterSpacing ? letterSpacing : "0",
+        margin: margin,
       }}
     >
       {children}
     </Typography>
   );
 };
+export const GridLeftItem = styled(Box)(({ theme }) => ({
+  paddingTop: "10px",
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    gridColumnEnd: "span 9",
+  },
+  [theme.breakpoints.up("md")]: {
+    gridColumnEnd: "span 6",
+  },
+  [theme.breakpoints.up("lg")]: {
+    gridColumnEnd: "span 5",
+  },
+}));
+export const GridRightItem = styled(Box)(({ theme }) => ({
+  paddingTop: "10px",
+
+  [theme.breakpoints.up("md")]: {
+    gridColumnEnd: "span 4",
+  },
+  [theme.breakpoints.up("lg")]: {
+    gridColumnEnd: "span 2",
+  },
+}));

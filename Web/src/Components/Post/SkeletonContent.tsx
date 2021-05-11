@@ -1,18 +1,23 @@
-import { Box, Avatar } from "@material-ui/core";
+import { Box, Avatar, styled } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React, { ReactElement } from "react";
+
+const Container = styled(Box)(({ theme }) => ({
+  padding: "20px",
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
+  justifyContent: "space-between",
+  "&:not(:last-child)": {
+    borderBottom: `1px solid ${theme.palette.secondary.main}`,
+  },
+}));
 
 interface Props {}
 
 function SkeletonContent({}: Props): ReactElement {
   return (
-    <Box
-      padding="20px"
-      display="flex"
-      flexDirection="column"
-      width="100%"
-      justifyContent="space-between"
-    >
+    <Container>
       <Box
         display="flex"
         flexDirection="row"
@@ -47,7 +52,7 @@ function SkeletonContent({}: Props): ReactElement {
         </Box>
         <Skeleton variant="rect" height="150px" width="60%" />
       </Box>
-    </Box>
+    </Container>
   );
 }
 

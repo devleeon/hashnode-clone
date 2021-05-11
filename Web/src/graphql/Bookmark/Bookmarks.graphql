@@ -1,0 +1,7 @@
+query Bookmarks($userId: [String!]) {
+  bookmarks(where: { userId: { in: $userId } }) {
+    post {
+      ...RegularPost
+    }
+  }
+}
