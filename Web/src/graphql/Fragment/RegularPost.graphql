@@ -11,4 +11,5 @@ fragment RegularPost on Post {
   commentsCount
   isBookmarked
   photo
+  isLiked
 }

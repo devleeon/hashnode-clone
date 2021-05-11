@@ -6,6 +6,7 @@ import Posts from "../Components/Post/Posts";
 import SkeletonContent from "../Components/Post/SkeletonContent";
 import RightSideBar from "../Components/RightSideBar";
 import { useBookmarksLazyQuery, useBookmarksQuery } from "../generated/graphql";
+import useScrollEnd from "../Hooks/useScrollEnd";
 import {
   BoldText,
   GridLeftItem,
@@ -17,15 +18,47 @@ import {
 interface Props {}
 
 function Bookmark({}: Props): ReactElement {
+  const DEFAULT_NUMBER_OF_POSTS = 5;
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
   const [me, setMe] = useState(meVar());
-  const { data, loading } = useBookmarksQuery({
+  const [hasMore, setHasMore] = useState(true);
+  const [loaded, setLoaded] = useState(true);
+  const [limit, setLimit] = useState(DEFAULT_NUMBER_OF_POSTS);
+
+  const { data, loading, fetchMore } = useBookmarksQuery({
     variables: {
       userId: me!.id,
+      limit,
     },
   });
 
-  useEffect(() => {}, [me]);
+  const scrollEnd = useScrollEnd(loading || !loaded);
+
+  useEffect(() => {
+    const fetchMorePosts = async () => {
+      if (!loading && hasMore) {
+        if (scrollEnd) {
+          setLoaded(false);
+          await fetchMore({
+            variables: {
+              limit: DEFAULT_NUMBER_OF_POSTS,
+              offset: limit,
+            },
+          }).then(({ data }) => {
+            setLimit(limit + data.bookmarks.length);
+            setLoaded(true);
+          });
+        }
+      }
+    };
+    if (limit % DEFAULT_NUMBER_OF_POSTS === 0) {
+      // if previously fetched less posts than it's supposed to have fetched
+      // then don't fetch any more
+      fetchMorePosts();
+    } else {
+      setHasMore(false);
+    }
+  }, [me, scrollEnd]);
   return (
     <LayOut sticky={true}>
       <>
@@ -50,8 +83,24 @@ function Bookmark({}: Props): ReactElement {
               const post = p.post;
               return <Posts post={post} key={i} />;
             })}
-            {loading && <SkeletonContent />}
+            {(loading || !loaded) && (
+              <>
+                <SkeletonContent />
+                <SkeletonContent />
+                <SkeletonContent />
+              </>
+            )}
           </WhiteBox>
+          {!hasMore && (
+            <WhiteBox
+              marginTop="24px"
+              padding="20px"
+              marginBottom="80px"
+              textAlign="center"
+            >
+              You've reached the end
+            </WhiteBox>
+          )}
         </GridLeftItem>
         {medium && (
           <GridRightItem>

@@ -511,10 +511,10 @@
   resolved "https://registry.yarnpkg.com/@phc/format/-/format-1.0.0.tgz#b5627003b3216dc4362125b13f48a4daa76680e4"
   integrity sha512-m7X9U6BG2+J+R1lSOdCiITLLrxm+cWlNI3HUFA92oLO77ObGNzaKdh8pMLqdZcshtkKuV84olNNXDfMc4FezBQ==
 
-"@prisma/client@^2.22.0":
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.22.0.tgz#ca028025b648fdca0dda415809ea309cc7c3bcc7"
-  integrity sha512-0KL433vaxlQWyxJEwwvLr277Z0KdGehwon3SrdmeTKrJV1sYI6ogrCFxPXAb30JWFVwwAIS+QhkdklBpwQMLGQ==
+"@prisma/client@^2.22.1":
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.22.1.tgz#10fdcd1532a6baf46dd1c464cad9a54af0532bc8"
+  integrity sha512-JQjbsY6QSfFiovXHEp5WeJHa5p2CuR1ZFPAeYXmUsOAQOaMCrhgQmKAL6w2Q3SRA7ALqPjrKywN9/QfBc4Kp1A==
   dependencies:
     "@prisma/engines-version" "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
 
@@ -4147,10 +4147,10 @@ prettysize@^2.0.0:
   resolved "https://registry.yarnpkg.com/prettysize/-/prettysize-2.0.0.tgz#902c02480d865d9cc0813011c9feb4fa02ce6996"
   integrity sha512-VVtxR7sOh0VsG8o06Ttq5TrI1aiZKmC+ClSn4eBPaNf4SHr5lzbYW+kYGX3HocBL/MfpVrRfFZ9V3vCbLaiplg==
 
-prisma@^2.22.0:
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.22.0.tgz#69063fa95cdcaaf660b61017d79c6a6dda054517"
-  integrity sha512-rJgjZCl0mxrdCjR6N5Z5Ivm6fy+iPznOQDA4TSiKvzs7tzo4smsBbFZmliylmEeRkuq2f93+/I/jmw64rrFpHQ==
+prisma@^2.22.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-2.22.1.tgz#884687a90c7b797b34c6110ea413049078c8da6e"
+  integrity sha512-hwvCM3zyxgSda/+/p+GW7nz93jRebtMU01wAG7YVVnl0OKU+dpw1wPvPFmQRldkZHk8fTCleYmjc24WaSdVPZQ==
   dependencies:
     "@prisma/engines" "2.22.0-21.60cc71d884972ab4e897f0277c4b84383dddaf6c"
 

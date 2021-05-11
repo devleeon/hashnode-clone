@@ -4,10 +4,12 @@ import {
   Ctx,
   FieldResolver,
   Mutation,
+  Query,
   Resolver,
   Root,
 } from "type-graphql";
 import { MyContext } from "src/types";
+import { prisma } from ".prisma/client";
 
 @Resolver(Post)
 export class CustomPostResolver {
@@ -34,16 +36,6 @@ export class CustomPostResolver {
     return user?.avatar;
   }
   @FieldResolver(() => Number, { nullable: true })
-  async likesCount(
-    @Root() post: Post,
-    @Ctx() { prisma }: MyContext
-  ): Promise<number | undefined> {
-    const likes = await prisma.post
-      .findUnique({ where: { id: post.id }, select: { likes: true } })
-      .likes();
-    return likes?.length;
-  }
-  @FieldResolver(() => Number, { nullable: true })
   async commentsCount(
     @Root() post: Post,
     @Ctx() { prisma }: MyContext
@@ -53,7 +45,7 @@ export class CustomPostResolver {
       .comments();
     return comments?.length;
   }
-  @FieldResolver(() => Boolean, { nullable: true })
+  @FieldResolver(() => Boolean)
   async isBookmarked(
     @Root() post: Post,
     @Ctx() { prisma, userId }: MyContext
@@ -62,6 +54,16 @@ export class CustomPostResolver {
       where: { userId, postId: post.id },
     });
     return bookmarked ? true : false;
+  }
+  @FieldResolver(() => Boolean)
+  async isLiked(
+    @Root() post: Post,
+    @Ctx() { prisma, userId }: MyContext
+  ): Promise<boolean> {
+    const liked = await prisma.like.findFirst({
+      where: { userId, postId: post.id },
+    });
+    return liked ? true : false;
   }
   @FieldResolver(() => String, { nullable: true })
   async shortenedText(@Root() post: Post): Promise<string> {
@@ -84,5 +86,42 @@ export class CustomPostResolver {
       return true;
     }
     return false;
+  }
+  @Mutation(() => Boolean)
+  async toggleLike(
+    @Arg("postId") postId: string,
+    @Ctx() { prisma, userId }: MyContext
+  ): Promise<boolean> {
+    // check if this post is liked
+    const like = await prisma.like.findFirst({
+      where: { userId, postId },
+    });
+    const post = await prisma.post.findUnique({ where: { id: postId } });
+    if (!post) {
+      // if post is not found
+      // return false
+      return false;
+    }
+    if (like) {
+      // if it's liked
+      // remove like
+      // and likesCount--
+      await prisma.like.delete({ where: { id: like.id } });
+      await prisma.post.update({
+        where: { id: postId },
+        data: { likesCount: post.likesCount - 1 },
+      });
+      return true;
+    } else {
+      // if it's not liked
+      // create like
+      // and likesCount++
+      await prisma.like.create({ data: { userId, postId } });
+      await prisma.post.update({
+        where: { id: postId },
+        data: { likesCount: post.likesCount + 1 },
+      });
+      return true;
+    }
   }
 }

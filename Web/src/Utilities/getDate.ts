@@ -1,5 +1,5 @@
 export const getDate = (date: string) => {
-  const result = new Date(parseInt(date));
+  const result = new Date(date);
 
   const year = result.getFullYear();
   const month = result.getMonth();

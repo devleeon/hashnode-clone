@@ -1,5 +1,10 @@
-query Bookmarks($userId: [String!]) {
-  bookmarks(where: { userId: { in: $userId } }) {
+query Bookmarks($userId: [String!], $limit: Int, $offset: Int) {
+  bookmarks(
+    where: { userId: { in: $userId } }
+    take: $limit
+    skip: $offset
+    orderBy: { createdAt: asc }
+  ) {
     post {
       ...RegularPost
     }

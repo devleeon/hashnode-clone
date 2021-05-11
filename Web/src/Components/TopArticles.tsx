@@ -4,7 +4,14 @@ import {
   ThumbUpAltRounded,
   ThumbUpOutlined,
 } from "@material-ui/icons";
-import React, { ReactElement, useState } from "react";
+import { Skeleton } from "@material-ui/lab";
+import React, {
+  ReactElement,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
+import { useTopArticlesQuery } from "../generated/graphql";
 import {
   BoldText,
   FlexColumnBox,
@@ -23,15 +30,26 @@ const PeriodButton = styled(Button)({
 
 interface Props {}
 
-type Period = {
-  week: "week";
-  month: "month";
-  "3months": "3months";
-};
-
 function TopArticles({}: Props): ReactElement {
-  const [period, setPeriod] = useState("week");
-  console.log(period);
+  const [period, setPeriod] = useState(7);
+  const createdDate = new Date().setDate(new Date().getDate() - period);
+  const [loaded, setLoaded] = useState(true);
+  const { data, refetch, loading } = useTopArticlesQuery({
+    variables: {
+      createdDate: new Date(createdDate),
+    },
+  });
+  useEffect(() => {
+    const refetchPosts = async () => {
+      setLoaded(false);
+      await refetch({ createdDate: new Date(createdDate) }).then(({ data }) => {
+        if (data) {
+          setLoaded(true);
+        }
+      });
+    };
+    refetchPosts();
+  }, [period]);
   return (
     <>
       <FlexRowBox
@@ -45,61 +63,89 @@ function TopArticles({}: Props): ReactElement {
         <FlexRowBox>
           <PeriodButton
             onClick={() => {
-              setPeriod("week");
+              setPeriod(7);
             }}
-            color={period === "week" ? "primary" : "default"}
+            color={period === 7 ? "primary" : "default"}
           >
             1w
           </PeriodButton>
           <PeriodButton
             onClick={() => {
-              setPeriod("month");
+              setPeriod(30);
             }}
-            color={period === "month" ? "primary" : "default"}
+            color={period === 30 ? "primary" : "default"}
           >
             1m
           </PeriodButton>
           <PeriodButton
             onClick={() => {
-              setPeriod("3mons");
+              setPeriod(90);
             }}
-            color={period === "3mons" ? "primary" : "default"}
+            color={period === 90 ? "primary" : "default"}
           >
             3m
           </PeriodButton>
           <PeriodButton
             onClick={() => {
-              setPeriod("6mons");
+              setPeriod(180);
             }}
-            color={period === "6mons" ? "primary" : "default"}
+            color={period === 180 ? "primary" : "default"}
           >
             6m
           </PeriodButton>
         </FlexRowBox>
       </FlexRowBox>
       <Divider orientation="horizontal" />
-      <FlexColumnBox padding="20px">
-        <BoldText variant="caption" fontSize="16px">
-          Title
-        </BoldText>
-        <FlexRowBox fontSize="14px" alignItems="center">
-          <LightText fontSize="14px" margin="0 20px 0 0">
-            username
-          </LightText>
-          <FlexRowBox fontSize="14px" alignItems="center" marginRight="20px">
-            {/* like button and count */}
-            <ThumbUpOutlined fontSize="small" />
-            <LightText fontSize="14px">124</LightText>
-          </FlexRowBox>
-          <FlexRowBox fontSize="14px" alignItems="center">
-            {/* comment button and count */}
-            <ForumOutlined fontSize="small" />
-            <LightText fontSize="14px">127</LightText>
-          </FlexRowBox>
-        </FlexRowBox>
-      </FlexColumnBox>
+      <Box padding="20px">
+        {!loading &&
+          loaded &&
+          data?.posts.map((p, i) => {
+            return (
+              <FlexColumnBox key={i} marginBottom="16px">
+                <BoldText variant="caption" fontSize="16px">
+                  {p.title}
+                </BoldText>
+                <FlexRowBox fontSize="14px" alignItems="center">
+                  <LightText fontSize="14px" margin="0 20px 0 0">
+                    {p.authorname}
+                  </LightText>
+                  <FlexRowBox
+                    fontSize="14px"
+                    alignItems="center"
+                    marginRight="20px"
+                  >
+                    {/* like button and count */}
+                    <ThumbUpOutlined fontSize="small" />
+                    <LightText fontSize="14px">{p.likesCount}</LightText>
+                  </FlexRowBox>
+                  <FlexRowBox fontSize="14px" alignItems="center">
+                    {/* comment button and count */}
+                    <ForumOutlined fontSize="small" />
+                    <LightText fontSize="14px">{p.commentsCount}</LightText>
+                  </FlexRowBox>
+                </FlexRowBox>
+              </FlexColumnBox>
+            );
+          })}
+        {(loading || !loaded) && (
+          <>
+            <SkeletonComponent />
+            <SkeletonComponent />
+            <SkeletonComponent />
+          </>
+        )}
+      </Box>
     </>
   );
 }
 
+function SkeletonComponent(): ReactElement {
+  return (
+    <Box marginBottom="16px">
+      <Skeleton variant="text" width="95%" height="40px" />
+      <Skeleton variant="text" width="80%" height="40px" />
+      <Skeleton variant="text" width="85%" height="20px" />
+    </Box>
+  );
+}
 export default TopArticles;

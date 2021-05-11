@@ -34,6 +34,8 @@ export type AggregateBookmark = {
 export type AggregatePost = {
   __typename?: 'AggregatePost';
   count?: Maybe<PostCountAggregate>;
+  avg?: Maybe<PostAvgAggregate>;
+  sum?: Maybe<PostSumAggregate>;
   min?: Maybe<PostMinAggregate>;
   max?: Maybe<PostMaxAggregate>;
 };
@@ -511,6 +513,14 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type IntFieldUpdateOperationsInput = {
+  set?: Maybe<Scalars['Int']>;
+  increment?: Maybe<Scalars['Int']>;
+  decrement?: Maybe<Scalars['Int']>;
+  multiply?: Maybe<Scalars['Int']>;
+  divide?: Maybe<Scalars['Int']>;
+};
+
 export type IntFilter = {
   equals?: Maybe<Scalars['Int']>;
   in?: Maybe<Array<Scalars['Int']>>;
@@ -522,8 +532,25 @@ export type IntFilter = {
   not?: Maybe<NestedIntFilter>;
 };
 
+export type IntWithAggregatesFilter = {
+  equals?: Maybe<Scalars['Int']>;
+  in?: Maybe<Array<Scalars['Int']>>;
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  lt?: Maybe<Scalars['Int']>;
+  lte?: Maybe<Scalars['Int']>;
+  gt?: Maybe<Scalars['Int']>;
+  gte?: Maybe<Scalars['Int']>;
+  not?: Maybe<NestedIntWithAggregatesFilter>;
+  count?: Maybe<NestedIntFilter>;
+  avg?: Maybe<NestedFloatFilter>;
+  sum?: Maybe<NestedIntFilter>;
+  min?: Maybe<NestedIntFilter>;
+  max?: Maybe<NestedIntFilter>;
+};
+
 export type LikeCreateManyPostInput = {
   id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   userId: Scalars['String'];
 };
 
@@ -534,6 +561,7 @@ export type LikeCreateManyPostInputEnvelope = {
 
 export type LikeCreateManyUserInput = {
   id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   postId: Scalars['String'];
 };
 
@@ -568,11 +596,13 @@ export type LikeCreateOrConnectWithoutUserInput = {
 
 export type LikeCreateWithoutPostInput = {
   id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   user: UserCreateNestedOneWithoutLikesInput;
 };
 
 export type LikeCreateWithoutUserInput = {
   id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   post: PostCreateNestedOneWithoutLikesInput;
 };
 
@@ -587,12 +617,14 @@ export type LikeScalarWhereInput = {
   OR?: Maybe<Array<LikeScalarWhereInput>>;
   NOT?: Maybe<Array<LikeScalarWhereInput>>;
   id?: Maybe<StringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
   userId?: Maybe<StringFilter>;
   postId?: Maybe<StringFilter>;
 };
 
 export type LikeUpdateManyMutationInput = {
   id?: Maybe<StringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type LikeUpdateManyWithWhereWithoutPostInput = {
@@ -645,11 +677,13 @@ export type LikeUpdateWithWhereUniqueWithoutUserInput = {
 
 export type LikeUpdateWithoutPostInput = {
   id?: Maybe<StringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   user?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
 };
 
 export type LikeUpdateWithoutUserInput = {
   id?: Maybe<StringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   post?: Maybe<PostUpdateOneRequiredWithoutLikesInput>;
 };
 
@@ -670,6 +704,7 @@ export type LikeWhereInput = {
   OR?: Maybe<Array<LikeWhereInput>>;
   NOT?: Maybe<Array<LikeWhereInput>>;
   id?: Maybe<StringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
   user?: Maybe<UserRelationFilter>;
   userId?: Maybe<StringFilter>;
   post?: Maybe<PostRelationFilter>;
@@ -699,6 +734,7 @@ export type Mutation = {
   signUp: UserResponse;
   login: UserResponse;
   unBookmark: Scalars['Boolean'];
+  toggleLike: Scalars['Boolean'];
 };
 
 
@@ -799,6 +835,11 @@ export type MutationUnBookmarkArgs = {
   postId: Scalars['String'];
 };
 
+
+export type MutationToggleLikeArgs = {
+  postId: Scalars['String'];
+};
+
 export type NestedBoolFilter = {
   equals?: Maybe<Scalars['Boolean']>;
   not?: Maybe<NestedBoolFilter>;
@@ -837,6 +878,17 @@ export type NestedDateTimeWithAggregatesFilter = {
   max?: Maybe<NestedDateTimeFilter>;
 };
 
+export type NestedFloatFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  not?: Maybe<NestedFloatFilter>;
+};
+
 export type NestedIntFilter = {
   equals?: Maybe<Scalars['Int']>;
   in?: Maybe<Array<Scalars['Int']>>;
@@ -857,6 +909,22 @@ export type NestedIntNullableFilter = {
   gt?: Maybe<Scalars['Int']>;
   gte?: Maybe<Scalars['Int']>;
   not?: Maybe<NestedIntNullableFilter>;
+};
+
+export type NestedIntWithAggregatesFilter = {
+  equals?: Maybe<Scalars['Int']>;
+  in?: Maybe<Array<Scalars['Int']>>;
+  notIn?: Maybe<Array<Scalars['Int']>>;
+  lt?: Maybe<Scalars['Int']>;
+  lte?: Maybe<Scalars['Int']>;
+  gt?: Maybe<Scalars['Int']>;
+  gte?: Maybe<Scalars['Int']>;
+  not?: Maybe<NestedIntWithAggregatesFilter>;
+  count?: Maybe<NestedIntFilter>;
+  avg?: Maybe<NestedFloatFilter>;
+  sum?: Maybe<NestedIntFilter>;
+  min?: Maybe<NestedIntFilter>;
+  max?: Maybe<NestedIntFilter>;
 };
 
 export type NestedStringFilter = {
@@ -936,12 +1004,18 @@ export type Post = {
   published: Scalars['Boolean'];
   photo?: Maybe<Scalars['String']>;
   authorId: Scalars['String'];
+  likesCount: Scalars['Int'];
   authorname?: Maybe<Scalars['String']>;
   authorAvatar?: Maybe<Scalars['String']>;
-  likesCount?: Maybe<Scalars['Float']>;
   commentsCount?: Maybe<Scalars['Float']>;
-  isBookmarked?: Maybe<Scalars['Boolean']>;
+  isBookmarked: Scalars['Boolean'];
+  isLiked: Scalars['Boolean'];
   shortenedText?: Maybe<Scalars['String']>;
+};
+
+export type PostAvgAggregate = {
+  __typename?: 'PostAvgAggregate';
+  likesCount?: Maybe<Scalars['Float']>;
 };
 
 export type PostCountAggregate = {
@@ -955,6 +1029,7 @@ export type PostCountAggregate = {
   published: Scalars['Int'];
   photo: Scalars['Int'];
   authorId: Scalars['Int'];
+  likesCount: Scalars['Int'];
   _all: Scalars['Int'];
 };
 
@@ -967,6 +1042,7 @@ export type PostCreateInput = {
   text?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
   author: UserCreateNestedOneWithoutPostsInput;
   likes?: Maybe<LikeCreateNestedManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkCreateNestedManyWithoutPostInput>;
@@ -983,6 +1059,7 @@ export type PostCreateManyAuthorInput = {
   text?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
 };
 
 export type PostCreateManyAuthorInputEnvelope = {
@@ -1000,6 +1077,7 @@ export type PostCreateManyInput = {
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
   authorId: Scalars['String'];
+  likesCount?: Maybe<Scalars['Int']>;
 };
 
 export type PostCreateNestedManyWithoutAuthorInput = {
@@ -1067,6 +1145,7 @@ export type PostCreateWithoutAuthorInput = {
   text?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
   likes?: Maybe<LikeCreateNestedManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkCreateNestedManyWithoutPostInput>;
   tags?: Maybe<TagsCreateNestedManyWithoutPostsInput>;
@@ -1082,6 +1161,7 @@ export type PostCreateWithoutBookmarkedInput = {
   text?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
   author: UserCreateNestedOneWithoutPostsInput;
   likes?: Maybe<LikeCreateNestedManyWithoutPostInput>;
   tags?: Maybe<TagsCreateNestedManyWithoutPostsInput>;
@@ -1097,6 +1177,7 @@ export type PostCreateWithoutCommentsInput = {
   text?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
   author: UserCreateNestedOneWithoutPostsInput;
   likes?: Maybe<LikeCreateNestedManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkCreateNestedManyWithoutPostInput>;
@@ -1112,6 +1193,7 @@ export type PostCreateWithoutLikesInput = {
   text?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
   author: UserCreateNestedOneWithoutPostsInput;
   bookmarked?: Maybe<BookmarkCreateNestedManyWithoutPostInput>;
   tags?: Maybe<TagsCreateNestedManyWithoutPostsInput>;
@@ -1127,6 +1209,7 @@ export type PostCreateWithoutTagsInput = {
   text?: Maybe<Scalars['String']>;
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
   author: UserCreateNestedOneWithoutPostsInput;
   likes?: Maybe<LikeCreateNestedManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkCreateNestedManyWithoutPostInput>;
@@ -1144,7 +1227,10 @@ export type PostGroupBy = {
   published: Scalars['Boolean'];
   photo?: Maybe<Scalars['String']>;
   authorId: Scalars['String'];
+  likesCount: Scalars['Int'];
   count?: Maybe<PostCountAggregate>;
+  avg?: Maybe<PostAvgAggregate>;
+  sum?: Maybe<PostSumAggregate>;
   min?: Maybe<PostMinAggregate>;
   max?: Maybe<PostMaxAggregate>;
 };
@@ -1166,6 +1252,7 @@ export type PostMaxAggregate = {
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
   authorId?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
 };
 
 export type PostMinAggregate = {
@@ -1179,6 +1266,7 @@ export type PostMinAggregate = {
   published?: Maybe<Scalars['Boolean']>;
   photo?: Maybe<Scalars['String']>;
   authorId?: Maybe<Scalars['String']>;
+  likesCount?: Maybe<Scalars['Int']>;
 };
 
 export type PostOrderByInput = {
@@ -1191,6 +1279,7 @@ export type PostOrderByInput = {
   published?: Maybe<SortOrder>;
   photo?: Maybe<SortOrder>;
   authorId?: Maybe<SortOrder>;
+  likesCount?: Maybe<SortOrder>;
 };
 
 export type PostRelationFilter = {
@@ -1207,7 +1296,8 @@ export enum PostScalarFieldEnum {
   Text = 'text',
   Published = 'published',
   Photo = 'photo',
-  AuthorId = 'authorId'
+  AuthorId = 'authorId',
+  LikesCount = 'likesCount'
 }
 
 export type PostScalarWhereInput = {
@@ -1223,6 +1313,7 @@ export type PostScalarWhereInput = {
   published?: Maybe<BoolFilter>;
   photo?: Maybe<StringNullableFilter>;
   authorId?: Maybe<StringFilter>;
+  likesCount?: Maybe<IntFilter>;
 };
 
 export type PostScalarWhereWithAggregatesInput = {
@@ -1238,6 +1329,12 @@ export type PostScalarWhereWithAggregatesInput = {
   published?: Maybe<BoolWithAggregatesFilter>;
   photo?: Maybe<StringNullableWithAggregatesFilter>;
   authorId?: Maybe<StringWithAggregatesFilter>;
+  likesCount?: Maybe<IntWithAggregatesFilter>;
+};
+
+export type PostSumAggregate = {
+  __typename?: 'PostSumAggregate';
+  likesCount?: Maybe<Scalars['Int']>;
 };
 
 export type PostUpdateInput = {
@@ -1249,6 +1346,7 @@ export type PostUpdateInput = {
   text?: Maybe<StringFieldUpdateOperationsInput>;
   published?: Maybe<BoolFieldUpdateOperationsInput>;
   photo?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  likesCount?: Maybe<IntFieldUpdateOperationsInput>;
   author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
   likes?: Maybe<LikeUpdateManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkUpdateManyWithoutPostInput>;
@@ -1265,6 +1363,7 @@ export type PostUpdateManyMutationInput = {
   text?: Maybe<StringFieldUpdateOperationsInput>;
   published?: Maybe<BoolFieldUpdateOperationsInput>;
   photo?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  likesCount?: Maybe<IntFieldUpdateOperationsInput>;
 };
 
 export type PostUpdateManyWithWhereWithoutAuthorInput = {
@@ -1347,6 +1446,7 @@ export type PostUpdateWithoutAuthorInput = {
   text?: Maybe<StringFieldUpdateOperationsInput>;
   published?: Maybe<BoolFieldUpdateOperationsInput>;
   photo?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  likesCount?: Maybe<IntFieldUpdateOperationsInput>;
   likes?: Maybe<LikeUpdateManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkUpdateManyWithoutPostInput>;
   tags?: Maybe<TagsUpdateManyWithoutPostsInput>;
@@ -1362,6 +1462,7 @@ export type PostUpdateWithoutBookmarkedInput = {
   text?: Maybe<StringFieldUpdateOperationsInput>;
   published?: Maybe<BoolFieldUpdateOperationsInput>;
   photo?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  likesCount?: Maybe<IntFieldUpdateOperationsInput>;
   author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
   likes?: Maybe<LikeUpdateManyWithoutPostInput>;
   tags?: Maybe<TagsUpdateManyWithoutPostsInput>;
@@ -1377,6 +1478,7 @@ export type PostUpdateWithoutCommentsInput = {
   text?: Maybe<StringFieldUpdateOperationsInput>;
   published?: Maybe<BoolFieldUpdateOperationsInput>;
   photo?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  likesCount?: Maybe<IntFieldUpdateOperationsInput>;
   author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
   likes?: Maybe<LikeUpdateManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkUpdateManyWithoutPostInput>;
@@ -1392,6 +1494,7 @@ export type PostUpdateWithoutLikesInput = {
   text?: Maybe<StringFieldUpdateOperationsInput>;
   published?: Maybe<BoolFieldUpdateOperationsInput>;
   photo?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  likesCount?: Maybe<IntFieldUpdateOperationsInput>;
   author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
   bookmarked?: Maybe<BookmarkUpdateManyWithoutPostInput>;
   tags?: Maybe<TagsUpdateManyWithoutPostsInput>;
@@ -1407,6 +1510,7 @@ export type PostUpdateWithoutTagsInput = {
   text?: Maybe<StringFieldUpdateOperationsInput>;
   published?: Maybe<BoolFieldUpdateOperationsInput>;
   photo?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  likesCount?: Maybe<IntFieldUpdateOperationsInput>;
   author?: Maybe<UserUpdateOneRequiredWithoutPostsInput>;
   likes?: Maybe<LikeUpdateManyWithoutPostInput>;
   bookmarked?: Maybe<BookmarkUpdateManyWithoutPostInput>;
@@ -1455,6 +1559,7 @@ export type PostWhereInput = {
   author?: Maybe<UserRelationFilter>;
   authorId?: Maybe<StringFilter>;
   likes?: Maybe<LikeListRelationFilter>;
+  likesCount?: Maybe<IntFilter>;
   bookmarked?: Maybe<BookmarkListRelationFilter>;
   tags?: Maybe<TagsListRelationFilter>;
   comments?: Maybe<CommentListRelationFilter>;
@@ -2372,6 +2477,8 @@ export type UserWhereUniqueInput = {
 
 export type BookmarksQueryVariables = Exact<{
   userId?: Maybe<Array<Scalars['String']> | Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -2393,7 +2500,7 @@ export type RegularErrorFragment = (
 
 export type RegularPostFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'title' | 'content' | 'authorId' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'shortenedText' | 'commentsCount' | 'isBookmarked' | 'photo'>
+  & Pick<Post, 'id' | 'title' | 'content' | 'authorId' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'shortenedText' | 'commentsCount' | 'isBookmarked' | 'photo' | 'isLiked'>
 );
 
 export type RegularUserFragment = (
@@ -2402,9 +2509,9 @@ export type RegularUserFragment = (
 );
 
 export type PostsQueryVariables = Exact<{
-  take?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Array<PostOrderByInput> | PostOrderByInput>;
-  skip?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
 }>;
 
 
@@ -2413,6 +2520,29 @@ export type PostsQuery = (
   & { posts: Array<(
     { __typename?: 'Post' }
     & RegularPostFragment
+  )> }
+);
+
+export type ToggleLikeMutationVariables = Exact<{
+  postId: Scalars['String'];
+}>;
+
+
+export type ToggleLikeMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'toggleLike'>
+);
+
+export type TopArticlesQueryVariables = Exact<{
+  createdDate?: Maybe<Scalars['DateTime']>;
+}>;
+
+
+export type TopArticlesQuery = (
+  { __typename?: 'Query' }
+  & { posts: Array<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'title' | 'content' | 'authorId' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'text' | 'commentsCount' | 'isBookmarked' | 'photo'>
   )> }
 );
 
@@ -2514,6 +2644,7 @@ export const RegularPostFragmentDoc = gql`
   commentsCount
   isBookmarked
   photo
+  isLiked
 }
     `;
 export const RegularUserFragmentDoc = gql`
@@ -2525,8 +2656,13 @@ export const RegularUserFragmentDoc = gql`
 }
     `;
 export const BookmarksDocument = gql`
-    query Bookmarks($userId: [String!]) {
-  bookmarks(where: {userId: {in: $userId}}) {
+    query Bookmarks($userId: [String!], $limit: Int, $offset: Int) {
+  bookmarks(
+    where: {userId: {in: $userId}}
+    take: $limit
+    skip: $offset
+    orderBy: {createdAt: asc}
+  ) {
     post {
       ...RegularPost
     }
@@ -2553,6 +2689,8 @@ export type BookmarksComponentProps = Omit<ApolloReactComponents.QueryComponentO
  * const { data, loading, error } = useBookmarksQuery({
  *   variables: {
  *      userId: // value for 'userId'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
  *   },
  * });
  */
@@ -2568,12 +2706,12 @@ export type BookmarksQueryHookResult = ReturnType<typeof useBookmarksQuery>;
 export type BookmarksLazyQueryHookResult = ReturnType<typeof useBookmarksLazyQuery>;
 export type BookmarksQueryResult = Apollo.QueryResult<BookmarksQuery, BookmarksQueryVariables>;
 export const PostsDocument = gql`
-    query Posts($take: Int, $orderBy: [PostOrderByInput!], $skip: Int) {
+    query Posts($limit: Int, $orderBy: [PostOrderByInput!], $offset: Int) {
   posts(
     where: {published: {equals: true}}
-    take: $take
+    take: $limit
     orderBy: $orderBy
-    skip: $skip
+    skip: $offset
   ) {
     ...RegularPost
   }
@@ -2598,9 +2736,9 @@ export type PostsComponentProps = Omit<ApolloReactComponents.QueryComponentOptio
  * @example
  * const { data, loading, error } = usePostsQuery({
  *   variables: {
- *      take: // value for 'take'
+ *      limit: // value for 'limit'
  *      orderBy: // value for 'orderBy'
- *      skip: // value for 'skip'
+ *      offset: // value for 'offset'
  *   },
  * });
  */
@@ -2615,6 +2753,99 @@ export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Post
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
+export const ToggleLikeDocument = gql`
+    mutation ToggleLike($postId: String!) {
+  toggleLike(postId: $postId)
+}
+    `;
+export type ToggleLikeMutationFn = Apollo.MutationFunction<ToggleLikeMutation, ToggleLikeMutationVariables>;
+export type ToggleLikeComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ToggleLikeMutation, ToggleLikeMutationVariables>, 'mutation'>;
+
+    export const ToggleLikeComponent = (props: ToggleLikeComponentProps) => (
+      <ApolloReactComponents.Mutation<ToggleLikeMutation, ToggleLikeMutationVariables> mutation={ToggleLikeDocument} {...props} />
+    );
+    
+
+/**
+ * __useToggleLikeMutation__
+ *
+ * To run a mutation, you first call `useToggleLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useToggleLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [toggleLikeMutation, { data, loading, error }] = useToggleLikeMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useToggleLikeMutation(baseOptions?: Apollo.MutationHookOptions<ToggleLikeMutation, ToggleLikeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ToggleLikeMutation, ToggleLikeMutationVariables>(ToggleLikeDocument, options);
+      }
+export type ToggleLikeMutationHookResult = ReturnType<typeof useToggleLikeMutation>;
+export type ToggleLikeMutationResult = Apollo.MutationResult<ToggleLikeMutation>;
+export type ToggleLikeMutationOptions = Apollo.BaseMutationOptions<ToggleLikeMutation, ToggleLikeMutationVariables>;
+export const TopArticlesDocument = gql`
+    query TopArticles($createdDate: DateTime) {
+  posts(
+    where: {published: {equals: true}, createdAt: {gt: $createdDate}}
+    take: 5
+    orderBy: {likesCount: desc}
+  ) {
+    id
+    title
+    content
+    authorId
+    authorname
+    authorAvatar
+    createdAt
+    likesCount
+    text
+    commentsCount
+    isBookmarked
+    photo
+  }
+}
+    `;
+export type TopArticlesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<TopArticlesQuery, TopArticlesQueryVariables>, 'query'>;
+
+    export const TopArticlesComponent = (props: TopArticlesComponentProps) => (
+      <ApolloReactComponents.Query<TopArticlesQuery, TopArticlesQueryVariables> query={TopArticlesDocument} {...props} />
+    );
+    
+
+/**
+ * __useTopArticlesQuery__
+ *
+ * To run a query within a React component, call `useTopArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTopArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTopArticlesQuery({
+ *   variables: {
+ *      createdDate: // value for 'createdDate'
+ *   },
+ * });
+ */
+export function useTopArticlesQuery(baseOptions?: Apollo.QueryHookOptions<TopArticlesQuery, TopArticlesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TopArticlesQuery, TopArticlesQueryVariables>(TopArticlesDocument, options);
+      }
+export function useTopArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TopArticlesQuery, TopArticlesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TopArticlesQuery, TopArticlesQueryVariables>(TopArticlesDocument, options);
+        }
+export type TopArticlesQueryHookResult = ReturnType<typeof useTopArticlesQuery>;
+export type TopArticlesLazyQueryHookResult = ReturnType<typeof useTopArticlesLazyQuery>;
+export type TopArticlesQueryResult = Apollo.QueryResult<TopArticlesQuery, TopArticlesQueryVariables>;
 export const CreateBookmarkDocument = gql`
     mutation CreateBookmark($userId: String!, $postId: String!) {
   createBookmark(

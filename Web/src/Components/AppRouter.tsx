@@ -32,25 +32,19 @@ const LoggedOutPage = () => {
 };
 
 const LoggedInPage = () => {
-  const { data, loading } = useMeQuery();
-  if (loading) {
-    return <></>;
-  } else {
-    meVar(data!.me);
-    return (
-      <Switch>
-        <Route exact path="/" component={Feed} />
+  return (
+    <Switch>
+      <Route exact path="/" component={Feed} />
 
-        <Route path="/explore" component={Explore} />
-        <Route path="/tags" component={Tags} />
-        <Route path="/bookmarks" component={Bookmark} />
-        <Route path="/search" component={Search} />
-        <Route path="/about" component={About} />
+      <Route path="/explore" component={Explore} />
+      <Route path="/tags" component={Tags} />
+      <Route path="/bookmarks" component={Bookmark} />
+      <Route path="/search" component={Search} />
+      <Route path="/about" component={About} />
 
-        <Redirect from="*" to="/" />
-      </Switch>
-    );
-  }
+      <Redirect from="*" to="/" />
+    </Switch>
+  );
 };
 function AppRouter({}: Props): ReactElement {
   const isLoggedIn = isLoggedInVar();

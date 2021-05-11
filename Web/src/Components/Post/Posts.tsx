@@ -31,6 +31,7 @@ function Posts({ post }: Props): ReactElement {
         title={post.title}
       />
       <PostFooter
+        isLiked={post.isLiked}
         postId={post.id}
         likesCount={post.likesCount}
         commentsCount={post.commentsCount}

@@ -1,0 +1,20 @@
+query TopArticles($createdDate: DateTime) {
+  posts(
+    where: { published: { equals: true }, createdAt: { gt: $createdDate } }
+    take: 5
+    orderBy: { likesCount: desc }
+  ) {
+    id
+    title
+    content
+    authorId
+    authorname
+    authorAvatar
+    createdAt
+    likesCount
+    text
+    commentsCount
+    isBookmarked
+    photo
+  }
+}

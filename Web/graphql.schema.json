@@ -110,6 +110,30 @@
             "deprecationReason": null
           },
           {
+            "name": "avg",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PostAvgAggregate",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PostSumAggregate",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "min",
             "description": null,
             "args": [],
@@ -4915,6 +4939,77 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "IntFieldUpdateOperationsInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "set",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "increment",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "decrement",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "multiply",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "divide",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "IntFilter",
         "description": null,
         "fields": null,
@@ -5038,6 +5133,189 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "IntWithAggregatesFilter",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "equals",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notIn",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "not",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntWithAggregatesFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "avg",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedFloatFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "min",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "max",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "LikeCreateManyPostInput",
         "description": null,
         "fields": null,
@@ -5048,6 +5326,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
               "ofType": null
             },
             "defaultValue": null,
@@ -5134,6 +5424,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
               "ofType": null
             },
             "defaultValue": null,
@@ -5479,6 +5781,18 @@
             "deprecationReason": null
           },
           {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user",
             "description": null,
             "type": {
@@ -5511,6 +5825,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
               "ofType": null
             },
             "defaultValue": null,
@@ -5664,6 +5990,18 @@
             "deprecationReason": null
           },
           {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userId",
             "description": null,
             "type": {
@@ -5704,6 +6042,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -6352,6 +6702,18 @@
             "deprecationReason": null
           },
           {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user",
             "description": null,
             "type": {
@@ -6380,6 +6742,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -6593,6 +6967,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -7424,6 +7810,39 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "toggleLike",
+            "description": null,
+            "args": [
+              {
+                "name": "postId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -7821,6 +8240,139 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "NestedFloatFilter",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "equals",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notIn",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "not",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedFloatFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Float",
+        "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "NestedIntFilter",
         "description": null,
         "fields": null,
@@ -8054,6 +8606,189 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "NestedIntNullableFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "NestedIntWithAggregatesFilter",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "equals",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "notIn",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "gte",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "not",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntWithAggregatesFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "count",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "avg",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedFloatFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "min",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "max",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "NestedIntFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -8942,6 +9677,22 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "authorname",
             "description": null,
             "args": [],
@@ -8966,18 +9717,6 @@
             "deprecationReason": null
           },
           {
-            "name": "likesCount",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "commentsCount",
             "description": null,
             "args": [],
@@ -8994,9 +9733,29 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isLiked",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -9020,12 +9779,25 @@
         "possibleTypes": null
       },
       {
-        "kind": "SCALAR",
-        "name": "Float",
-        "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
-        "fields": null,
+        "kind": "OBJECT",
+        "name": "PostAvgAggregate",
+        "description": null,
+        "fields": [
+          {
+            "name": "likesCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "inputFields": null,
-        "interfaces": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -9179,6 +9951,22 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "_all",
             "description": null,
             "args": [],
@@ -9304,6 +10092,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,
@@ -9488,6 +10288,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -9662,6 +10474,18 @@
                 "name": "String",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -10293,6 +11117,18 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "likes",
             "description": null,
             "type": {
@@ -10449,6 +11285,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,
@@ -10623,6 +11471,18 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "author",
             "description": null,
             "type": {
@@ -10790,6 +11650,18 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "author",
             "description": null,
             "type": {
@@ -10950,6 +11822,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "defaultValue": null,
@@ -11159,12 +12043,52 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "count",
             "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
               "name": "PostCountAggregate",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "avg",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PostAvgAggregate",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "sum",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PostSumAggregate",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11359,6 +12283,18 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -11474,6 +12410,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
               "ofType": null
             },
             "isDeprecated": false,
@@ -11598,6 +12546,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -11697,6 +12657,12 @@
           },
           {
             "name": "authorId",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -11872,6 +12838,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "StringFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -12056,9 +13034,44 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntWithAggregatesFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PostSumAggregate",
+        "description": null,
+        "fields": [
+          {
+            "name": "likesCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -12158,6 +13171,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFieldUpdateOperationsInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -12325,6 +13350,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFieldUpdateOperationsInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -13258,6 +14295,18 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "likes",
             "description": null,
             "type": {
@@ -13406,6 +14455,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFieldUpdateOperationsInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -13568,6 +14629,18 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "author",
             "description": null,
             "type": {
@@ -13723,6 +14796,18 @@
             "deprecationReason": null
           },
           {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "author",
             "description": null,
             "type": {
@@ -13871,6 +14956,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "NullableStringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFieldUpdateOperationsInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -14369,6 +15466,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "LikeListRelationFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "likesCount",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFilter",
               "ofType": null
             },
             "defaultValue": null,

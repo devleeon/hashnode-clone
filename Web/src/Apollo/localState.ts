@@ -1,6 +1,5 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
-import { useHistory } from "react-router";
-import { RegularUserFragment, useMeQuery, User } from "../generated/graphql";
+import { RegularUserFragment } from "../generated/graphql";
 
 export const isLoggedInVar = makeVar<boolean>(
   localStorage.getItem("token") === null ? false : true
@@ -23,18 +22,28 @@ export const cache: InMemoryCache = new InMemoryCache({
     Query: {
       fields: {
         posts: {
-          merge(existing, incoming) {
-            console.log("incoming: ", incoming);
-            console.log("existing: ", existing);
+          keyArgs: ["orderBy"],
+          merge(existing, incoming, { args }: any) {
             const merged = existing !== undefined ? existing.slice(0) : [];
-            let offset = merged.length;
+            let offset = args.skip !== undefined ? args.skip : 0;
             for (let i = 0; i < incoming.length; ++i) {
               merged[offset + i] = incoming[i];
             }
-
             return merged;
           },
-
+          read(existing) {
+            return existing;
+          },
+        },
+        bookmarks: {
+          merge(existing, incoming, { args: { skip } }: any) {
+            const merged = existing !== undefined ? existing.slice(0) : [];
+            let offset = skip !== undefined ? skip : 0;
+            for (let i = 0; i < incoming.length; ++i) {
+              merged[offset + i] = incoming[i];
+            }
+            return merged;
+          },
           read(existing) {
             return existing;
           },

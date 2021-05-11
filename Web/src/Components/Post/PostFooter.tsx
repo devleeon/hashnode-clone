@@ -4,6 +4,8 @@ import {
   BookmarkBorderRounded,
   BookmarkRounded,
   ChatOutlined,
+  ThumbUp,
+  ThumbUpAlt,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import { Maybe } from "graphql/jsutils/Maybe";
@@ -11,6 +13,7 @@ import { meVar } from "../../Apollo/localState";
 import {
   Scalars,
   useCreateBookmarkMutation,
+  useToggleLikeMutation,
   useUnBookmarkMutation,
 } from "../../generated/graphql";
 import { FlexRowBox } from "../../styles/Styles";
@@ -33,6 +36,7 @@ interface FooterProps {
   likesCount?: Maybe<Scalars["Float"]>;
   commentsCount?: Maybe<Scalars["Float"]>;
   isBookmarked?: Maybe<Scalars["Boolean"]>;
+  isLiked?: Maybe<Scalars["Boolean"]>;
 }
 
 function PostFooter({
@@ -41,12 +45,14 @@ function PostFooter({
   likesCount,
   commentsCount,
   isBookmarked,
+  isLiked,
 }: FooterProps) {
   const me = meVar();
 
   const [bookmark] = useCreateBookmarkMutation();
   const [unBookmark] = useUnBookmarkMutation();
-  const bookmarkPost = (postId: string, isBookmarked: boolean) => {
+  const [toggleLikeMutation] = useToggleLikeMutation();
+  const bookmarkPost = () => {
     const userId = me?.id as string;
     if (isBookmarked) {
       unBookmark({
@@ -87,16 +93,47 @@ function PostFooter({
       });
     }
   };
+  const toggleLike = async () => {
+    await toggleLikeMutation({
+      variables: {
+        postId,
+      },
+      update: (cache, { data }) => {
+        if (data?.toggleLike) {
+          cache.modify({
+            id: `Post:${postId}`,
+            fields: {
+              isLiked(prev) {
+                return !prev;
+              },
+              likesCount(prev) {
+                return isLiked ? prev - 1 : prev + 1;
+              },
+            },
+          });
+        }
+      },
+    });
+  };
   return (
     <FlexRowBox alignItems="center" justifyContent="space-between">
       <FlexRowBox alignItems="center">
-        <LikeCommentBox marginRight="20px">
-          <ThumbUpAltOutlined
-            style={{
-              marginRight: "8px",
-              color: theme.palette.secondary.dark,
-            }}
-          />
+        <LikeCommentBox marginRight="20px" onClick={toggleLike}>
+          {isLiked ? (
+            <ThumbUp
+              style={{
+                marginRight: "8px",
+                color: theme.palette.primary.main,
+              }}
+            />
+          ) : (
+            <ThumbUpAltOutlined
+              style={{
+                marginRight: "8px",
+                color: theme.palette.secondary.dark,
+              }}
+            />
+          )}
           {likesCount !== 0 ? likesCount : ""}
         </LikeCommentBox>
         <LikeCommentBox>
@@ -109,7 +146,7 @@ function PostFooter({
           {commentsCount !== 0 ? commentsCount : "Comment"}
         </LikeCommentBox>
       </FlexRowBox>
-      <IconButton onClick={() => bookmarkPost(postId, isBookmarked as boolean)}>
+      <IconButton onClick={bookmarkPost}>
         {isBookmarked ? (
           <BookmarkRounded
             fontSize="large"

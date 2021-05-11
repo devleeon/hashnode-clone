@@ -1,9 +1,9 @@
-query Posts($take: Int, $orderBy: [PostOrderByInput!], $skip: Int) {
+query Posts($limit: Int, $orderBy: [PostOrderByInput!], $offset: Int) {
   posts(
     where: { published: { equals: true } }
-    take: $take
+    take: $limit
     orderBy: $orderBy
-    skip: $skip
+    skip: $offset
   ) {
     ...RegularPost
   }

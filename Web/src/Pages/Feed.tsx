@@ -5,51 +5,56 @@ import Posts from "../Components/Post/Posts";
 import LayOut from "../Components/LayOut";
 import RightSideBar from "../Components/RightSideBar";
 import { GridLeftItem, GridRightItem, WhiteBox } from "../styles/Styles";
-import { usePostsQuery } from "../generated/graphql";
+import {
+  PostOrderByInput,
+  SortOrder,
+  usePostsQuery,
+} from "../generated/graphql";
 import SkeletonContent from "../Components/Post/SkeletonContent";
 import useScrollEnd from "../Hooks/useScrollEnd";
 
 interface Props {}
 
 function Feed({}: Props): ReactElement {
-  const DEFAULT_NUMBER_OF_POSTS = 3;
-  const SKELETONS = new Array(DEFAULT_NUMBER_OF_POSTS);
+  const DEFAULT_NUMBER_OF_POSTS = 5;
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
-  const scrollEnd = useScrollEnd();
-  const [limit, setLimit] = useState(DEFAULT_NUMBER_OF_POSTS);
+  const [offset, setOffset] = useState(DEFAULT_NUMBER_OF_POSTS);
   const [hasMore, setHasMore] = useState(true);
   const [loaded, setLoaded] = useState(true);
-
+  const [orderBy, setOrderBy] = useState<PostOrderByInput>({
+    createdAt: SortOrder["Desc"],
+  });
   const { data, loading, fetchMore } = usePostsQuery({
     variables: {
-      take: DEFAULT_NUMBER_OF_POSTS,
+      limit: DEFAULT_NUMBER_OF_POSTS,
+      orderBy,
     },
   });
+
+  const scrollEnd = useScrollEnd(!loaded || loading);
   useEffect(() => {
     const fetchMorePosts = async () => {
-      if (!loading) {
+      if (!loading && hasMore) {
         if (scrollEnd) {
           setLoaded(false);
           await fetchMore({
             variables: {
-              take: DEFAULT_NUMBER_OF_POSTS,
-              skip: limit,
+              limit: DEFAULT_NUMBER_OF_POSTS,
+              offset,
             },
           }).then(({ data }) => {
-            setLimit(limit + data.posts.length);
+            setOffset(offset + data.posts.length);
             setLoaded(true);
+            if (data.posts.length < DEFAULT_NUMBER_OF_POSTS) {
+              setHasMore(false);
+            }
           });
         }
       }
     };
-    if (limit % DEFAULT_NUMBER_OF_POSTS === 0) {
-      // if previously fetched less posts than it's supposed to have fetched
-      // then don't fetch any more
-      fetchMorePosts();
-    } else {
-      setHasMore(false);
-    }
-  }, [scrollEnd, setHasMore, hasMore]);
+
+    fetchMorePosts();
+  }, [scrollEnd]);
   return (
     <LayOut sticky={true}>
       <>
