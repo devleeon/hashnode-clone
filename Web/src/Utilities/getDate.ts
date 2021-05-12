@@ -3,7 +3,7 @@ export const getDate = (date: string) => {
 
   const year = result.getFullYear();
   const month = result.getMonth();
-  const day = result.getDay();
+  const day = result.getUTCDate();
 
   let monthName;
 
@@ -41,7 +41,7 @@ export const getDate = (date: string) => {
     case 10:
       monthName = "November";
       break;
-    case 10:
+    case 11:
       monthName = "December";
       break;
     default:
@@ -49,5 +49,5 @@ export const getDate = (date: string) => {
       break;
   }
 
-  return `${monthName} ${day}, ${year}`;
+  return { month: monthName, date: day, year };
 };

@@ -7,7 +7,6 @@ import {
   ExploreOutlined,
   LocalOfferOutlined,
   SearchOutlined,
-  UnfoldMoreRounded,
   ViewHeadlineRounded,
 } from "@material-ui/icons";
 import React, { ReactElement, useState } from "react";
@@ -47,9 +46,7 @@ const PageItems = styled(Button)(({ theme }) => ({
   },
 }));
 
-interface Props {}
-
-function NavItems({}: Props): ReactElement {
+function NavItems(): ReactElement {
   const loggedIn = isLoggedInVar();
   const theme = useTheme();
   const { pathname } = useLocation();

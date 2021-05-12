@@ -24,7 +24,7 @@ function PostHeader({ createdAt, authorAvatar, authorname }: HeaderProps) {
         <LightText fontSize="14px" textColor="black">
           {authorname}
         </LightText>
-        <LightText fontSize="14px">{date}</LightText>
+        <LightText fontSize="14px">{`${date.date} ${date.month}, ${date.year}`}</LightText>
       </Box>
     </Box>
   );

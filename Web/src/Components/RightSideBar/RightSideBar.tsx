@@ -1,7 +1,7 @@
 import { Box, styled } from "@material-ui/core";
 import { LineStyleOutlined, SearchOutlined } from "@material-ui/icons";
 import React, { ReactElement } from "react";
-import { WhiteBox } from "../styles/Styles";
+import { WhiteBox } from "../../styles/Styles";
 import TopArticles from "./TopArticles";
 
 const TextInput = styled("input")(({ theme }) => ({
@@ -25,9 +25,7 @@ const TextInput = styled("input")(({ theme }) => ({
   },
 }));
 
-interface Props {}
-
-function RightSideBar({}: Props): ReactElement {
+function RightSideBar(): ReactElement {
   return (
     <>
       <WhiteBox marginBottom="8px" position="relative">

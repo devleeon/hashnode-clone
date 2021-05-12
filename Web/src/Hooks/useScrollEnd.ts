@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const useScrollEnd = (loading: boolean) => {
   const [state, setState] = useState(false);
-
+  console.log(state);
   useEffect(() => {
     const onScroll = () => {
       if (

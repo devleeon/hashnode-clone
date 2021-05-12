@@ -39,11 +39,7 @@ const ItemTitle = styled(Typography)(({ theme }) => ({
   fontSize: "36px",
   marginBottom: "20px",
 }));
-interface ItemProps {
-  icon?: string;
-  title?: string;
-  text?: string;
-}
+
 function GridItems(): ReactElement {
   return (
     <GridItem>

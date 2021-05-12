@@ -24,9 +24,8 @@ const DefaultButton = styled(Button)({
   letterSpacing: "-0.0075rem",
   fontWeight: 600,
 });
-interface Props {}
 
-function Explore({}: Props): ReactElement {
+function Explore(): ReactElement {
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   return (
     <LayOut>

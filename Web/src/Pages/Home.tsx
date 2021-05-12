@@ -25,9 +25,7 @@ const Container = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface Props {}
-
-function Home({}: Props): ReactElement {
+function Home(): ReactElement {
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 

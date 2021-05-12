@@ -5,7 +5,7 @@ import LayOut from "../Components/LayOut";
 import Posts from "../Components/Post/Posts";
 import SkeletonContent from "../Components/Post/SkeletonContent";
 import RightSideBar from "../Components/RightSideBar";
-import { useBookmarksLazyQuery, useBookmarksQuery } from "../generated/graphql";
+import { useBookmarksQuery, useMeQuery } from "../generated/graphql";
 import useScrollEnd from "../Hooks/useScrollEnd";
 import {
   BoldText,
@@ -15,19 +15,18 @@ import {
   WhiteBox,
 } from "../styles/Styles";
 
-interface Props {}
-
-function Bookmark({}: Props): ReactElement {
+function Bookmark(): ReactElement {
   const DEFAULT_NUMBER_OF_POSTS = 5;
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
-  const [me, setMe] = useState(meVar());
+  const { data: meData } = useMeQuery();
+  const [me] = useState(meVar());
   const [hasMore, setHasMore] = useState(true);
   const [loaded, setLoaded] = useState(true);
   const [limit, setLimit] = useState(DEFAULT_NUMBER_OF_POSTS);
 
   const { data, loading, fetchMore } = useBookmarksQuery({
     variables: {
-      userId: me!.id,
+      userId: meData?.me!.id,
       limit,
     },
   });
@@ -47,18 +46,16 @@ function Bookmark({}: Props): ReactElement {
           }).then(({ data }) => {
             setLimit(limit + data.bookmarks.length);
             setLoaded(true);
+            if (data.bookmarks.length < DEFAULT_NUMBER_OF_POSTS) {
+              setHasMore(false);
+            }
           });
         }
       }
     };
-    if (limit % DEFAULT_NUMBER_OF_POSTS === 0) {
-      // if previously fetched less posts than it's supposed to have fetched
-      // then don't fetch any more
-      fetchMorePosts();
-    } else {
-      setHasMore(false);
-    }
-  }, [me, scrollEnd]);
+
+    fetchMorePosts();
+  }, [me, scrollEnd, loading, loaded]);
   return (
     <LayOut sticky={true}>
       <>

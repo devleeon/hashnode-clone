@@ -82,5 +82,9 @@ model Tags{
   updatedAt     DateTime    @updatedAt()
   name          String      @unique
   followers     User[]      @relation("TagFollows", references: [id])
+  followCount   Int         @default(0)
   posts         Post[]      @relation("TagPosts", references: [id])
+  postsThisweek Int         @default(0)
+  explain       String      @default("")
+  image         String      @default("")
 }

@@ -1,0 +1,7 @@
+query AllTimePopular {
+  findManyTags(orderBy: { followCount: desc }, take: 10) {
+    id
+    name
+    followCount
+  }
+}

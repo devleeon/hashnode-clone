@@ -1,6 +1,6 @@
 import { Box, styled, Theme, useMediaQuery, useTheme } from "@material-ui/core";
 import React, { ReactElement } from "react";
-import { Maybe, RegularPostFragment, Scalars } from "../../generated/graphql";
+import { Maybe, Scalars } from "../../generated/graphql";
 import { BoldText, FlexColumnBox, LightText } from "../../styles/Styles";
 
 const TextImage = styled(Box)(({ theme }) => ({
@@ -56,7 +56,7 @@ function PostItem({
           height="auto"
           marginTop={medium ? "14px" : "0"}
         >
-          <img src={photo} width="100%" />
+          <img src={photo} width="100%" alt={`${shortenedText}`} />
         </Box>
       )}
     </TextImage>

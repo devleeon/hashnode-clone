@@ -1,23 +1,14 @@
 import { Box, Button, Divider, styled } from "@material-ui/core";
-import {
-  ForumOutlined,
-  ThumbUpAltRounded,
-  ThumbUpOutlined,
-} from "@material-ui/icons";
+import { ForumOutlined, ThumbUpOutlined } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
-import React, {
-  ReactElement,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
-import { useTopArticlesQuery } from "../generated/graphql";
+import React, { ReactElement, useEffect, useState } from "react";
+import { useTopArticlesQuery } from "../../generated/graphql";
 import {
   BoldText,
   FlexColumnBox,
   FlexRowBox,
   LightText,
-} from "../styles/Styles";
+} from "../../styles/Styles";
 
 const PeriodButton = styled(Button)({
   minWidth: 0,
@@ -28,9 +19,7 @@ const PeriodButton = styled(Button)({
   },
 });
 
-interface Props {}
-
-function TopArticles({}: Props): ReactElement {
+function TopArticles(): ReactElement {
   const [period, setPeriod] = useState(7);
   const createdDate = new Date().setDate(new Date().getDate() - period);
   const [loaded, setLoaded] = useState(true);

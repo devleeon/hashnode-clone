@@ -39,9 +39,8 @@ const TagsButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.light,
   },
 }));
-interface Props {}
 
-function FeedHeader({}: Props): ReactElement {
+function FeedHeader(): ReactElement {
   const loggedIn = isLoggedInVar();
   const history = useHistory();
 

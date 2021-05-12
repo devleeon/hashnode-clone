@@ -40,6 +40,15 @@ export type AggregatePost = {
   max?: Maybe<PostMaxAggregate>;
 };
 
+export type AggregateTags = {
+  __typename?: 'AggregateTags';
+  count?: Maybe<TagsCountAggregate>;
+  avg?: Maybe<TagsAvgAggregate>;
+  sum?: Maybe<TagsSumAggregate>;
+  min?: Maybe<TagsMinAggregate>;
+  max?: Maybe<TagsMaxAggregate>;
+};
+
 export type Bookmark = {
   __typename?: 'Bookmark';
   id: Scalars['String'];
@@ -731,6 +740,13 @@ export type Mutation = {
   deleteManyPost: AffectedRowsOutput;
   updateManyPost: AffectedRowsOutput;
   upsertPost: Post;
+  createTags: Tags;
+  createManyTags: AffectedRowsOutput;
+  deleteTags?: Maybe<Tags>;
+  updateTags?: Maybe<Tags>;
+  deleteManyTags: AffectedRowsOutput;
+  updateManyTags: AffectedRowsOutput;
+  upsertTags: Tags;
   signUp: UserResponse;
   login: UserResponse;
   unBookmark: Scalars['Boolean'];
@@ -815,6 +831,46 @@ export type MutationUpsertPostArgs = {
   where: PostWhereUniqueInput;
   create: PostCreateInput;
   update: PostUpdateInput;
+};
+
+
+export type MutationCreateTagsArgs = {
+  data: TagsCreateInput;
+};
+
+
+export type MutationCreateManyTagsArgs = {
+  data: Array<TagsCreateManyInput>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationDeleteTagsArgs = {
+  where: TagsWhereUniqueInput;
+};
+
+
+export type MutationUpdateTagsArgs = {
+  data: TagsUpdateInput;
+  where: TagsWhereUniqueInput;
+};
+
+
+export type MutationDeleteManyTagsArgs = {
+  where?: Maybe<TagsWhereInput>;
+};
+
+
+export type MutationUpdateManyTagsArgs = {
+  data: TagsUpdateManyMutationInput;
+  where?: Maybe<TagsWhereInput>;
+};
+
+
+export type MutationUpsertTagsArgs = {
+  where: TagsWhereUniqueInput;
+  create: TagsCreateInput;
+  update: TagsUpdateInput;
 };
 
 
@@ -1581,6 +1637,11 @@ export type Query = {
   posts: Array<Post>;
   aggregatePost: AggregatePost;
   groupByPost: Array<PostGroupBy>;
+  findUniqueTags?: Maybe<Tags>;
+  findFirstTags?: Maybe<Tags>;
+  findManyTags: Array<Tags>;
+  aggregateTags: AggregateTags;
+  groupByTags: Array<TagsGroupBy>;
   me?: Maybe<User>;
 };
 
@@ -1672,6 +1733,50 @@ export type QueryGroupByPostArgs = {
   skip?: Maybe<Scalars['Int']>;
 };
 
+
+export type QueryFindUniqueTagsArgs = {
+  where: TagsWhereUniqueInput;
+};
+
+
+export type QueryFindFirstTagsArgs = {
+  where?: Maybe<TagsWhereInput>;
+  orderBy?: Maybe<Array<TagsOrderByInput>>;
+  cursor?: Maybe<TagsWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<TagsScalarFieldEnum>>;
+};
+
+
+export type QueryFindManyTagsArgs = {
+  where?: Maybe<TagsWhereInput>;
+  orderBy?: Maybe<Array<TagsOrderByInput>>;
+  cursor?: Maybe<TagsWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<TagsScalarFieldEnum>>;
+};
+
+
+export type QueryAggregateTagsArgs = {
+  where?: Maybe<TagsWhereInput>;
+  orderBy?: Maybe<Array<TagsOrderByInput>>;
+  cursor?: Maybe<TagsWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryGroupByTagsArgs = {
+  where?: Maybe<TagsWhereInput>;
+  orderBy?: Maybe<Array<TagsOrderByInput>>;
+  by: Array<TagsScalarFieldEnum>;
+  having?: Maybe<TagsScalarWhereWithAggregatesInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+};
+
 export enum QueryMode {
   Default = 'default',
   Insensitive = 'insensitive'
@@ -1752,6 +1857,79 @@ export type StringWithAggregatesFilter = {
   max?: Maybe<NestedStringFilter>;
 };
 
+export type Tags = {
+  __typename?: 'Tags';
+  id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  followCount: Scalars['Int'];
+  postsThisweek: Scalars['Int'];
+  explain: Scalars['String'];
+  followers: Array<User>;
+  posts: Array<Post>;
+};
+
+
+export type TagsFollowersArgs = {
+  where?: Maybe<UserWhereInput>;
+  orderBy?: Maybe<Array<UserOrderByInput>>;
+  cursor?: Maybe<UserWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<UserScalarFieldEnum>>;
+};
+
+
+export type TagsPostsArgs = {
+  where?: Maybe<PostWhereInput>;
+  orderBy?: Maybe<Array<PostOrderByInput>>;
+  cursor?: Maybe<PostWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<PostScalarFieldEnum>>;
+};
+
+export type TagsAvgAggregate = {
+  __typename?: 'TagsAvgAggregate';
+  followCount?: Maybe<Scalars['Float']>;
+  postsThisweek?: Maybe<Scalars['Float']>;
+};
+
+export type TagsCountAggregate = {
+  __typename?: 'TagsCountAggregate';
+  id: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  name: Scalars['Int'];
+  followCount: Scalars['Int'];
+  postsThisweek: Scalars['Int'];
+  explain: Scalars['Int'];
+  _all: Scalars['Int'];
+};
+
+export type TagsCreateInput = {
+  id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  followCount?: Maybe<Scalars['Int']>;
+  postsThisweek?: Maybe<Scalars['Int']>;
+  explain?: Maybe<Scalars['String']>;
+  followers?: Maybe<UserCreateNestedManyWithoutFollowingTagsInput>;
+  posts?: Maybe<PostCreateNestedManyWithoutTagsInput>;
+};
+
+export type TagsCreateManyInput = {
+  id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  followCount?: Maybe<Scalars['Int']>;
+  postsThisweek?: Maybe<Scalars['Int']>;
+  explain?: Maybe<Scalars['String']>;
+};
+
 export type TagsCreateNestedManyWithoutFollowersInput = {
   create?: Maybe<Array<TagsCreateWithoutFollowersInput>>;
   connectOrCreate?: Maybe<Array<TagsCreateOrConnectWithoutFollowersInput>>;
@@ -1779,6 +1957,9 @@ export type TagsCreateWithoutFollowersInput = {
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
+  followCount?: Maybe<Scalars['Int']>;
+  postsThisweek?: Maybe<Scalars['Int']>;
+  explain?: Maybe<Scalars['String']>;
   posts?: Maybe<PostCreateNestedManyWithoutTagsInput>;
 };
 
@@ -1787,7 +1968,26 @@ export type TagsCreateWithoutPostsInput = {
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
+  followCount?: Maybe<Scalars['Int']>;
+  postsThisweek?: Maybe<Scalars['Int']>;
+  explain?: Maybe<Scalars['String']>;
   followers?: Maybe<UserCreateNestedManyWithoutFollowingTagsInput>;
+};
+
+export type TagsGroupBy = {
+  __typename?: 'TagsGroupBy';
+  id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  followCount: Scalars['Int'];
+  postsThisweek: Scalars['Int'];
+  explain: Scalars['String'];
+  count?: Maybe<TagsCountAggregate>;
+  avg?: Maybe<TagsAvgAggregate>;
+  sum?: Maybe<TagsSumAggregate>;
+  min?: Maybe<TagsMinAggregate>;
+  max?: Maybe<TagsMaxAggregate>;
 };
 
 export type TagsListRelationFilter = {
@@ -1795,6 +1995,48 @@ export type TagsListRelationFilter = {
   some?: Maybe<TagsWhereInput>;
   none?: Maybe<TagsWhereInput>;
 };
+
+export type TagsMaxAggregate = {
+  __typename?: 'TagsMaxAggregate';
+  id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  followCount?: Maybe<Scalars['Int']>;
+  postsThisweek?: Maybe<Scalars['Int']>;
+  explain?: Maybe<Scalars['String']>;
+};
+
+export type TagsMinAggregate = {
+  __typename?: 'TagsMinAggregate';
+  id?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  followCount?: Maybe<Scalars['Int']>;
+  postsThisweek?: Maybe<Scalars['Int']>;
+  explain?: Maybe<Scalars['String']>;
+};
+
+export type TagsOrderByInput = {
+  id?: Maybe<SortOrder>;
+  createdAt?: Maybe<SortOrder>;
+  updatedAt?: Maybe<SortOrder>;
+  name?: Maybe<SortOrder>;
+  followCount?: Maybe<SortOrder>;
+  postsThisweek?: Maybe<SortOrder>;
+  explain?: Maybe<SortOrder>;
+};
+
+export enum TagsScalarFieldEnum {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt',
+  Name = 'name',
+  FollowCount = 'followCount',
+  PostsThisweek = 'postsThisweek',
+  Explain = 'explain'
+}
 
 export type TagsScalarWhereInput = {
   AND?: Maybe<Array<TagsScalarWhereInput>>;
@@ -1804,6 +2046,40 @@ export type TagsScalarWhereInput = {
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
   name?: Maybe<StringFilter>;
+  followCount?: Maybe<IntFilter>;
+  postsThisweek?: Maybe<IntFilter>;
+  explain?: Maybe<StringFilter>;
+};
+
+export type TagsScalarWhereWithAggregatesInput = {
+  AND?: Maybe<Array<TagsScalarWhereWithAggregatesInput>>;
+  OR?: Maybe<Array<TagsScalarWhereWithAggregatesInput>>;
+  NOT?: Maybe<Array<TagsScalarWhereWithAggregatesInput>>;
+  id?: Maybe<StringWithAggregatesFilter>;
+  createdAt?: Maybe<DateTimeWithAggregatesFilter>;
+  updatedAt?: Maybe<DateTimeWithAggregatesFilter>;
+  name?: Maybe<StringWithAggregatesFilter>;
+  followCount?: Maybe<IntWithAggregatesFilter>;
+  postsThisweek?: Maybe<IntWithAggregatesFilter>;
+  explain?: Maybe<StringWithAggregatesFilter>;
+};
+
+export type TagsSumAggregate = {
+  __typename?: 'TagsSumAggregate';
+  followCount?: Maybe<Scalars['Int']>;
+  postsThisweek?: Maybe<Scalars['Int']>;
+};
+
+export type TagsUpdateInput = {
+  id?: Maybe<StringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  name?: Maybe<StringFieldUpdateOperationsInput>;
+  followCount?: Maybe<IntFieldUpdateOperationsInput>;
+  postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
+  explain?: Maybe<StringFieldUpdateOperationsInput>;
+  followers?: Maybe<UserUpdateManyWithoutFollowingTagsInput>;
+  posts?: Maybe<PostUpdateManyWithoutTagsInput>;
 };
 
 export type TagsUpdateManyMutationInput = {
@@ -1811,6 +2087,9 @@ export type TagsUpdateManyMutationInput = {
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   name?: Maybe<StringFieldUpdateOperationsInput>;
+  followCount?: Maybe<IntFieldUpdateOperationsInput>;
+  postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
+  explain?: Maybe<StringFieldUpdateOperationsInput>;
 };
 
 export type TagsUpdateManyWithWhereWithoutFollowersInput = {
@@ -1864,6 +2143,9 @@ export type TagsUpdateWithoutFollowersInput = {
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   name?: Maybe<StringFieldUpdateOperationsInput>;
+  followCount?: Maybe<IntFieldUpdateOperationsInput>;
+  postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
+  explain?: Maybe<StringFieldUpdateOperationsInput>;
   posts?: Maybe<PostUpdateManyWithoutTagsInput>;
 };
 
@@ -1872,6 +2154,9 @@ export type TagsUpdateWithoutPostsInput = {
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   name?: Maybe<StringFieldUpdateOperationsInput>;
+  followCount?: Maybe<IntFieldUpdateOperationsInput>;
+  postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
+  explain?: Maybe<StringFieldUpdateOperationsInput>;
   followers?: Maybe<UserUpdateManyWithoutFollowingTagsInput>;
 };
 
@@ -1896,7 +2181,10 @@ export type TagsWhereInput = {
   updatedAt?: Maybe<DateTimeFilter>;
   name?: Maybe<StringFilter>;
   followers?: Maybe<UserListRelationFilter>;
+  followCount?: Maybe<IntFilter>;
   posts?: Maybe<PostListRelationFilter>;
+  postsThisweek?: Maybe<IntFilter>;
+  explain?: Maybe<StringFilter>;
 };
 
 export type TagsWhereUniqueInput = {
@@ -2134,6 +2422,19 @@ export type UserListRelationFilter = {
   none?: Maybe<UserWhereInput>;
 };
 
+export type UserOrderByInput = {
+  id?: Maybe<SortOrder>;
+  email?: Maybe<SortOrder>;
+  username?: Maybe<SortOrder>;
+  password?: Maybe<SortOrder>;
+  firstname?: Maybe<SortOrder>;
+  lastname?: Maybe<SortOrder>;
+  avatar?: Maybe<SortOrder>;
+  cover?: Maybe<SortOrder>;
+  createdAt?: Maybe<SortOrder>;
+  updatedAt?: Maybe<SortOrder>;
+};
+
 export type UserRelationFilter = {
   is?: Maybe<UserWhereInput>;
   isNot?: Maybe<UserWhereInput>;
@@ -2145,6 +2446,19 @@ export type UserResponse = {
   user?: Maybe<User>;
   token?: Maybe<Scalars['String']>;
 };
+
+export enum UserScalarFieldEnum {
+  Id = 'id',
+  Email = 'email',
+  Username = 'username',
+  Password = 'password',
+  Firstname = 'firstname',
+  Lastname = 'lastname',
+  Avatar = 'avatar',
+  Cover = 'cover',
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt'
+}
 
 export type UserScalarWhereInput = {
   AND?: Maybe<Array<UserScalarWhereInput>>;
@@ -2542,7 +2856,42 @@ export type TopArticlesQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'title' | 'content' | 'authorId' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'text' | 'commentsCount' | 'isBookmarked' | 'photo'>
+    & RegularPostFragment
+  )> }
+);
+
+export type AllTimePopularQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllTimePopularQuery = (
+  { __typename?: 'Query' }
+  & { findManyTags: Array<(
+    { __typename?: 'Tags' }
+    & Pick<Tags, 'id' | 'name' | 'followCount'>
+  )> }
+);
+
+export type PopularThisWeekQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PopularThisWeekQuery = (
+  { __typename?: 'Query' }
+  & { findManyTags: Array<(
+    { __typename?: 'Tags' }
+    & Pick<Tags, 'id' | 'name' | 'postsThisweek'>
+  )> }
+);
+
+export type RecentlyAddedQueryVariables = Exact<{
+  sixMonthAgo?: Maybe<Scalars['DateTime']>;
+}>;
+
+
+export type RecentlyAddedQuery = (
+  { __typename?: 'Query' }
+  & { findManyTags: Array<(
+    { __typename?: 'Tags' }
+    & Pick<Tags, 'id' | 'name' | 'createdAt'>
   )> }
 );
 
@@ -2797,21 +3146,10 @@ export const TopArticlesDocument = gql`
     take: 5
     orderBy: {likesCount: desc}
   ) {
-    id
-    title
-    content
-    authorId
-    authorname
-    authorAvatar
-    createdAt
-    likesCount
-    text
-    commentsCount
-    isBookmarked
-    photo
+    ...RegularPost
   }
 }
-    `;
+    ${RegularPostFragmentDoc}`;
 export type TopArticlesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<TopArticlesQuery, TopArticlesQueryVariables>, 'query'>;
 
     export const TopArticlesComponent = (props: TopArticlesComponentProps) => (
@@ -2846,6 +3184,137 @@ export function useTopArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type TopArticlesQueryHookResult = ReturnType<typeof useTopArticlesQuery>;
 export type TopArticlesLazyQueryHookResult = ReturnType<typeof useTopArticlesLazyQuery>;
 export type TopArticlesQueryResult = Apollo.QueryResult<TopArticlesQuery, TopArticlesQueryVariables>;
+export const AllTimePopularDocument = gql`
+    query AllTimePopular {
+  findManyTags(orderBy: {followCount: desc}, take: 10) {
+    id
+    name
+    followCount
+  }
+}
+    `;
+export type AllTimePopularComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllTimePopularQuery, AllTimePopularQueryVariables>, 'query'>;
+
+    export const AllTimePopularComponent = (props: AllTimePopularComponentProps) => (
+      <ApolloReactComponents.Query<AllTimePopularQuery, AllTimePopularQueryVariables> query={AllTimePopularDocument} {...props} />
+    );
+    
+
+/**
+ * __useAllTimePopularQuery__
+ *
+ * To run a query within a React component, call `useAllTimePopularQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllTimePopularQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllTimePopularQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllTimePopularQuery(baseOptions?: Apollo.QueryHookOptions<AllTimePopularQuery, AllTimePopularQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllTimePopularQuery, AllTimePopularQueryVariables>(AllTimePopularDocument, options);
+      }
+export function useAllTimePopularLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllTimePopularQuery, AllTimePopularQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllTimePopularQuery, AllTimePopularQueryVariables>(AllTimePopularDocument, options);
+        }
+export type AllTimePopularQueryHookResult = ReturnType<typeof useAllTimePopularQuery>;
+export type AllTimePopularLazyQueryHookResult = ReturnType<typeof useAllTimePopularLazyQuery>;
+export type AllTimePopularQueryResult = Apollo.QueryResult<AllTimePopularQuery, AllTimePopularQueryVariables>;
+export const PopularThisWeekDocument = gql`
+    query PopularThisWeek {
+  findManyTags(orderBy: {postsThisweek: desc}, take: 10) {
+    id
+    name
+    postsThisweek
+  }
+}
+    `;
+export type PopularThisWeekComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<PopularThisWeekQuery, PopularThisWeekQueryVariables>, 'query'>;
+
+    export const PopularThisWeekComponent = (props: PopularThisWeekComponentProps) => (
+      <ApolloReactComponents.Query<PopularThisWeekQuery, PopularThisWeekQueryVariables> query={PopularThisWeekDocument} {...props} />
+    );
+    
+
+/**
+ * __usePopularThisWeekQuery__
+ *
+ * To run a query within a React component, call `usePopularThisWeekQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePopularThisWeekQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePopularThisWeekQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePopularThisWeekQuery(baseOptions?: Apollo.QueryHookOptions<PopularThisWeekQuery, PopularThisWeekQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PopularThisWeekQuery, PopularThisWeekQueryVariables>(PopularThisWeekDocument, options);
+      }
+export function usePopularThisWeekLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PopularThisWeekQuery, PopularThisWeekQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PopularThisWeekQuery, PopularThisWeekQueryVariables>(PopularThisWeekDocument, options);
+        }
+export type PopularThisWeekQueryHookResult = ReturnType<typeof usePopularThisWeekQuery>;
+export type PopularThisWeekLazyQueryHookResult = ReturnType<typeof usePopularThisWeekLazyQuery>;
+export type PopularThisWeekQueryResult = Apollo.QueryResult<PopularThisWeekQuery, PopularThisWeekQueryVariables>;
+export const RecentlyAddedDocument = gql`
+    query RecentlyAdded($sixMonthAgo: DateTime) {
+  findManyTags(
+    orderBy: {createdAt: desc}
+    take: 10
+    where: {createdAt: {gte: $sixMonthAgo}}
+  ) {
+    id
+    name
+    createdAt
+  }
+}
+    `;
+export type RecentlyAddedComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<RecentlyAddedQuery, RecentlyAddedQueryVariables>, 'query'>;
+
+    export const RecentlyAddedComponent = (props: RecentlyAddedComponentProps) => (
+      <ApolloReactComponents.Query<RecentlyAddedQuery, RecentlyAddedQueryVariables> query={RecentlyAddedDocument} {...props} />
+    );
+    
+
+/**
+ * __useRecentlyAddedQuery__
+ *
+ * To run a query within a React component, call `useRecentlyAddedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecentlyAddedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecentlyAddedQuery({
+ *   variables: {
+ *      sixMonthAgo: // value for 'sixMonthAgo'
+ *   },
+ * });
+ */
+export function useRecentlyAddedQuery(baseOptions?: Apollo.QueryHookOptions<RecentlyAddedQuery, RecentlyAddedQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RecentlyAddedQuery, RecentlyAddedQueryVariables>(RecentlyAddedDocument, options);
+      }
+export function useRecentlyAddedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecentlyAddedQuery, RecentlyAddedQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RecentlyAddedQuery, RecentlyAddedQueryVariables>(RecentlyAddedDocument, options);
+        }
+export type RecentlyAddedQueryHookResult = ReturnType<typeof useRecentlyAddedQuery>;
+export type RecentlyAddedLazyQueryHookResult = ReturnType<typeof useRecentlyAddedLazyQuery>;
+export type RecentlyAddedQueryResult = Apollo.QueryResult<RecentlyAddedQuery, RecentlyAddedQueryVariables>;
 export const CreateBookmarkDocument = gql`
     mutation CreateBookmark($userId: String!, $postId: String!) {
   createBookmark(

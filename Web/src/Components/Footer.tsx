@@ -1,9 +1,7 @@
 import { Box, Theme, Typography, useMediaQuery } from "@material-ui/core";
 import React, { ReactElement } from "react";
 
-interface Props {}
-
-function Footer({}: Props): ReactElement {
+function Footer(): ReactElement {
   const xSmall = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
   const thisYear = new Date().getFullYear();
   return (

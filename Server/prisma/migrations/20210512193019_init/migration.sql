@@ -9,6 +9,7 @@ CREATE TABLE "Post" (
     "published" BOOLEAN NOT NULL DEFAULT false,
     "photo" TEXT,
     "authorId" TEXT NOT NULL,
+    "likesCount" INTEGER NOT NULL DEFAULT 0,
 
     PRIMARY KEY ("id")
 );
@@ -32,6 +33,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Like" (
     "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
     "postId" TEXT NOT NULL,
 
@@ -64,6 +66,8 @@ CREATE TABLE "Tags" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "name" TEXT NOT NULL,
+    "followCount" INTEGER NOT NULL DEFAULT 0,
+    "postsCount" INTEGER NOT NULL DEFAULT 0,
 
     PRIMARY KEY ("id")
 );

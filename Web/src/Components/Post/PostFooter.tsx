@@ -1,14 +1,13 @@
-import React from "react";
 import { Box, Button, styled, Theme } from "@material-ui/core";
 import {
   BookmarkBorderRounded,
   BookmarkRounded,
   ChatOutlined,
   ThumbUp,
-  ThumbUpAlt,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
 import { Maybe } from "graphql/jsutils/Maybe";
+import React from "react";
 import { meVar } from "../../Apollo/localState";
 import {
   Scalars,

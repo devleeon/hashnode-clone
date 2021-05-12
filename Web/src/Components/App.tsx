@@ -6,9 +6,7 @@ import client from "../Apollo/client";
 import theme from "../styles/theme";
 import AppRouter from "./AppRouter";
 
-interface Props {}
-
-function App({}: Props): ReactElement {
+function App(): ReactElement {
   return (
     <ApolloProvider client={client}>
       <CssBaseline />

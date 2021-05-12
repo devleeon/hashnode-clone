@@ -3,6 +3,7 @@ import { blueGrey, grey } from "@material-ui/core/colors";
 import React, { ReactElement } from "react";
 import LayOut from "../Components/LayOut";
 import { WhiteBox } from "../styles/Styles";
+import RightSideBar from "../Components/RightSideBar";
 
 const GridLeftItem = styled(Box)(({ theme }) => ({
   paddingTop: "10px",
@@ -50,9 +51,8 @@ const Buttons = styled(Box)({
     backgroundColor: blueGrey[50],
   },
 });
-interface Props {}
 
-function Search({}: Props): ReactElement {
+function Search(): ReactElement {
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
   return (
     <LayOut>
@@ -73,7 +73,7 @@ function Search({}: Props): ReactElement {
         </GridLeftItem>
         {medium && (
           <GridRightItem>
-            <WhiteBox>dhifs</WhiteBox>
+            <RightSideBar />
           </GridRightItem>
         )}
       </>

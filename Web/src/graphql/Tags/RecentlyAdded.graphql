@@ -1,0 +1,11 @@
+query RecentlyAdded($sixMonthAgo: DateTime) {
+  findManyTags(
+    orderBy: { createdAt: desc }
+    take: 10
+    where: { createdAt: { gte: $sixMonthAgo } }
+  ) {
+    id
+    name
+    createdAt
+  }
+}

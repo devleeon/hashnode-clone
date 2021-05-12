@@ -14,9 +14,7 @@ const Item = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface Props {}
-
-function ProfileItems({}: Props): ReactElement {
+function ProfileItems(): ReactElement {
   return (
     <Box>
       <Box paddingBottom="8px">

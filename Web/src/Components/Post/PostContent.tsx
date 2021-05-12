@@ -1,8 +1,6 @@
 import React, { ReactElement } from "react";
 
-interface Props {}
-
-function PostContent({}: Props): ReactElement {
+function PostContent(): ReactElement {
   return <div></div>;
 }
 

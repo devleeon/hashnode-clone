@@ -1,21 +1,19 @@
-import { Box, styled, Theme, useMediaQuery } from "@material-ui/core";
+import { Theme, useMediaQuery } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 import FeedHeader from "../Components/Feed/FeedHeader";
-import Posts from "../Components/Post/Posts";
 import LayOut from "../Components/LayOut";
+import Posts from "../Components/Post/Posts";
+import SkeletonContent from "../Components/Post/SkeletonContent";
 import RightSideBar from "../Components/RightSideBar";
-import { GridLeftItem, GridRightItem, WhiteBox } from "../styles/Styles";
 import {
   PostOrderByInput,
   SortOrder,
   usePostsQuery,
 } from "../generated/graphql";
-import SkeletonContent from "../Components/Post/SkeletonContent";
 import useScrollEnd from "../Hooks/useScrollEnd";
+import { GridLeftItem, GridRightItem, WhiteBox } from "../styles/Styles";
 
-interface Props {}
-
-function Feed({}: Props): ReactElement {
+function Feed(): ReactElement {
   const DEFAULT_NUMBER_OF_POSTS = 5;
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
   const [offset, setOffset] = useState(DEFAULT_NUMBER_OF_POSTS);
@@ -34,8 +32,8 @@ function Feed({}: Props): ReactElement {
   const scrollEnd = useScrollEnd(!loaded || loading);
   useEffect(() => {
     const fetchMorePosts = async () => {
-      if (!loading && hasMore) {
-        if (scrollEnd) {
+      if (scrollEnd) {
+        if (!loading && hasMore && loaded) {
           setLoaded(false);
           await fetchMore({
             variables: {
@@ -54,7 +52,7 @@ function Feed({}: Props): ReactElement {
     };
 
     fetchMorePosts();
-  }, [scrollEnd]);
+  }, [scrollEnd, loading, loaded]);
   return (
     <LayOut sticky={true}>
       <>

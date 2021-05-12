@@ -4,17 +4,6 @@ query TopArticles($createdDate: DateTime) {
     take: 5
     orderBy: { likesCount: desc }
   ) {
-    id
-    title
-    content
-    authorId
-    authorname
-    authorAvatar
-    createdAt
-    likesCount
-    text
-    commentsCount
-    isBookmarked
-    photo
+    ...RegularPost
   }
 }

@@ -17,9 +17,8 @@ const Container = styled(Box)(({ theme }) => ({
     gridColumnEnd: "span 7",
   },
 }));
-interface Props {}
 
-function About({}: Props): ReactElement {
+function About(): ReactElement {
   return (
     <LayOut>
       <Container>

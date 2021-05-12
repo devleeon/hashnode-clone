@@ -13,6 +13,8 @@ import {
   BookmarkRelationsResolver,
   PostCrudResolver,
   resolvers,
+  TagsCrudResolver,
+  TagsRelationsResolver,
   UserRelationsResolver,
 } from "./generated/typegraphql-prisma";
 import { PrismaClient } from "@prisma/client";
@@ -86,6 +88,8 @@ const init = async () => {
         CustomPostResolver,
         BookmarkCrudResolver,
         BookmarkRelationsResolver,
+        TagsCrudResolver,
+        TagsRelationsResolver,
       ],
       validate: false,
     }),

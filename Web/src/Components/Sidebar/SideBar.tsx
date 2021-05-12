@@ -70,9 +70,7 @@ const MenuButtons = styled(Button)(({ theme }) => ({
   },
 }));
 
-interface Props {}
-
-function SideBar({}: Props): ReactElement {
+function SideBar(): ReactElement {
   const history = useHistory();
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.down("xs"));
   const [navEl, setNavEl] = React.useState<null | HTMLElement>(null);

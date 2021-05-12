@@ -13,9 +13,7 @@ const Container = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface Props {}
-
-function SkeletonContent({}: Props): ReactElement {
+function SkeletonContent(): ReactElement {
   return (
     <Container>
       <Box

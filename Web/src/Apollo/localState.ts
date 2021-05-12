@@ -48,6 +48,9 @@ export const cache: InMemoryCache = new InMemoryCache({
             return existing;
           },
         },
+        findManyTags: {
+          keyArgs: ["orderBy"],
+        },
       },
     },
   },
