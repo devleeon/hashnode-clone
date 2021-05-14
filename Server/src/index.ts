@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import { ApolloServer } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import cors from "cors";
@@ -12,15 +13,13 @@ import {
   BookmarkCrudResolver,
   BookmarkRelationsResolver,
   PostCrudResolver,
-  resolvers,
   TagsCrudResolver,
   TagsRelationsResolver,
-  UserRelationsResolver,
 } from "./generated/typegraphql-prisma";
-import { PrismaClient } from "@prisma/client";
+import { CustomPostResolver } from "./resolvers/Post";
+import { CustomTagResolver } from "./resolvers/Tag";
 import { UserResolver } from "./resolvers/User";
 import { verifyToken } from "./utils/verifyToken";
-import { CustomPostResolver } from "./resolvers/Post";
 
 const init = async () => {
   const app = express();
@@ -90,6 +89,7 @@ const init = async () => {
         BookmarkRelationsResolver,
         TagsCrudResolver,
         TagsRelationsResolver,
+        CustomTagResolver,
       ],
       validate: false,
     }),

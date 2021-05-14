@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import React, { ReactElement } from "react";
 import { Redirect, Route, Switch } from "react-router";
 import { isLoggedInVar } from "../Apollo/localState";
@@ -8,6 +9,7 @@ import Explore from "../Pages/Explore";
 import Feed from "../Pages/Feed";
 import Home from "../Pages/Home";
 import Search from "../Pages/Search";
+import TagHome from "../Pages/TagHome";
 import Tags from "../Pages/Tags";
 
 const LoggedOutPage = () => {
@@ -21,6 +23,7 @@ const LoggedOutPage = () => {
       <Route path="/search" component={Search} />
       <Route path="/about" component={About} />
       <Route path="/tags" component={Tags} />
+      <Route path="/bookmarks" component={Auth} />
 
       <Redirect from="*" to="/" />
     </Switch>
@@ -34,6 +37,8 @@ const LoggedInPage = () => {
 
       <Route path="/explore" component={Explore} />
       <Route path="/tags" component={Tags} />
+      <Route path="/t/:tagname" component={TagHome} />
+
       <Route path="/bookmarks" component={Bookmark} />
       <Route path="/search" component={Search} />
       <Route path="/about" component={About} />
@@ -43,7 +48,7 @@ const LoggedInPage = () => {
   );
 };
 function AppRouter(): ReactElement {
-  const isLoggedIn = isLoggedInVar();
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   return <>{isLoggedIn ? <LoggedInPage /> : <LoggedOutPage />}</>;
 }
 

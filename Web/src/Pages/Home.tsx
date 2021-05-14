@@ -32,7 +32,7 @@ function Home(): ReactElement {
   const theme = useTheme();
 
   return (
-    <LayOut sticky>
+    <LayOut sticky column={1}>
       <Container>
         {/* sticky box start */}
         {small && <StickyBox medium={medium} />}

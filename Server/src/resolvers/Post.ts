@@ -1,15 +1,13 @@
-import { Post, User } from "../generated/typegraphql-prisma";
+import { MyContext } from "src/types";
 import {
   Arg,
   Ctx,
   FieldResolver,
   Mutation,
-  Query,
   Resolver,
   Root,
 } from "type-graphql";
-import { MyContext } from "src/types";
-import { prisma } from ".prisma/client";
+import { Post } from "../generated/typegraphql-prisma";
 
 @Resolver(Post)
 export class CustomPostResolver {

@@ -28,7 +28,7 @@ const DefaultButton = styled(Button)({
 function Explore(): ReactElement {
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   return (
-    <LayOut>
+    <LayOut column={1}>
       <Container>
         <WhiteBox padding="40px 24px" marginBottom="8px">
           <Title>Trending Blogs On Hashnode</Title>

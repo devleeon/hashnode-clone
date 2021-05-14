@@ -67,7 +67,9 @@ CREATE TABLE "Tags" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "name" TEXT NOT NULL,
     "followCount" INTEGER NOT NULL DEFAULT 0,
-    "postsCount" INTEGER NOT NULL DEFAULT 0,
+    "postsThisweek" INTEGER NOT NULL DEFAULT 0,
+    "explain" TEXT NOT NULL DEFAULT E'',
+    "image" TEXT NOT NULL DEFAULT E'',
 
     PRIMARY KEY ("id")
 );

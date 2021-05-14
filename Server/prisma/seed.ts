@@ -12,6 +12,7 @@ async function main() {
         createdAt: faker.date.past(),
         postsThisweek: Math.floor(Math.random() * 300),
         explain: faker.lorem.sentences(),
+        image: faker.image.technics(),
       },
       create: {
         name: tagName,
@@ -19,6 +20,7 @@ async function main() {
         createdAt: faker.date.past(),
         postsThisweek: Math.floor(Math.random() * 300),
         explain: faker.lorem.sentences(),
+        image: faker.image.technics(),
       },
     });
     let userEmail = faker.internet.email();

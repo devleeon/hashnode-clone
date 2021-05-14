@@ -1,0 +1,6 @@
+fragment RegularTag on Tags {
+  id
+  name
+  image
+  explain
+}

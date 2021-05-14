@@ -1,12 +1,17 @@
 import {
+  Avatar,
   Box,
   Divider,
   styled,
   Theme,
   Typography,
   useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
+import { blue } from "@material-ui/core/colors";
+import { Skeleton } from "@material-ui/lab";
 import React, { ReactElement } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Footer from "../Components/Footer";
 import LayOut from "../Components/LayOut";
 import {
@@ -14,7 +19,13 @@ import {
   usePopularThisWeekQuery,
   useRecentlyAddedQuery,
 } from "../generated/graphql";
-import { BoldText, FlexRowBox, LightText, WhiteBox } from "../styles/Styles";
+import {
+  BoldText,
+  FlexColumnBox,
+  FlexRowBox,
+  LightText,
+  WhiteBox,
+} from "../styles/Styles";
 import { dropThousand } from "../Utilities/dropThousand";
 import { getDate } from "../Utilities/getDate";
 
@@ -73,20 +84,121 @@ function TagBox({ title, explain }: TagBoxProps): ReactElement {
   );
 }
 
+const TagListContainer = styled(FlexRowBox)(({ theme }) => ({
+  borderRadius: "5px",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: theme.palette.secondary.light,
+  },
+}));
+
+type TagListProps = {
+  name: string;
+  numbers: string;
+  image: string;
+  explain: string;
+};
+function TagList({
+  name,
+  numbers,
+  image,
+  explain,
+}: TagListProps): ReactElement {
+  const history = useHistory();
+  const theme = useTheme();
+  const expl = explain.length > 40 ? explain.slice(0, 40) + "..." : explain;
+  const handleOnClick = () => {
+    history.push(`/t/${name}`);
+  };
+  return (
+    <TagListContainer
+      padding="8px 4px"
+      alignItems="center"
+      onClick={handleOnClick}
+    >
+      <Avatar
+        src={image}
+        variant="square"
+        style={{
+          borderRadius: "4px",
+          border: `1px solid ${theme.palette.secondary.main}`,
+          width: "46px",
+          height: "46px",
+          marginRight: "20px",
+        }}
+      />
+      <FlexColumnBox marginRight="16px" flex="1 1 0%">
+        <BoldText
+          variant="body1"
+          textColor="black"
+          fontSize="16px"
+          textTransform="capitalize"
+        >
+          {name}
+        </BoldText>
+        <LightText fontSize="14px">{expl}</LightText>
+      </FlexColumnBox>
+      <Box
+        padding="4px 8px"
+        bgcolor={blue[50]}
+        borderRadius="5px"
+        display="flex"
+      >
+        {numbers}
+      </Box>
+    </TagListContainer>
+  );
+}
+function TagListSkeleton(): ReactElement {
+  const arr = new Array(10).fill("");
+
+  return (
+    <>
+      {arr.map((a, i) => {
+        return (
+          <FlexRowBox padding="8px 4px" alignItems="center" key={i}>
+            <Skeleton
+              variant="rect"
+              width="46px"
+              height="46px"
+              style={{ marginRight: "20px", display: "flex" }}
+            />
+            <FlexColumnBox marginRight="16px" flex="1 1 0%">
+              <Skeleton variant="text" width="10%" />
+              <Skeleton variant="text" width="100%" />
+              <Skeleton variant="text" width="97%" />
+            </FlexColumnBox>
+            <Skeleton
+              variant="rect"
+              width="80px"
+              height="30px"
+              style={{ display: "flex" }}
+            />
+          </FlexRowBox>
+        );
+      })}
+    </>
+  );
+}
 function Tags(): ReactElement {
   const sixMonthAgo = new Date().setDate(new Date().getDate() - 180);
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
-  const { data: allTime } = useAllTimePopularQuery();
-  const { data: thisWeek } = usePopularThisWeekQuery();
-  const { data: recentlyAdded } = useRecentlyAddedQuery({
+  const { data: allTime, loading: loadingAllTime } = useAllTimePopularQuery();
+  const {
+    data: thisWeek,
+    loading: loadingThisWeek,
+  } = usePopularThisWeekQuery();
+  const {
+    data: recentlyAdded,
+    loading: loadingRecentlyAdded,
+  } = useRecentlyAddedQuery({
     variables: {
       sixMonthAgo: new Date(sixMonthAgo),
     },
   });
-  console.log(allTime);
-  console.log(recentlyAdded);
+
   return (
-    <LayOut>
+    <LayOut column={1}>
       <Container>
         <WhiteBox padding="40px 24px" marginBottom="8px">
           <>
@@ -116,12 +228,16 @@ function Tags(): ReactElement {
                 // var to shorten its look
                 const postsThisweek = dropThousand(tag.postsThisweek);
                 return (
-                  <FlexRowBox justifyContent="space-between" key={tag.id}>
-                    <Box>{tag.name}</Box>
-                    <Box>{`${postsThisweek}`}</Box>
-                  </FlexRowBox>
+                  <TagList
+                    explain={tag.explain}
+                    image={tag.image}
+                    name={tag.name}
+                    key={tag.id}
+                    numbers={`${postsThisweek} posts`}
+                  />
                 );
               })}
+              {loadingThisWeek && <TagListSkeleton />}
             </Box>
           </WhiteBox>
           <WhiteBox gridColumn={small ? "span 2" : "span 1"}>
@@ -137,12 +253,16 @@ function Tags(): ReactElement {
                 const { date, month } = getDate(tag.createdAt);
                 const mon = month.slice(0, 3);
                 return (
-                  <FlexRowBox justifyContent="space-between" key={tag.id}>
-                    <Box>{tag.name}</Box>
-                    <Box>{`${date} ${mon}`}</Box>
-                  </FlexRowBox>
+                  <TagList
+                    explain={tag.explain}
+                    image={tag.image}
+                    name={tag.name}
+                    key={tag.id}
+                    numbers={`${date} ${mon}`}
+                  />
                 );
               })}
+              {loadingRecentlyAdded && <TagListSkeleton />}
             </Box>
           </WhiteBox>
           <WhiteBox gridColumn={small ? "span 2" : "span 1"}>
@@ -158,12 +278,16 @@ function Tags(): ReactElement {
                 // var to shorten its look
                 const followCount = dropThousand(tag.followCount);
                 return (
-                  <FlexRowBox justifyContent="space-between" key={tag.id}>
-                    <Box>{tag.name}</Box>
-                    <Box>{`${followCount} followers`}</Box>
-                  </FlexRowBox>
+                  <TagList
+                    explain={tag.explain}
+                    image={tag.image}
+                    name={tag.name}
+                    key={tag.id}
+                    numbers={`${followCount} followers`}
+                  />
                 );
               })}
+              {loadingAllTime && <TagListSkeleton />}
             </Box>
           </WhiteBox>
           <WhiteBox gridColumn={small ? "span 2" : "span 1"}>

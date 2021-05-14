@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation } from "react-router";
 import { meVar, setToken } from "../Apollo/localState";
@@ -10,17 +10,21 @@ type FormInputs = {
   username: string;
 };
 type State = {
-  signup: boolean;
+  signup?: boolean;
 };
 function Auth(): ReactElement {
   const { state } = useLocation<State>();
   const [loginMutation] = useLoginMutation();
   const [signUp] = useSignUpMutation();
+  const [isSignUp] = useState(
+    state?.signup !== undefined ? state.signup : false
+  );
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<FormInputs>({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -39,6 +43,10 @@ function Auth(): ReactElement {
           meVar(data.login.user);
         }
         if (data?.login.errors) {
+          console.log(data?.login.errors);
+          setError(data.login.errors.field as any, {
+            message: data.login.errors.message,
+          });
           // throw an error
           // setError(data?.login.errors?.field, {
           //   message: data?.login.errors?.message,
@@ -63,15 +71,13 @@ function Auth(): ReactElement {
   };
   return (
     <div>
-      <form onSubmit={handleSubmit(state.signup ? onSignUp : onLogin)}>
-        {state.signup && (
-          <input {...register("username", { required: true })} />
-        )}
-        {errors.username && <p>username is required</p>}
+      <form onSubmit={handleSubmit(isSignUp ? onSignUp : onLogin)}>
+        {isSignUp && <input {...register("username", { required: true })} />}
+        {errors.username && <p>{errors.username.message}</p>}
         <input {...register("email", { required: true })} />
-        {errors.email && <p>email is required</p>}
+        {errors.email && <p>{errors.email.message}</p>}
         <input {...register("password", { required: true })} />
-        {errors.password && <p>password is required</p>}
+        {errors.password && <p>{errors.password.message}</p>}
         <button>submit</button>
       </form>
     </div>

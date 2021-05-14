@@ -20,7 +20,7 @@ const Container = styled(Box)(({ theme }) => ({
 
 function About(): ReactElement {
   return (
-    <LayOut>
+    <LayOut column={1}>
       <Container>
         <WhiteBox>About</WhiteBox>
       </Container>

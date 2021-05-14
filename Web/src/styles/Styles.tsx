@@ -50,12 +50,20 @@ interface BoldTextProps extends TypographyProps {
   fontSize: string | number;
   textColor?: string;
   letterSpacing?: string;
+  textTransform?:
+    | "none"
+    | "capitalize"
+    | "uppercase"
+    | "lowercase"
+    | "full-width"
+    | "full-size-kana";
 }
 
 export const BoldText = ({
   fontSize = "24px",
   textColor,
   letterSpacing,
+  textTransform,
   ...props
 }: BoldTextProps) => {
   const theme = useTheme();
@@ -67,6 +75,7 @@ export const BoldText = ({
         fontWeight: 600,
         fontSize: fontSize,
         letterSpacing: letterSpacing ? letterSpacing : "0",
+        textTransform: textTransform ? textTransform : "none",
       }}
     >
       {props.children}
@@ -106,26 +115,3 @@ export const LightText = ({
     </Typography>
   );
 };
-export const GridLeftItem = styled(Box)(({ theme }) => ({
-  paddingTop: "10px",
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    gridColumnEnd: "span 9",
-  },
-  [theme.breakpoints.up("md")]: {
-    gridColumnEnd: "span 6",
-  },
-  [theme.breakpoints.up("lg")]: {
-    gridColumnEnd: "span 5",
-  },
-}));
-export const GridRightItem = styled(Box)(({ theme }) => ({
-  paddingTop: "10px",
-
-  [theme.breakpoints.up("md")]: {
-    gridColumnEnd: "span 4",
-  },
-  [theme.breakpoints.up("lg")]: {
-    gridColumnEnd: "span 2",
-  },
-}));

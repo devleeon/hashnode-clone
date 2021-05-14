@@ -1,7 +1,6 @@
 query PopularThisWeek {
   findManyTags(orderBy: { postsThisweek: desc }, take: 10) {
-    id
-    name
     postsThisweek
+    ...RegularTag
   }
 }

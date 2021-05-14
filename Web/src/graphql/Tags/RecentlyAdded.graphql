@@ -4,8 +4,7 @@ query RecentlyAdded($sixMonthAgo: DateTime) {
     take: 10
     where: { createdAt: { gte: $sixMonthAgo } }
   ) {
-    id
-    name
     createdAt
+    ...RegularTag
   }
 }

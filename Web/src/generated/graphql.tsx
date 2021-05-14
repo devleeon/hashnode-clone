@@ -1866,6 +1866,7 @@ export type Tags = {
   followCount: Scalars['Int'];
   postsThisweek: Scalars['Int'];
   explain: Scalars['String'];
+  image: Scalars['String'];
   followers: Array<User>;
   posts: Array<Post>;
 };
@@ -1905,6 +1906,7 @@ export type TagsCountAggregate = {
   followCount: Scalars['Int'];
   postsThisweek: Scalars['Int'];
   explain: Scalars['Int'];
+  image: Scalars['Int'];
   _all: Scalars['Int'];
 };
 
@@ -1916,6 +1918,7 @@ export type TagsCreateInput = {
   followCount?: Maybe<Scalars['Int']>;
   postsThisweek?: Maybe<Scalars['Int']>;
   explain?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
   followers?: Maybe<UserCreateNestedManyWithoutFollowingTagsInput>;
   posts?: Maybe<PostCreateNestedManyWithoutTagsInput>;
 };
@@ -1928,6 +1931,7 @@ export type TagsCreateManyInput = {
   followCount?: Maybe<Scalars['Int']>;
   postsThisweek?: Maybe<Scalars['Int']>;
   explain?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type TagsCreateNestedManyWithoutFollowersInput = {
@@ -1960,6 +1964,7 @@ export type TagsCreateWithoutFollowersInput = {
   followCount?: Maybe<Scalars['Int']>;
   postsThisweek?: Maybe<Scalars['Int']>;
   explain?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
   posts?: Maybe<PostCreateNestedManyWithoutTagsInput>;
 };
 
@@ -1971,6 +1976,7 @@ export type TagsCreateWithoutPostsInput = {
   followCount?: Maybe<Scalars['Int']>;
   postsThisweek?: Maybe<Scalars['Int']>;
   explain?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
   followers?: Maybe<UserCreateNestedManyWithoutFollowingTagsInput>;
 };
 
@@ -1983,6 +1989,7 @@ export type TagsGroupBy = {
   followCount: Scalars['Int'];
   postsThisweek: Scalars['Int'];
   explain: Scalars['String'];
+  image: Scalars['String'];
   count?: Maybe<TagsCountAggregate>;
   avg?: Maybe<TagsAvgAggregate>;
   sum?: Maybe<TagsSumAggregate>;
@@ -2005,6 +2012,7 @@ export type TagsMaxAggregate = {
   followCount?: Maybe<Scalars['Int']>;
   postsThisweek?: Maybe<Scalars['Int']>;
   explain?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type TagsMinAggregate = {
@@ -2016,6 +2024,7 @@ export type TagsMinAggregate = {
   followCount?: Maybe<Scalars['Int']>;
   postsThisweek?: Maybe<Scalars['Int']>;
   explain?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type TagsOrderByInput = {
@@ -2026,6 +2035,7 @@ export type TagsOrderByInput = {
   followCount?: Maybe<SortOrder>;
   postsThisweek?: Maybe<SortOrder>;
   explain?: Maybe<SortOrder>;
+  image?: Maybe<SortOrder>;
 };
 
 export enum TagsScalarFieldEnum {
@@ -2035,7 +2045,8 @@ export enum TagsScalarFieldEnum {
   Name = 'name',
   FollowCount = 'followCount',
   PostsThisweek = 'postsThisweek',
-  Explain = 'explain'
+  Explain = 'explain',
+  Image = 'image'
 }
 
 export type TagsScalarWhereInput = {
@@ -2049,6 +2060,7 @@ export type TagsScalarWhereInput = {
   followCount?: Maybe<IntFilter>;
   postsThisweek?: Maybe<IntFilter>;
   explain?: Maybe<StringFilter>;
+  image?: Maybe<StringFilter>;
 };
 
 export type TagsScalarWhereWithAggregatesInput = {
@@ -2062,6 +2074,7 @@ export type TagsScalarWhereWithAggregatesInput = {
   followCount?: Maybe<IntWithAggregatesFilter>;
   postsThisweek?: Maybe<IntWithAggregatesFilter>;
   explain?: Maybe<StringWithAggregatesFilter>;
+  image?: Maybe<StringWithAggregatesFilter>;
 };
 
 export type TagsSumAggregate = {
@@ -2078,6 +2091,7 @@ export type TagsUpdateInput = {
   followCount?: Maybe<IntFieldUpdateOperationsInput>;
   postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
   explain?: Maybe<StringFieldUpdateOperationsInput>;
+  image?: Maybe<StringFieldUpdateOperationsInput>;
   followers?: Maybe<UserUpdateManyWithoutFollowingTagsInput>;
   posts?: Maybe<PostUpdateManyWithoutTagsInput>;
 };
@@ -2090,6 +2104,7 @@ export type TagsUpdateManyMutationInput = {
   followCount?: Maybe<IntFieldUpdateOperationsInput>;
   postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
   explain?: Maybe<StringFieldUpdateOperationsInput>;
+  image?: Maybe<StringFieldUpdateOperationsInput>;
 };
 
 export type TagsUpdateManyWithWhereWithoutFollowersInput = {
@@ -2146,6 +2161,7 @@ export type TagsUpdateWithoutFollowersInput = {
   followCount?: Maybe<IntFieldUpdateOperationsInput>;
   postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
   explain?: Maybe<StringFieldUpdateOperationsInput>;
+  image?: Maybe<StringFieldUpdateOperationsInput>;
   posts?: Maybe<PostUpdateManyWithoutTagsInput>;
 };
 
@@ -2157,6 +2173,7 @@ export type TagsUpdateWithoutPostsInput = {
   followCount?: Maybe<IntFieldUpdateOperationsInput>;
   postsThisweek?: Maybe<IntFieldUpdateOperationsInput>;
   explain?: Maybe<StringFieldUpdateOperationsInput>;
+  image?: Maybe<StringFieldUpdateOperationsInput>;
   followers?: Maybe<UserUpdateManyWithoutFollowingTagsInput>;
 };
 
@@ -2185,6 +2202,7 @@ export type TagsWhereInput = {
   posts?: Maybe<PostListRelationFilter>;
   postsThisweek?: Maybe<IntFilter>;
   explain?: Maybe<StringFilter>;
+  image?: Maybe<StringFilter>;
 };
 
 export type TagsWhereUniqueInput = {
@@ -2817,6 +2835,11 @@ export type RegularPostFragment = (
   & Pick<Post, 'id' | 'title' | 'content' | 'authorId' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'shortenedText' | 'commentsCount' | 'isBookmarked' | 'photo' | 'isLiked'>
 );
 
+export type RegularTagFragment = (
+  { __typename?: 'Tags' }
+  & Pick<Tags, 'id' | 'name' | 'image' | 'explain'>
+);
+
 export type RegularUserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'username' | 'email' | 'avatar'>
@@ -2867,7 +2890,8 @@ export type AllTimePopularQuery = (
   { __typename?: 'Query' }
   & { findManyTags: Array<(
     { __typename?: 'Tags' }
-    & Pick<Tags, 'id' | 'name' | 'followCount'>
+    & Pick<Tags, 'followCount'>
+    & RegularTagFragment
   )> }
 );
 
@@ -2878,7 +2902,8 @@ export type PopularThisWeekQuery = (
   { __typename?: 'Query' }
   & { findManyTags: Array<(
     { __typename?: 'Tags' }
-    & Pick<Tags, 'id' | 'name' | 'postsThisweek'>
+    & Pick<Tags, 'postsThisweek'>
+    & RegularTagFragment
   )> }
 );
 
@@ -2891,7 +2916,8 @@ export type RecentlyAddedQuery = (
   { __typename?: 'Query' }
   & { findManyTags: Array<(
     { __typename?: 'Tags' }
-    & Pick<Tags, 'id' | 'name' | 'createdAt'>
+    & Pick<Tags, 'createdAt'>
+    & RegularTagFragment
   )> }
 );
 
@@ -2994,6 +3020,14 @@ export const RegularPostFragmentDoc = gql`
   isBookmarked
   photo
   isLiked
+}
+    `;
+export const RegularTagFragmentDoc = gql`
+    fragment RegularTag on Tags {
+  id
+  name
+  image
+  explain
 }
     `;
 export const RegularUserFragmentDoc = gql`
@@ -3187,12 +3221,11 @@ export type TopArticlesQueryResult = Apollo.QueryResult<TopArticlesQuery, TopArt
 export const AllTimePopularDocument = gql`
     query AllTimePopular {
   findManyTags(orderBy: {followCount: desc}, take: 10) {
-    id
-    name
     followCount
+    ...RegularTag
   }
 }
-    `;
+    ${RegularTagFragmentDoc}`;
 export type AllTimePopularComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<AllTimePopularQuery, AllTimePopularQueryVariables>, 'query'>;
 
     export const AllTimePopularComponent = (props: AllTimePopularComponentProps) => (
@@ -3229,12 +3262,11 @@ export type AllTimePopularQueryResult = Apollo.QueryResult<AllTimePopularQuery, 
 export const PopularThisWeekDocument = gql`
     query PopularThisWeek {
   findManyTags(orderBy: {postsThisweek: desc}, take: 10) {
-    id
-    name
     postsThisweek
+    ...RegularTag
   }
 }
-    `;
+    ${RegularTagFragmentDoc}`;
 export type PopularThisWeekComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<PopularThisWeekQuery, PopularThisWeekQueryVariables>, 'query'>;
 
     export const PopularThisWeekComponent = (props: PopularThisWeekComponentProps) => (
@@ -3275,12 +3307,11 @@ export const RecentlyAddedDocument = gql`
     take: 10
     where: {createdAt: {gte: $sixMonthAgo}}
   ) {
-    id
-    name
     createdAt
+    ...RegularTag
   }
 }
-    `;
+    ${RegularTagFragmentDoc}`;
 export type RecentlyAddedComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<RecentlyAddedQuery, RecentlyAddedQueryVariables>, 'query'>;
 
     export const RecentlyAddedComponent = (props: RecentlyAddedComponentProps) => (

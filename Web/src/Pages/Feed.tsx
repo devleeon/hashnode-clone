@@ -1,21 +1,19 @@
-import { Theme, useMediaQuery } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 import FeedHeader from "../Components/Feed/FeedHeader";
 import LayOut from "../Components/LayOut";
 import Posts from "../Components/Post/Posts";
 import SkeletonContent from "../Components/Post/SkeletonContent";
-import RightSideBar from "../Components/RightSideBar";
 import {
   PostOrderByInput,
   SortOrder,
   usePostsQuery,
 } from "../generated/graphql";
 import useScrollEnd from "../Hooks/useScrollEnd";
-import { GridLeftItem, GridRightItem, WhiteBox } from "../styles/Styles";
+import { WhiteBox } from "../styles/Styles";
 
 function Feed(): ReactElement {
   const DEFAULT_NUMBER_OF_POSTS = 5;
-  const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+  const arr = new Array(DEFAULT_NUMBER_OF_POSTS).fill("");
   const [offset, setOffset] = useState(DEFAULT_NUMBER_OF_POSTS);
   const [hasMore, setHasMore] = useState(true);
   const [loaded, setLoaded] = useState(true);
@@ -54,37 +52,25 @@ function Feed(): ReactElement {
     fetchMorePosts();
   }, [scrollEnd, loading, loaded]);
   return (
-    <LayOut sticky={true}>
+    <LayOut column={2} sticky={true}>
       <>
-        <GridLeftItem>
-          <FeedHeader />
-          <WhiteBox>
-            {data?.posts.map((post, i) => {
-              return <Posts post={post} key={i} />;
-            })}
-            {(loading || !loaded) && (
-              <>
-                <SkeletonContent />
-                <SkeletonContent />
-                <SkeletonContent />
-              </>
-            )}
+        <FeedHeader />
+        <WhiteBox marginBottom="80px">
+          {data?.posts.map((post, i) => {
+            return <Posts post={post} key={i} />;
+          })}
+          {(loading || !loaded) &&
+            arr.map((_, i) => <SkeletonContent key={i} />)}
+        </WhiteBox>
+        {!hasMore && (
+          <WhiteBox
+            marginTop="24px"
+            padding="20px"
+            marginBottom="80px"
+            textAlign="center"
+          >
+            You've reached the end
           </WhiteBox>
-          {!hasMore && (
-            <WhiteBox
-              marginTop="24px"
-              padding="20px"
-              marginBottom="80px"
-              textAlign="center"
-            >
-              You've reached the end
-            </WhiteBox>
-          )}
-        </GridLeftItem>
-        {medium && (
-          <GridRightItem>
-            <RightSideBar />
-          </GridRightItem>
         )}
       </>
     </LayOut>
