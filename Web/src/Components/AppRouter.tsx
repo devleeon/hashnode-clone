@@ -37,7 +37,7 @@ const LoggedInPage = () => {
 
       <Route path="/explore" component={Explore} />
       <Route path="/tags" component={Tags} />
-      <Route path="/t/:tagname" component={TagHome} />
+      <Route path="/t/:tagName" component={TagHome} />
 
       <Route path="/bookmarks" component={Bookmark} />
       <Route path="/search" component={Search} />

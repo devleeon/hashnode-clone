@@ -3,4 +3,8 @@ fragment RegularTag on Tags {
   name
   image
   explain
+  createdAt
+  followCount
+  postsCount
+  amIFollowing
 }

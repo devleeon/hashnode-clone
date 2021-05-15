@@ -51,6 +51,20 @@ export const cache: InMemoryCache = new InMemoryCache({
         findManyTags: {
           keyArgs: ["orderBy"],
         },
+        tagPosts: {
+          keyArgs: ["tagName"],
+          merge(existing, incoming, { args: { offset } }: any) {
+            const merged = existing !== undefined ? existing.slice(0) : [];
+            let offsetVar = offset !== undefined ? offset : 0;
+            for (let i = 0; i < incoming.length; ++i) {
+              merged[offsetVar + i] = incoming[i];
+            }
+            return merged;
+          },
+          read(existing) {
+            return existing;
+          },
+        },
       },
     },
   },

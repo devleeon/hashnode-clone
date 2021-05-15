@@ -1,0 +1,5 @@
+query findUniqueTag($tagName: String!) {
+  findUniqueTags(where: { name: $tagName }) {
+    ...RegularTag
+  }
+}

@@ -37,6 +37,7 @@ function TopArticles(): ReactElement {
         }
       });
     };
+
     refetchPosts();
   }, [period]);
   return (

@@ -47,7 +47,7 @@ export const FlexColumnBox = styled(Box)({
   flexDirection: "column",
 });
 interface BoldTextProps extends TypographyProps {
-  fontSize: string | number;
+  fontSize?: string | number;
   textColor?: string;
   letterSpacing?: string;
   textTransform?:
@@ -57,6 +57,7 @@ interface BoldTextProps extends TypographyProps {
     | "lowercase"
     | "full-width"
     | "full-size-kana";
+  marginRight?: string;
 }
 
 export const BoldText = ({
@@ -64,6 +65,7 @@ export const BoldText = ({
   textColor,
   letterSpacing,
   textTransform,
+  marginRight,
   ...props
 }: BoldTextProps) => {
   const theme = useTheme();
@@ -76,6 +78,7 @@ export const BoldText = ({
         fontSize: fontSize,
         letterSpacing: letterSpacing ? letterSpacing : "0",
         textTransform: textTransform ? textTransform : "none",
+        marginRight: marginRight ? marginRight : "0px",
       }}
     >
       {props.children}

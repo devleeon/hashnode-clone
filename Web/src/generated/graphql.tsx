@@ -747,10 +747,10 @@ export type Mutation = {
   deleteManyTags: AffectedRowsOutput;
   updateManyTags: AffectedRowsOutput;
   upsertTags: Tags;
-  signUp: UserResponse;
-  login: UserResponse;
   unBookmark: Scalars['Boolean'];
   toggleLike: Scalars['Boolean'];
+  signUp: UserResponse;
+  login: UserResponse;
 };
 
 
@@ -874,6 +874,16 @@ export type MutationUpsertTagsArgs = {
 };
 
 
+export type MutationUnBookmarkArgs = {
+  postId: Scalars['String'];
+};
+
+
+export type MutationToggleLikeArgs = {
+  postId: Scalars['String'];
+};
+
+
 export type MutationSignUpArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -884,16 +894,6 @@ export type MutationSignUpArgs = {
 export type MutationLoginArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
-};
-
-
-export type MutationUnBookmarkArgs = {
-  postId: Scalars['String'];
-};
-
-
-export type MutationToggleLikeArgs = {
-  postId: Scalars['String'];
 };
 
 export type NestedBoolFilter = {
@@ -1642,6 +1642,7 @@ export type Query = {
   findManyTags: Array<Tags>;
   aggregateTags: AggregateTags;
   groupByTags: Array<TagsGroupBy>;
+  tagPosts: Array<Post>;
   me?: Maybe<User>;
 };
 
@@ -1777,6 +1778,13 @@ export type QueryGroupByTagsArgs = {
   skip?: Maybe<Scalars['Int']>;
 };
 
+
+export type QueryTagPostsArgs = {
+  offset?: Maybe<Scalars['Float']>;
+  limit: Scalars['Float'];
+  tagName: Scalars['String'];
+};
+
 export enum QueryMode {
   Default = 'default',
   Insensitive = 'insensitive'
@@ -1869,6 +1877,8 @@ export type Tags = {
   image: Scalars['String'];
   followers: Array<User>;
   posts: Array<Post>;
+  postsCount: Scalars['Float'];
+  amIFollowing: Scalars['Boolean'];
 };
 
 
@@ -2837,7 +2847,7 @@ export type RegularPostFragment = (
 
 export type RegularTagFragment = (
   { __typename?: 'Tags' }
-  & Pick<Tags, 'id' | 'name' | 'image' | 'explain'>
+  & Pick<Tags, 'id' | 'name' | 'image' | 'explain' | 'createdAt' | 'followCount' | 'postsCount' | 'amIFollowing'>
 );
 
 export type RegularUserFragment = (
@@ -2855,6 +2865,21 @@ export type PostsQueryVariables = Exact<{
 export type PostsQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
+    { __typename?: 'Post' }
+    & RegularPostFragment
+  )> }
+);
+
+export type TagPostsQueryVariables = Exact<{
+  tagName: Scalars['String'];
+  limit: Scalars['Float'];
+  offset?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type TagPostsQuery = (
+  { __typename?: 'Query' }
+  & { tagPosts: Array<(
     { __typename?: 'Post' }
     & RegularPostFragment
   )> }
@@ -2891,6 +2916,23 @@ export type AllTimePopularQuery = (
   & { findManyTags: Array<(
     { __typename?: 'Tags' }
     & Pick<Tags, 'followCount'>
+    & RegularTagFragment
+  )> }
+);
+
+export type FindUniqueTagQueryVariables = Exact<{
+  tagName: Scalars['String'];
+}>;
+
+
+export type FindUniqueTagQuery = (
+  { __typename?: 'Query' }
+  & { findUniqueTags?: Maybe<(
+    { __typename?: 'Tags' }
+    & { posts: Array<(
+      { __typename?: 'Post' }
+      & RegularPostFragment
+    )> }
     & RegularTagFragment
   )> }
 );
@@ -3028,6 +3070,10 @@ export const RegularTagFragmentDoc = gql`
   name
   image
   explain
+  createdAt
+  followCount
+  postsCount
+  amIFollowing
 }
     `;
 export const RegularUserFragmentDoc = gql`
@@ -3136,6 +3182,49 @@ export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Post
 export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
 export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
 export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;
+export const TagPostsDocument = gql`
+    query tagPosts($tagName: String!, $limit: Float!, $offset: Float) {
+  tagPosts(tagName: $tagName, limit: $limit, offset: $offset) {
+    ...RegularPost
+  }
+}
+    ${RegularPostFragmentDoc}`;
+export type TagPostsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<TagPostsQuery, TagPostsQueryVariables>, 'query'> & ({ variables: TagPostsQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const TagPostsComponent = (props: TagPostsComponentProps) => (
+      <ApolloReactComponents.Query<TagPostsQuery, TagPostsQueryVariables> query={TagPostsDocument} {...props} />
+    );
+    
+
+/**
+ * __useTagPostsQuery__
+ *
+ * To run a query within a React component, call `useTagPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTagPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTagPostsQuery({
+ *   variables: {
+ *      tagName: // value for 'tagName'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useTagPostsQuery(baseOptions: Apollo.QueryHookOptions<TagPostsQuery, TagPostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TagPostsQuery, TagPostsQueryVariables>(TagPostsDocument, options);
+      }
+export function useTagPostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TagPostsQuery, TagPostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TagPostsQuery, TagPostsQueryVariables>(TagPostsDocument, options);
+        }
+export type TagPostsQueryHookResult = ReturnType<typeof useTagPostsQuery>;
+export type TagPostsLazyQueryHookResult = ReturnType<typeof useTagPostsLazyQuery>;
+export type TagPostsQueryResult = Apollo.QueryResult<TagPostsQuery, TagPostsQueryVariables>;
 export const ToggleLikeDocument = gql`
     mutation ToggleLike($postId: String!) {
   toggleLike(postId: $postId)
@@ -3259,6 +3348,51 @@ export function useAllTimePopularLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type AllTimePopularQueryHookResult = ReturnType<typeof useAllTimePopularQuery>;
 export type AllTimePopularLazyQueryHookResult = ReturnType<typeof useAllTimePopularLazyQuery>;
 export type AllTimePopularQueryResult = Apollo.QueryResult<AllTimePopularQuery, AllTimePopularQueryVariables>;
+export const FindUniqueTagDocument = gql`
+    query findUniqueTag($tagName: String!) {
+  findUniqueTags(where: {name: $tagName}) {
+    ...RegularTag
+    posts {
+      ...RegularPost
+    }
+  }
+}
+    ${RegularTagFragmentDoc}
+${RegularPostFragmentDoc}`;
+export type FindUniqueTagComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<FindUniqueTagQuery, FindUniqueTagQueryVariables>, 'query'> & ({ variables: FindUniqueTagQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const FindUniqueTagComponent = (props: FindUniqueTagComponentProps) => (
+      <ApolloReactComponents.Query<FindUniqueTagQuery, FindUniqueTagQueryVariables> query={FindUniqueTagDocument} {...props} />
+    );
+    
+
+/**
+ * __useFindUniqueTagQuery__
+ *
+ * To run a query within a React component, call `useFindUniqueTagQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUniqueTagQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUniqueTagQuery({
+ *   variables: {
+ *      tagName: // value for 'tagName'
+ *   },
+ * });
+ */
+export function useFindUniqueTagQuery(baseOptions: Apollo.QueryHookOptions<FindUniqueTagQuery, FindUniqueTagQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUniqueTagQuery, FindUniqueTagQueryVariables>(FindUniqueTagDocument, options);
+      }
+export function useFindUniqueTagLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUniqueTagQuery, FindUniqueTagQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUniqueTagQuery, FindUniqueTagQueryVariables>(FindUniqueTagDocument, options);
+        }
+export type FindUniqueTagQueryHookResult = ReturnType<typeof useFindUniqueTagQuery>;
+export type FindUniqueTagLazyQueryHookResult = ReturnType<typeof useFindUniqueTagLazyQuery>;
+export type FindUniqueTagQueryResult = Apollo.QueryResult<FindUniqueTagQuery, FindUniqueTagQueryVariables>;
 export const PopularThisWeekDocument = gql`
     query PopularThisWeek {
   findManyTags(orderBy: {postsThisweek: desc}, take: 10) {

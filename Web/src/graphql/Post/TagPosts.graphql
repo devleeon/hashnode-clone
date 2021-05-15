@@ -1,0 +1,5 @@
+query tagPosts($tagName: String!, $limit: Float!, $offset: Float) {
+  tagPosts(tagName: $tagName, limit: $limit, offset: $offset) {
+    ...RegularPost
+  }
+}
