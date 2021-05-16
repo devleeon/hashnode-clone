@@ -22,9 +22,12 @@ export const cache: InMemoryCache = new InMemoryCache({
     Query: {
       fields: {
         posts: {
-          keyArgs: ["orderBy"],
+          keyArgs: ["orderBy", "createdAt"],
           merge(existing, incoming, { args }: any) {
             const merged = existing !== undefined ? existing.slice(0) : [];
+            if (!args.skip) {
+              return incoming;
+            }
             let offset = args.skip !== undefined ? args.skip : 0;
             for (let i = 0; i < incoming.length; ++i) {
               merged[offset + i] = incoming[i];
@@ -38,6 +41,9 @@ export const cache: InMemoryCache = new InMemoryCache({
         bookmarks: {
           merge(existing, incoming, { args: { skip } }: any) {
             const merged = existing !== undefined ? existing.slice(0) : [];
+            if (!skip) {
+              return incoming;
+            }
             let offset = skip !== undefined ? skip : 0;
             for (let i = 0; i < incoming.length; ++i) {
               merged[offset + i] = incoming[i];

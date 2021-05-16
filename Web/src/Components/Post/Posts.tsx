@@ -25,6 +25,7 @@ function Posts({ post }: Props): ReactElement {
         authorname={post.authorname}
       />
       <PostItem
+        postId={post.id}
         photo={post.photo}
         content={post.content}
         shortenedText={post.shortenedText}

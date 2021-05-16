@@ -70,8 +70,9 @@ interface Props {
   children: ReactChild;
   sticky?: boolean;
   column: 1 | 2;
+  search?: boolean;
 }
-function LayOut({ children, sticky, column }: Props): ReactElement {
+function LayOut({ children, sticky, column, search }: Props): ReactElement {
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
   if (column === 1) {
@@ -113,7 +114,7 @@ function LayOut({ children, sticky, column }: Props): ReactElement {
             <GridMidItem>{children}</GridMidItem>
             {medium && (
               <GridRightItem>
-                <RightSideBar />
+                <RightSideBar search={search} />
               </GridRightItem>
             )}
           </GridContainer>

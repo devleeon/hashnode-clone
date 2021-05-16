@@ -73,6 +73,7 @@ export const BoldText = ({
     <Typography
       {...props}
       style={{
+        display: "flex",
         color: textColor ? textColor : theme.palette.secondary.dark,
         fontWeight: 600,
         fontSize: fontSize,
@@ -94,7 +95,7 @@ interface LightTextProps extends TypographyProps {
 }
 
 export const LightText = ({
-  fontSize = "16px",
+  fontSize,
   children,
   letterSpacing,
   textColor,
@@ -109,7 +110,7 @@ export const LightText = ({
       style={{
         color: textColor ? textColor : theme.palette.secondary.dark,
         fontWeight: fontWeight ? fontWeight : 500,
-        fontSize: fontSize,
+        fontSize: fontSize ? fontSize : "inherit",
         letterSpacing: letterSpacing ? letterSpacing : "0",
         margin: margin,
       }}

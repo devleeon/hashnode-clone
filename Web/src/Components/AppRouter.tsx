@@ -5,9 +5,11 @@ import { isLoggedInVar } from "../Apollo/localState";
 import About from "../Pages/About";
 import Auth from "../Pages/Auth";
 import Bookmark from "../Pages/Bookmark";
+import CreatePost from "../Pages/CreatePost";
 import Explore from "../Pages/Explore";
 import Feed from "../Pages/Feed";
 import Home from "../Pages/Home";
+import PostPage from "../Pages/PostPage";
 import Search from "../Pages/Search";
 import TagHome from "../Pages/TagHome";
 import Tags from "../Pages/Tags";
@@ -38,7 +40,8 @@ const LoggedInPage = () => {
       <Route path="/explore" component={Explore} />
       <Route path="/tags" component={Tags} />
       <Route path="/t/:tagName" component={TagHome} />
-
+      <Route exact path="/p/create" component={CreatePost} />
+      <Route path="/p/:postId" component={PostPage} />
       <Route path="/bookmarks" component={Bookmark} />
       <Route path="/search" component={Search} />
       <Route path="/about" component={About} />

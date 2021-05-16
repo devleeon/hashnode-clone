@@ -31,7 +31,7 @@ const Buttons = styled(Box)({
 
 function Search(): ReactElement {
   return (
-    <LayOut column={2}>
+    <LayOut column={2} search>
       <WhiteBox padding="0px">
         <>
           <SearchInput type="text" placeholder="Search Cashnode" />

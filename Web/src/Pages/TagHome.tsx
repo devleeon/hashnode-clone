@@ -1,9 +1,10 @@
-import { Avatar, Button } from "@material-ui/core";
+import { Avatar, Box, Button, Divider } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import LayOut from "../Components/LayOut";
+import LayOut, { GridRightItem, GridMidItem } from "../Components/LayOut";
 import Posts from "../Components/Post/Posts";
 import SkeletonContent from "../Components/Post/SkeletonContent";
+import RightSideFooter from "../Components/RightSideBar/RightSideFooter";
 import { useFindUniqueTagQuery, useTagPostsQuery } from "../generated/graphql";
 import useScrollEnd from "../Hooks/useScrollEnd";
 import {
@@ -64,70 +65,86 @@ function TagHome({}: Props): ReactElement {
     const posts = dropThousand(data.findUniqueTags!.postsCount);
 
     return (
-      <LayOut sticky={true} column={2}>
+      <LayOut sticky={true} column={1}>
         <>
-          <WhiteBox marginBottom="8px" padding="32px 20px">
-            <FlexColumnBox alignItems="center">
-              <Avatar
-                variant="square"
-                style={{ borderRadius: "5px", width: "94px", height: "94px" }}
-                src={data?.findUniqueTags?.image}
-              />
-              <BoldText fontSize="36px" textColor="black">
-                {`#${data?.findUniqueTags?.name}`}
-              </BoldText>
-              <FlexRowBox>
-                <Button>rss</Button>
-                <Button>
-                  {data!.findUniqueTags!.amIFollowing ? "following" : "follow"}
-                </Button>
-              </FlexRowBox>
-              <FlexRowBox>
-                <FlexRowBox marginRight="16px">
-                  <BoldText fontSize="16px" marginRight="4px">
-                    {followers}
-                  </BoldText>
-                  <LightText>
-                    Follower{data!.findUniqueTags!.followCount > 1 ? "s" : ""}
-                  </LightText>
+          <GridMidItem>
+            <WhiteBox marginBottom="8px" padding="32px 20px">
+              <FlexColumnBox alignItems="center">
+                <Avatar
+                  variant="square"
+                  style={{ borderRadius: "5px", width: "94px", height: "94px" }}
+                  src={data?.findUniqueTags?.image}
+                />
+                <BoldText fontSize="36px" textColor="black">
+                  {`#${data?.findUniqueTags?.name}`}
+                </BoldText>
+                <FlexRowBox>
+                  <Button>rss</Button>
+                  <Button>
+                    {data!.findUniqueTags!.amIFollowing
+                      ? "following"
+                      : "follow"}
+                  </Button>
                 </FlexRowBox>
                 <FlexRowBox>
-                  <BoldText fontSize="16px" marginRight="4px">
-                    {posts}
-                  </BoldText>
-                  <LightText>
-                    Post{data!.findUniqueTags!.postsCount > 1 ? "s" : ""}
-                  </LightText>
+                  <FlexRowBox marginRight="16px">
+                    <BoldText fontSize="16px" marginRight="4px">
+                      {followers}
+                    </BoldText>
+                    <LightText>
+                      Follower{data!.findUniqueTags!.followCount > 1 ? "s" : ""}
+                    </LightText>
+                  </FlexRowBox>
+                  <FlexRowBox>
+                    <BoldText fontSize="16px" marginRight="4px">
+                      {posts}
+                    </BoldText>
+                    <LightText>
+                      Post{data!.findUniqueTags!.postsCount > 1 ? "s" : ""}
+                    </LightText>
+                  </FlexRowBox>
                 </FlexRowBox>
-              </FlexRowBox>
-            </FlexColumnBox>
-          </WhiteBox>
-          {tagPosts && tagPosts?.tagPosts.length > 0 ? (
-            <WhiteBox marginBottom="80px">
-              {tagPosts?.tagPosts.map((post, i) => {
-                return <Posts post={post} key={i} />;
-              })}
-              {(loading || !loaded) &&
-                arr.map((_, i) => <SkeletonContent key={i} />)}
-            </WhiteBox>
-          ) : (
-            <WhiteBox padding="40px">
-              <FlexColumnBox
-                textAlign="center"
-                alignItems="center"
-                fontWeight="600"
-                color="primary.main"
-                fontSize="24px"
-              >
-                There is no post
-                <br />
-                Let's create one
-                <BlueButton style={{ marginTop: "20px" }}>
-                  Create a post
-                </BlueButton>
               </FlexColumnBox>
             </WhiteBox>
-          )}
+            {tagPosts && tagPosts?.tagPosts.length > 0 ? (
+              <WhiteBox marginBottom="80px">
+                {tagPosts?.tagPosts.map((post, i) => {
+                  return <Posts post={post} key={i} />;
+                })}
+                {(loading || !loaded) &&
+                  arr.map((_, i) => <SkeletonContent key={i} />)}
+              </WhiteBox>
+            ) : (
+              <WhiteBox padding="40px">
+                <FlexColumnBox
+                  textAlign="center"
+                  alignItems="center"
+                  fontWeight="600"
+                  color="primary.main"
+                  fontSize="24px"
+                >
+                  There is no post
+                  <br />
+                  Let's create one
+                  <BlueButton style={{ marginTop: "20px" }}>
+                    Create a post
+                  </BlueButton>
+                </FlexColumnBox>
+              </WhiteBox>
+            )}
+          </GridMidItem>
+          <GridRightItem>
+            <WhiteBox marginBottom="8px">
+              <Box padding="20px">
+                <BoldText>About</BoldText>
+              </Box>
+              <Divider orientation="horizontal" />
+              <Box padding="20px">
+                <LightText>{data.findUniqueTags?.explain}</LightText>
+              </Box>
+            </WhiteBox>
+            <RightSideFooter />
+          </GridRightItem>
         </>
       </LayOut>
     );

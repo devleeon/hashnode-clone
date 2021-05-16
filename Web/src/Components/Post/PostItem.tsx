@@ -1,5 +1,6 @@
 import { Box, styled, Theme, useMediaQuery, useTheme } from "@material-ui/core";
 import React, { ReactElement } from "react";
+import { useHistory } from "react-router";
 import { Maybe, Scalars } from "../../generated/graphql";
 import { BoldText, FlexColumnBox, LightText } from "../../styles/Styles";
 
@@ -11,6 +12,7 @@ const TextImage = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: { flexDirection: "column" },
   width: "100%",
   padding: "20px 0",
+  cursor: "pointer",
 }));
 
 interface Props {
@@ -18,18 +20,24 @@ interface Props {
   content: Scalars["String"];
   shortenedText?: Maybe<Scalars["String"]>;
   photo?: Maybe<Scalars["String"]>;
+  postId: string;
 }
 function PostItem({
   photo,
   title,
   content,
   shortenedText,
+  postId,
 }: Props): ReactElement {
   const theme = useTheme();
   const medium = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
+  const history = useHistory();
 
+  const onClickHandler = () => {
+    history.push(`/p/${postId}`);
+  };
   return (
-    <TextImage>
+    <TextImage onClick={onClickHandler}>
       <FlexColumnBox
         {...(!medium && photo && { maxWidth: "65%" })}
         width="100%"

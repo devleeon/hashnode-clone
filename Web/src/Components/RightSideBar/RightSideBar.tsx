@@ -2,6 +2,7 @@ import { Box, styled } from "@material-ui/core";
 import { LineStyleOutlined, SearchOutlined } from "@material-ui/icons";
 import React, { ReactElement } from "react";
 import { WhiteBox } from "../../styles/Styles";
+import RightSideFooter from "./RightSideFooter";
 import TopArticles from "./TopArticles";
 
 const TextInput = styled("input")(({ theme }) => ({
@@ -25,38 +26,45 @@ const TextInput = styled("input")(({ theme }) => ({
   },
 }));
 
-function RightSideBar(): ReactElement {
+interface Props {
+  search?: boolean;
+}
+
+function RightSideBar({ search }: Props): ReactElement {
   return (
     <>
-      <WhiteBox marginBottom="8px" position="relative">
-        <Box
-          position="absolute"
-          zIndex={8}
-          display="flex"
-          padding="20px"
-          left={0}
-          top={0}
-        >
-          <SearchOutlined />
-        </Box>
-        <TextInput type="text" placeholder="Search Cashnode" />
-        <Box
-          position="absolute"
-          zIndex={8}
-          display="flex"
-          padding="20px"
-          right={0}
-          top={0}
-        >
-          <LineStyleOutlined />
-        </Box>
-      </WhiteBox>
+      {!search && (
+        <WhiteBox marginBottom="8px" position="relative">
+          <Box
+            position="absolute"
+            zIndex={8}
+            display="flex"
+            padding="20px"
+            left={0}
+            top={0}
+          >
+            <SearchOutlined />
+          </Box>
+          <TextInput type="text" placeholder="Search Cashnode" />
+          <Box
+            position="absolute"
+            zIndex={8}
+            display="flex"
+            padding="20px"
+            right={0}
+            top={0}
+          >
+            <LineStyleOutlined />
+          </Box>
+        </WhiteBox>
+      )}
+
       <WhiteBox>
         <TopArticles />
       </WhiteBox>
       <Box paddingTop="8px" position="sticky" top={0}>
         <WhiteBox marginBottom="8px">tranding blogs</WhiteBox>
-        <WhiteBox marginBottom="8px">footer</WhiteBox>
+        <RightSideFooter />
       </Box>
     </>
   );
