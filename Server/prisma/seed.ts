@@ -12,7 +12,7 @@ async function main() {
         createdAt: faker.date.past(),
         postsThisweek: Math.floor(Math.random() * 300),
         explain: faker.lorem.sentences(),
-        image: faker.image.technics(),
+        image: faker.image.image(),
       },
       create: {
         name: tagName,
@@ -20,9 +20,11 @@ async function main() {
         createdAt: faker.date.past(),
         postsThisweek: Math.floor(Math.random() * 300),
         explain: faker.lorem.sentences(),
-        image: faker.image.technics(),
+        image: faker.image.image(),
       },
     });
+  }
+  for (let i = 0; i < 60; i++) {
     let userEmail = faker.internet.email();
     let user = await prisma.user.upsert({
       where: {
@@ -32,12 +34,16 @@ async function main() {
         username: faker.name.findName(),
         password: faker.random.word(),
         avatar: faker.image.avatar(),
+        monthlyScore: Math.ceil(Math.random() * 4000),
+        weeklyScore: Math.ceil(Math.random() * 1000),
       },
       create: {
         email: userEmail,
         username: faker.name.findName(),
         password: faker.random.word(),
         avatar: faker.image.avatar(),
+        monthlyScore: Math.ceil(Math.random() * 4000),
+        weeklyScore: Math.ceil(Math.random() * 1000),
       },
     });
     for (let j = 0; j < Math.ceil(Math.random() * 5); j++) {
@@ -45,7 +51,7 @@ async function main() {
         data: {
           text: faker.lorem.paragraphs(),
           createdAt: faker.date.recent(180),
-          title: faker.lorem.sentences(),
+          title: faker.lorem.words(),
           authorId: user.id,
           photo: faker.image.image(),
           likesCount: Math.floor(Math.random() * 1000),

@@ -49,6 +49,15 @@ export type AggregateTags = {
   max?: Maybe<TagsMaxAggregate>;
 };
 
+export type AggregateUser = {
+  __typename?: 'AggregateUser';
+  count?: Maybe<UserCountAggregate>;
+  avg?: Maybe<UserAvgAggregate>;
+  sum?: Maybe<UserSumAggregate>;
+  min?: Maybe<UserMinAggregate>;
+  max?: Maybe<UserMaxAggregate>;
+};
+
 export type Bookmark = {
   __typename?: 'Bookmark';
   id: Scalars['String'];
@@ -324,6 +333,14 @@ export type BoolWithAggregatesFilter = {
   max?: Maybe<NestedBoolFilter>;
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  id: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
+  userId: Scalars['String'];
+  postId: Scalars['String'];
+};
+
 export type CommentCreateManyPostInput = {
   id?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -385,6 +402,20 @@ export type CommentListRelationFilter = {
   some?: Maybe<CommentWhereInput>;
   none?: Maybe<CommentWhereInput>;
 };
+
+export type CommentOrderByInput = {
+  id?: Maybe<SortOrder>;
+  createdAt?: Maybe<SortOrder>;
+  userId?: Maybe<SortOrder>;
+  postId?: Maybe<SortOrder>;
+};
+
+export enum CommentScalarFieldEnum {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UserId = 'userId',
+  PostId = 'postId'
+}
 
 export type CommentScalarWhereInput = {
   AND?: Maybe<Array<CommentScalarWhereInput>>;
@@ -557,6 +588,14 @@ export type IntWithAggregatesFilter = {
   max?: Maybe<NestedIntFilter>;
 };
 
+export type Like = {
+  __typename?: 'Like';
+  id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  userId: Scalars['String'];
+  postId: Scalars['String'];
+};
+
 export type LikeCreateManyPostInput = {
   id?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
@@ -620,6 +659,20 @@ export type LikeListRelationFilter = {
   some?: Maybe<LikeWhereInput>;
   none?: Maybe<LikeWhereInput>;
 };
+
+export type LikeOrderByInput = {
+  id?: Maybe<SortOrder>;
+  createdAt?: Maybe<SortOrder>;
+  userId?: Maybe<SortOrder>;
+  postId?: Maybe<SortOrder>;
+};
+
+export enum LikeScalarFieldEnum {
+  Id = 'id',
+  CreatedAt = 'createdAt',
+  UserId = 'userId',
+  PostId = 'postId'
+}
 
 export type LikeScalarWhereInput = {
   AND?: Maybe<Array<LikeScalarWhereInput>>;
@@ -747,6 +800,13 @@ export type Mutation = {
   deleteManyTags: AffectedRowsOutput;
   updateManyTags: AffectedRowsOutput;
   upsertTags: Tags;
+  createUser: User;
+  createManyUser: AffectedRowsOutput;
+  deleteUser?: Maybe<User>;
+  updateUser?: Maybe<User>;
+  deleteManyUser: AffectedRowsOutput;
+  updateManyUser: AffectedRowsOutput;
+  upsertUser: User;
   unBookmark: Scalars['Boolean'];
   toggleLike: Scalars['Boolean'];
   signUp: UserResponse;
@@ -871,6 +931,46 @@ export type MutationUpsertTagsArgs = {
   where: TagsWhereUniqueInput;
   create: TagsCreateInput;
   update: TagsUpdateInput;
+};
+
+
+export type MutationCreateUserArgs = {
+  data: UserCreateInput;
+};
+
+
+export type MutationCreateManyUserArgs = {
+  data: Array<UserCreateManyInput>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationDeleteUserArgs = {
+  where: UserWhereUniqueInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  data: UserUpdateInput;
+  where: UserWhereUniqueInput;
+};
+
+
+export type MutationDeleteManyUserArgs = {
+  where?: Maybe<UserWhereInput>;
+};
+
+
+export type MutationUpdateManyUserArgs = {
+  data: UserUpdateManyMutationInput;
+  where?: Maybe<UserWhereInput>;
+};
+
+
+export type MutationUpsertUserArgs = {
+  where: UserWhereUniqueInput;
+  create: UserCreateInput;
+  update: UserUpdateInput;
 };
 
 
@@ -1642,6 +1742,11 @@ export type Query = {
   findManyTags: Array<Tags>;
   aggregateTags: AggregateTags;
   groupByTags: Array<TagsGroupBy>;
+  user?: Maybe<User>;
+  findFirstUser?: Maybe<User>;
+  users: Array<User>;
+  aggregateUser: AggregateUser;
+  groupByUser: Array<UserGroupBy>;
   tagPosts: Array<Post>;
   me?: Maybe<User>;
 };
@@ -1774,6 +1879,50 @@ export type QueryGroupByTagsArgs = {
   orderBy?: Maybe<Array<TagsOrderByInput>>;
   by: Array<TagsScalarFieldEnum>;
   having?: Maybe<TagsScalarWhereWithAggregatesInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryUserArgs = {
+  where: UserWhereUniqueInput;
+};
+
+
+export type QueryFindFirstUserArgs = {
+  where?: Maybe<UserWhereInput>;
+  orderBy?: Maybe<Array<UserOrderByInput>>;
+  cursor?: Maybe<UserWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<UserScalarFieldEnum>>;
+};
+
+
+export type QueryUsersArgs = {
+  where?: Maybe<UserWhereInput>;
+  orderBy?: Maybe<Array<UserOrderByInput>>;
+  cursor?: Maybe<UserWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<UserScalarFieldEnum>>;
+};
+
+
+export type QueryAggregateUserArgs = {
+  where?: Maybe<UserWhereInput>;
+  orderBy?: Maybe<Array<UserOrderByInput>>;
+  cursor?: Maybe<UserWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryGroupByUserArgs = {
+  where?: Maybe<UserWhereInput>;
+  orderBy?: Maybe<Array<UserOrderByInput>>;
+  by: Array<UserScalarFieldEnum>;
+  having?: Maybe<UserScalarWhereWithAggregatesInput>;
   take?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
 };
@@ -2232,6 +2381,145 @@ export type User = {
   cover: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  monthlyScore: Scalars['Int'];
+  weeklyScore: Scalars['Int'];
+  followedBy: Array<User>;
+  following: Array<User>;
+  posts: Array<Post>;
+  likes: Array<Like>;
+  bookmarks: Array<Bookmark>;
+  followingTags: Array<Tags>;
+  comments: Array<Comment>;
+};
+
+
+export type UserFollowedByArgs = {
+  where?: Maybe<UserWhereInput>;
+  orderBy?: Maybe<Array<UserOrderByInput>>;
+  cursor?: Maybe<UserWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<UserScalarFieldEnum>>;
+};
+
+
+export type UserFollowingArgs = {
+  where?: Maybe<UserWhereInput>;
+  orderBy?: Maybe<Array<UserOrderByInput>>;
+  cursor?: Maybe<UserWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<UserScalarFieldEnum>>;
+};
+
+
+export type UserPostsArgs = {
+  where?: Maybe<PostWhereInput>;
+  orderBy?: Maybe<Array<PostOrderByInput>>;
+  cursor?: Maybe<PostWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<PostScalarFieldEnum>>;
+};
+
+
+export type UserLikesArgs = {
+  where?: Maybe<LikeWhereInput>;
+  orderBy?: Maybe<Array<LikeOrderByInput>>;
+  cursor?: Maybe<LikeWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<LikeScalarFieldEnum>>;
+};
+
+
+export type UserBookmarksArgs = {
+  where?: Maybe<BookmarkWhereInput>;
+  orderBy?: Maybe<Array<BookmarkOrderByInput>>;
+  cursor?: Maybe<BookmarkWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<BookmarkScalarFieldEnum>>;
+};
+
+
+export type UserFollowingTagsArgs = {
+  where?: Maybe<TagsWhereInput>;
+  orderBy?: Maybe<Array<TagsOrderByInput>>;
+  cursor?: Maybe<TagsWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<TagsScalarFieldEnum>>;
+};
+
+
+export type UserCommentsArgs = {
+  where?: Maybe<CommentWhereInput>;
+  orderBy?: Maybe<Array<CommentOrderByInput>>;
+  cursor?: Maybe<CommentWhereUniqueInput>;
+  take?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+  distinct?: Maybe<Array<CommentScalarFieldEnum>>;
+};
+
+export type UserAvgAggregate = {
+  __typename?: 'UserAvgAggregate';
+  monthlyScore?: Maybe<Scalars['Float']>;
+  weeklyScore?: Maybe<Scalars['Float']>;
+};
+
+export type UserCountAggregate = {
+  __typename?: 'UserCountAggregate';
+  id: Scalars['Int'];
+  email: Scalars['Int'];
+  username: Scalars['Int'];
+  password: Scalars['Int'];
+  firstname: Scalars['Int'];
+  lastname: Scalars['Int'];
+  avatar: Scalars['Int'];
+  cover: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  monthlyScore: Scalars['Int'];
+  weeklyScore: Scalars['Int'];
+  _all: Scalars['Int'];
+};
+
+export type UserCreateInput = {
+  id?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  username: Scalars['String'];
+  password: Scalars['String'];
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
+  followedBy?: Maybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: Maybe<UserCreateNestedManyWithoutFollowedByInput>;
+  posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
+  likes?: Maybe<LikeCreateNestedManyWithoutUserInput>;
+  bookmarks?: Maybe<BookmarkCreateNestedManyWithoutUserInput>;
+  followingTags?: Maybe<TagsCreateNestedManyWithoutFollowersInput>;
+  comments?: Maybe<CommentCreateNestedManyWithoutUserInput>;
+};
+
+export type UserCreateManyInput = {
+  id?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  username: Scalars['String'];
+  password: Scalars['String'];
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
 };
 
 export type UserCreateNestedManyWithoutFollowedByInput = {
@@ -2322,6 +2610,8 @@ export type UserCreateWithoutBookmarksInput = {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
   followedBy?: Maybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: Maybe<UserCreateNestedManyWithoutFollowedByInput>;
   posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
@@ -2341,6 +2631,8 @@ export type UserCreateWithoutCommentsInput = {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
   followedBy?: Maybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: Maybe<UserCreateNestedManyWithoutFollowedByInput>;
   posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
@@ -2360,6 +2652,8 @@ export type UserCreateWithoutFollowedByInput = {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
   following?: Maybe<UserCreateNestedManyWithoutFollowedByInput>;
   posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
   likes?: Maybe<LikeCreateNestedManyWithoutUserInput>;
@@ -2379,6 +2673,8 @@ export type UserCreateWithoutFollowingInput = {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
   followedBy?: Maybe<UserCreateNestedManyWithoutFollowingInput>;
   posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
   likes?: Maybe<LikeCreateNestedManyWithoutUserInput>;
@@ -2398,6 +2694,8 @@ export type UserCreateWithoutFollowingTagsInput = {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
   followedBy?: Maybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: Maybe<UserCreateNestedManyWithoutFollowedByInput>;
   posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
@@ -2417,6 +2715,8 @@ export type UserCreateWithoutLikesInput = {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
   followedBy?: Maybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: Maybe<UserCreateNestedManyWithoutFollowedByInput>;
   posts?: Maybe<PostCreateNestedManyWithoutAuthorInput>;
@@ -2436,6 +2736,8 @@ export type UserCreateWithoutPostsInput = {
   cover?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
   followedBy?: Maybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: Maybe<UserCreateNestedManyWithoutFollowedByInput>;
   likes?: Maybe<LikeCreateNestedManyWithoutUserInput>;
@@ -2444,10 +2746,63 @@ export type UserCreateWithoutPostsInput = {
   comments?: Maybe<CommentCreateNestedManyWithoutUserInput>;
 };
 
+export type UserGroupBy = {
+  __typename?: 'UserGroupBy';
+  id: Scalars['String'];
+  email: Scalars['String'];
+  username: Scalars['String'];
+  password: Scalars['String'];
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  avatar: Scalars['String'];
+  cover: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  monthlyScore: Scalars['Int'];
+  weeklyScore: Scalars['Int'];
+  count?: Maybe<UserCountAggregate>;
+  avg?: Maybe<UserAvgAggregate>;
+  sum?: Maybe<UserSumAggregate>;
+  min?: Maybe<UserMinAggregate>;
+  max?: Maybe<UserMaxAggregate>;
+};
+
 export type UserListRelationFilter = {
   every?: Maybe<UserWhereInput>;
   some?: Maybe<UserWhereInput>;
   none?: Maybe<UserWhereInput>;
+};
+
+export type UserMaxAggregate = {
+  __typename?: 'UserMaxAggregate';
+  id?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
+};
+
+export type UserMinAggregate = {
+  __typename?: 'UserMinAggregate';
+  id?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  firstname?: Maybe<Scalars['String']>;
+  lastname?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
 };
 
 export type UserOrderByInput = {
@@ -2461,6 +2816,8 @@ export type UserOrderByInput = {
   cover?: Maybe<SortOrder>;
   createdAt?: Maybe<SortOrder>;
   updatedAt?: Maybe<SortOrder>;
+  monthlyScore?: Maybe<SortOrder>;
+  weeklyScore?: Maybe<SortOrder>;
 };
 
 export type UserRelationFilter = {
@@ -2485,7 +2842,9 @@ export enum UserScalarFieldEnum {
   Avatar = 'avatar',
   Cover = 'cover',
   CreatedAt = 'createdAt',
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
+  MonthlyScore = 'monthlyScore',
+  WeeklyScore = 'weeklyScore'
 }
 
 export type UserScalarWhereInput = {
@@ -2502,6 +2861,54 @@ export type UserScalarWhereInput = {
   cover?: Maybe<StringFilter>;
   createdAt?: Maybe<DateTimeFilter>;
   updatedAt?: Maybe<DateTimeFilter>;
+  monthlyScore?: Maybe<IntFilter>;
+  weeklyScore?: Maybe<IntFilter>;
+};
+
+export type UserScalarWhereWithAggregatesInput = {
+  AND?: Maybe<Array<UserScalarWhereWithAggregatesInput>>;
+  OR?: Maybe<Array<UserScalarWhereWithAggregatesInput>>;
+  NOT?: Maybe<Array<UserScalarWhereWithAggregatesInput>>;
+  id?: Maybe<StringWithAggregatesFilter>;
+  email?: Maybe<StringWithAggregatesFilter>;
+  username?: Maybe<StringWithAggregatesFilter>;
+  password?: Maybe<StringWithAggregatesFilter>;
+  firstname?: Maybe<StringWithAggregatesFilter>;
+  lastname?: Maybe<StringWithAggregatesFilter>;
+  avatar?: Maybe<StringWithAggregatesFilter>;
+  cover?: Maybe<StringWithAggregatesFilter>;
+  createdAt?: Maybe<DateTimeWithAggregatesFilter>;
+  updatedAt?: Maybe<DateTimeWithAggregatesFilter>;
+  monthlyScore?: Maybe<IntWithAggregatesFilter>;
+  weeklyScore?: Maybe<IntWithAggregatesFilter>;
+};
+
+export type UserSumAggregate = {
+  __typename?: 'UserSumAggregate';
+  monthlyScore?: Maybe<Scalars['Int']>;
+  weeklyScore?: Maybe<Scalars['Int']>;
+};
+
+export type UserUpdateInput = {
+  id?: Maybe<StringFieldUpdateOperationsInput>;
+  email?: Maybe<StringFieldUpdateOperationsInput>;
+  username?: Maybe<StringFieldUpdateOperationsInput>;
+  password?: Maybe<StringFieldUpdateOperationsInput>;
+  firstname?: Maybe<StringFieldUpdateOperationsInput>;
+  lastname?: Maybe<StringFieldUpdateOperationsInput>;
+  avatar?: Maybe<StringFieldUpdateOperationsInput>;
+  cover?: Maybe<StringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  followedBy?: Maybe<UserUpdateManyWithoutFollowingInput>;
+  following?: Maybe<UserUpdateManyWithoutFollowedByInput>;
+  posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
+  likes?: Maybe<LikeUpdateManyWithoutUserInput>;
+  bookmarks?: Maybe<BookmarkUpdateManyWithoutUserInput>;
+  followingTags?: Maybe<TagsUpdateManyWithoutFollowersInput>;
+  comments?: Maybe<CommentUpdateManyWithoutUserInput>;
 };
 
 export type UserUpdateManyMutationInput = {
@@ -2515,6 +2922,8 @@ export type UserUpdateManyMutationInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateManyWithWhereWithoutFollowedByInput = {
@@ -2629,6 +3038,8 @@ export type UserUpdateWithoutBookmarksInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
   followedBy?: Maybe<UserUpdateManyWithoutFollowingInput>;
   following?: Maybe<UserUpdateManyWithoutFollowedByInput>;
   posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
@@ -2648,6 +3059,8 @@ export type UserUpdateWithoutCommentsInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
   followedBy?: Maybe<UserUpdateManyWithoutFollowingInput>;
   following?: Maybe<UserUpdateManyWithoutFollowedByInput>;
   posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
@@ -2667,6 +3080,8 @@ export type UserUpdateWithoutFollowedByInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
   following?: Maybe<UserUpdateManyWithoutFollowedByInput>;
   posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
   likes?: Maybe<LikeUpdateManyWithoutUserInput>;
@@ -2686,6 +3101,8 @@ export type UserUpdateWithoutFollowingInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
   followedBy?: Maybe<UserUpdateManyWithoutFollowingInput>;
   posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
   likes?: Maybe<LikeUpdateManyWithoutUserInput>;
@@ -2705,6 +3122,8 @@ export type UserUpdateWithoutFollowingTagsInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
   followedBy?: Maybe<UserUpdateManyWithoutFollowingInput>;
   following?: Maybe<UserUpdateManyWithoutFollowedByInput>;
   posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
@@ -2724,6 +3143,8 @@ export type UserUpdateWithoutLikesInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
   followedBy?: Maybe<UserUpdateManyWithoutFollowingInput>;
   following?: Maybe<UserUpdateManyWithoutFollowedByInput>;
   posts?: Maybe<PostUpdateManyWithoutAuthorInput>;
@@ -2743,6 +3164,8 @@ export type UserUpdateWithoutPostsInput = {
   cover?: Maybe<StringFieldUpdateOperationsInput>;
   createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  monthlyScore?: Maybe<IntFieldUpdateOperationsInput>;
+  weeklyScore?: Maybe<IntFieldUpdateOperationsInput>;
   followedBy?: Maybe<UserUpdateManyWithoutFollowingInput>;
   following?: Maybe<UserUpdateManyWithoutFollowedByInput>;
   likes?: Maybe<LikeUpdateManyWithoutUserInput>;
@@ -2810,6 +3233,8 @@ export type UserWhereInput = {
   bookmarks?: Maybe<BookmarkListRelationFilter>;
   followingTags?: Maybe<TagsListRelationFilter>;
   comments?: Maybe<CommentListRelationFilter>;
+  monthlyScore?: Maybe<IntFilter>;
+  weeklyScore?: Maybe<IntFilter>;
 };
 
 export type UserWhereUniqueInput = {
@@ -2929,10 +3354,6 @@ export type FindUniqueTagQuery = (
   { __typename?: 'Query' }
   & { findUniqueTags?: Maybe<(
     { __typename?: 'Tags' }
-    & { posts: Array<(
-      { __typename?: 'Post' }
-      & RegularPostFragment
-    )> }
     & RegularTagFragment
   )> }
 );
@@ -2975,6 +3396,20 @@ export type CreateBookmarkMutation = (
     { __typename?: 'Bookmark' }
     & Pick<Bookmark, 'id' | 'userId' | 'postId'>
   ) }
+);
+
+export type ExploreQueryVariables = Exact<{
+  skip?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<Array<UserOrderByInput> | UserOrderByInput>;
+}>;
+
+
+export type ExploreQuery = (
+  { __typename?: 'Query' }
+  & { users: Array<(
+    { __typename?: 'User' }
+    & RegularUserFragment
+  )> }
 );
 
 export type LoginMutationVariables = Exact<{
@@ -3352,13 +3787,9 @@ export const FindUniqueTagDocument = gql`
     query findUniqueTag($tagName: String!) {
   findUniqueTags(where: {name: $tagName}) {
     ...RegularTag
-    posts {
-      ...RegularPost
-    }
   }
 }
-    ${RegularTagFragmentDoc}
-${RegularPostFragmentDoc}`;
+    ${RegularTagFragmentDoc}`;
 export type FindUniqueTagComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<FindUniqueTagQuery, FindUniqueTagQueryVariables>, 'query'> & ({ variables: FindUniqueTagQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const FindUniqueTagComponent = (props: FindUniqueTagComponentProps) => (
@@ -3524,6 +3955,48 @@ export function useCreateBookmarkMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateBookmarkMutationHookResult = ReturnType<typeof useCreateBookmarkMutation>;
 export type CreateBookmarkMutationResult = Apollo.MutationResult<CreateBookmarkMutation>;
 export type CreateBookmarkMutationOptions = Apollo.BaseMutationOptions<CreateBookmarkMutation, CreateBookmarkMutationVariables>;
+export const ExploreDocument = gql`
+    query Explore($skip: Int, $orderBy: [UserOrderByInput!]) {
+  users(take: 10, orderBy: $orderBy, skip: $skip) {
+    ...RegularUser
+  }
+}
+    ${RegularUserFragmentDoc}`;
+export type ExploreComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ExploreQuery, ExploreQueryVariables>, 'query'>;
+
+    export const ExploreComponent = (props: ExploreComponentProps) => (
+      <ApolloReactComponents.Query<ExploreQuery, ExploreQueryVariables> query={ExploreDocument} {...props} />
+    );
+    
+
+/**
+ * __useExploreQuery__
+ *
+ * To run a query within a React component, call `useExploreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useExploreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useExploreQuery({
+ *   variables: {
+ *      skip: // value for 'skip'
+ *      orderBy: // value for 'orderBy'
+ *   },
+ * });
+ */
+export function useExploreQuery(baseOptions?: Apollo.QueryHookOptions<ExploreQuery, ExploreQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ExploreQuery, ExploreQueryVariables>(ExploreDocument, options);
+      }
+export function useExploreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ExploreQuery, ExploreQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ExploreQuery, ExploreQueryVariables>(ExploreDocument, options);
+        }
+export type ExploreQueryHookResult = ReturnType<typeof useExploreQuery>;
+export type ExploreLazyQueryHookResult = ReturnType<typeof useExploreLazyQuery>;
+export type ExploreQueryResult = Apollo.QueryResult<ExploreQuery, ExploreQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

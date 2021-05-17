@@ -1,8 +1,17 @@
-import { Box, Button, styled, Theme, useMediaQuery } from "@material-ui/core";
-import React, { ReactElement } from "react";
+import {
+  Box,
+  Button,
+  Divider,
+  styled,
+  Theme,
+  useMediaQuery,
+} from "@material-ui/core";
+import React, { ReactElement, useEffect, useState } from "react";
+import Footer from "../Components/Footer";
 import LayOut from "../Components/LayOut";
 import { WhiteBox } from "../styles/Styles";
 import { SubTitle, Title } from "./Tags";
+import { SortOrder, useExploreQuery } from "../generated/graphql";
 
 const Container = styled(Box)(({ theme }) => ({
   paddingTop: "10px",
@@ -24,9 +33,27 @@ const DefaultButton = styled(Button)({
   letterSpacing: "-0.0075rem",
   fontWeight: 600,
 });
+type OrderType = "weekly" | "monthly";
 
 function Explore(): ReactElement {
   const small = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
+  const [order, setOrder] = useState<OrderType>("weekly");
+  const [skip, setSkip] = useState(0);
+  const { data, refetch } = useExploreQuery({
+    variables: {
+      orderBy:
+        order === "weekly"
+          ? { weeklyScore: SortOrder.Desc }
+          : { monthlyScore: SortOrder.Desc },
+    },
+  });
+  console.log(data);
+  useEffect(() => {
+    const refetchBlogs = async () => {
+      await refetch();
+    };
+    refetchBlogs();
+  }, [order]);
   return (
     <LayOut column={1}>
       <Container>
@@ -43,11 +70,37 @@ function Explore(): ReactElement {
           flexDirection="row"
         >
           <Box>
-            <DefaultButton>this week</DefaultButton>
-            <DefaultButton>this month</DefaultButton>
+            <DefaultButton
+              onClick={() => {
+                setOrder("weekly");
+              }}
+              color={order === "weekly" ? "primary" : "inherit"}
+            >
+              this week
+            </DefaultButton>
+            <DefaultButton
+              onClick={() => {
+                setOrder("monthly");
+              }}
+              color={order === "monthly" ? "primary" : "inherit"}
+            >
+              this month
+            </DefaultButton>
           </Box>
           {small && <Box></Box>}
         </WhiteBox>
+        <WhiteBox marginBottom="90px">
+          {data?.users.map((user, i) => {
+            return (
+              <Box padding="10px">
+                {i + 1}
+                {user.username}
+              </Box>
+            );
+          })}
+        </WhiteBox>
+        <Divider orientation="horizontal" />
+        <Footer />
       </Container>
     </LayOut>
   );

@@ -38,6 +38,23 @@ export const cache: InMemoryCache = new InMemoryCache({
             return existing;
           },
         },
+        users: {
+          keyArgs: ["orderBy"],
+          merge(existing, incoming, { args }: any) {
+            const merged = existing !== undefined ? existing.slice(0) : [];
+            if (!args.skip) {
+              return incoming;
+            }
+            let offset = args.skip !== undefined ? args.skip : 0;
+            for (let i = 0; i < incoming.length; ++i) {
+              merged[offset + i] = incoming[i];
+            }
+            return merged;
+          },
+          read(existing) {
+            return existing;
+          },
+        },
         bookmarks: {
           merge(existing, incoming, { args: { skip } }: any) {
             const merged = existing !== undefined ? existing.slice(0) : [];

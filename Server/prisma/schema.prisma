@@ -47,6 +47,9 @@ model User {
   bookmarks     Bookmark[]
   followingTags Tags[]      @relation("TagFollows", references: [id])
   comments      Comment[]
+  monthlyScore  Int         @default(0)  
+  weeklyScore   Int         @default(0)  
+
 }
 
 model Like{

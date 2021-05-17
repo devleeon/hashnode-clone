@@ -15,6 +15,8 @@ import {
   PostCrudResolver,
   TagsCrudResolver,
   TagsRelationsResolver,
+  UserCrudResolver,
+  UserRelationsResolver,
 } from "./generated/typegraphql-prisma";
 import { CustomPostResolver } from "./resolvers/Post";
 import { CustomTagResolver } from "./resolvers/Tag";
@@ -83,6 +85,8 @@ const init = async () => {
     schema: await buildSchema({
       resolvers: [
         UserResolver,
+        UserCrudResolver,
+        UserRelationsResolver,
         PostCrudResolver,
         CustomPostResolver,
         BookmarkCrudResolver,
