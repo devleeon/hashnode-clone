@@ -10,9 +10,12 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import {
+  BlogCrudResolver,
+  BlogRelationsResolver,
   BookmarkCrudResolver,
   BookmarkRelationsResolver,
   PostCrudResolver,
+  PostRelationsResolver,
   TagsCrudResolver,
   TagsRelationsResolver,
   UserCrudResolver,
@@ -85,15 +88,17 @@ const init = async () => {
     schema: await buildSchema({
       resolvers: [
         UserResolver,
-        UserCrudResolver,
         UserRelationsResolver,
         PostCrudResolver,
+        PostRelationsResolver,
         CustomPostResolver,
         BookmarkCrudResolver,
         BookmarkRelationsResolver,
         TagsCrudResolver,
         TagsRelationsResolver,
         CustomTagResolver,
+        BlogCrudResolver,
+        BlogRelationsResolver,
       ],
       validate: false,
     }),

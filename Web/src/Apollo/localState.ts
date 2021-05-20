@@ -38,8 +38,8 @@ export const cache: InMemoryCache = new InMemoryCache({
             return existing;
           },
         },
-        users: {
-          keyArgs: ["orderBy"],
+        blogs: {
+          keyArgs: ["orderBy", "take"],
           merge(existing, incoming, { args }: any) {
             const merged = existing !== undefined ? existing.slice(0) : [];
             if (!args.skip) {

@@ -26,37 +26,53 @@ async function main() {
   }
   for (let i = 0; i < 60; i++) {
     let userEmail = faker.internet.email();
+    let userName = faker.name.findName();
     let user = await prisma.user.upsert({
       where: {
         email: userEmail,
       },
       update: {
-        username: faker.name.findName(),
+        username: userName,
         password: faker.random.word(),
         avatar: faker.image.avatar(),
-        monthlyScore: Math.ceil(Math.random() * 4000),
-        weeklyScore: Math.ceil(Math.random() * 1000),
+        cover: faker.image.city(),
+        blog: {
+          create: {
+            name: `${userName}'s blog`,
+            address: faker.internet.domainName(),
+            monthlyScore: Math.ceil(Math.random() * 4000),
+            weeklyScore: Math.ceil(Math.random() * 1000),
+          },
+        },
       },
       create: {
         email: userEmail,
-        username: faker.name.findName(),
+        username: userName,
         password: faker.random.word(),
         avatar: faker.image.avatar(),
-        monthlyScore: Math.ceil(Math.random() * 4000),
-        weeklyScore: Math.ceil(Math.random() * 1000),
+        cover: faker.image.city(),
+        blog: {
+          create: {
+            name: `${userName}'s blog`,
+            address: faker.internet.domainName(),
+            monthlyScore: Math.ceil(Math.random() * 4000),
+            weeklyScore: Math.ceil(Math.random() * 1000),
+          },
+        },
       },
     });
-    for (let j = 0; j < Math.ceil(Math.random() * 5); j++) {
+
+    for (let j = 0; j < Math.ceil(Math.random() * 10); j++) {
       await prisma.post.create({
         data: {
           text: faker.lorem.paragraphs(),
           createdAt: faker.date.recent(180),
           title: faker.lorem.words(),
-          authorId: user.id,
           photo: faker.image.image(),
           likesCount: Math.floor(Math.random() * 1000),
           published: true,
           content: faker.internet.domainName(),
+          authorId: user.id,
         },
       });
     }

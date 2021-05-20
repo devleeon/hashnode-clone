@@ -58,7 +58,6 @@ function Bookmark(): ReactElement {
     };
 
     fetchMorePosts();
-    return () => {};
   }, [me, scrollEnd, loading, loaded]);
   return (
     <LayOut sticky={true} column={2}>

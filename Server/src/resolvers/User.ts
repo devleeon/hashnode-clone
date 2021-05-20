@@ -4,10 +4,12 @@ import {
   Arg,
   Ctx,
   Field,
+  FieldResolver,
   Mutation,
   ObjectType,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from "type-graphql";
 import { FieldError } from "./FieldError";
@@ -95,5 +97,14 @@ export class UserResolver {
     // if no errors => store id in session
     const token = genToken(user.id);
     return { token, user };
+  }
+  @FieldResolver(() => Number)
+  async followerCount(
+    @Root() user: User,
+    @Ctx() { prisma }: MyContext
+  ): Promise<number> {
+    return (
+      await prisma.user.findUnique({ where: { id: user.id } }).followedBy()
+    ).length;
   }
 }

@@ -4,6 +4,7 @@ import React, { ReactElement } from "react";
 import { WhiteBox } from "../../styles/Styles";
 import RightSideFooter from "./RightSideFooter";
 import TopArticles from "./TopArticles";
+import TrandingBlog from "./TrandingBlog";
 
 const TextInput = styled("input")(({ theme }) => ({
   position: "relative",
@@ -63,7 +64,7 @@ function RightSideBar({ search }: Props): ReactElement {
         <TopArticles />
       </WhiteBox>
       <Box paddingTop="8px" position="sticky" top={0}>
-        <WhiteBox marginBottom="8px">tranding blogs</WhiteBox>
+        <TrandingBlog />
         <RightSideFooter />
       </Box>
     </>

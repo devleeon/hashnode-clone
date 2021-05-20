@@ -1,5 +1,0 @@
-query Explore($skip: Int, $orderBy: [UserOrderByInput!]) {
-  users(take: 10, orderBy: $orderBy, skip: $skip) {
-    ...RegularUser
-  }
-}

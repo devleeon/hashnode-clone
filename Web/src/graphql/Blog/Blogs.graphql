@@ -1,0 +1,17 @@
+query Blogs($take: Int!, $skip: Int, $orderBy: [BlogOrderByInput!]) {
+  blogs(orderBy: $orderBy, take: $take, skip: $skip) {
+    name
+    address
+    user {
+      id
+      avatar
+      username
+      followerCount
+      posts(take: 2, orderBy: { createdAt: desc }) {
+        id
+        createdAt
+        title
+      }
+    }
+  }
+}

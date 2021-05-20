@@ -31,6 +31,19 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "Blog" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT NOT NULL,
+    "monthlyScore" INTEGER NOT NULL DEFAULT 0,
+    "weeklyScore" INTEGER NOT NULL DEFAULT 0,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Like" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -96,6 +109,9 @@ CREATE TABLE "_TagFollows" (
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Blog_userId_unique" ON "Blog"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Tags.name_unique" ON "Tags"("name");
 
 -- CreateIndex
@@ -118,6 +134,9 @@ CREATE INDEX "_TagFollows_B_index" ON "_TagFollows"("B");
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Blog" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Like" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
