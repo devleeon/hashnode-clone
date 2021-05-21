@@ -92,7 +92,7 @@ function FeedHeader(): ReactElement {
               style={{ cursor: "pointer" }}
             >
               <Avatar style={{ marginRight: "8px" }} />
-              <LightText textColor="black">username</LightText>
+              <LightText textColor="black">{meVar()?.username}</LightText>
             </Box>
             <TagsButton>
               My tags

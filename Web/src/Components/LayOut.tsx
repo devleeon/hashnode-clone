@@ -9,7 +9,7 @@ import React, { ReactChild, ReactElement } from "react";
 import RightSideBar from "./RightSideBar";
 import SideBar from "./Sidebar";
 
-const LayOutContainer = styled(Container)(({ theme }) => ({
+export const LayOutContainer = styled(Container)(({ theme }) => ({
   paddingRight: "8px",
   paddingLeft: "8px",
 }));

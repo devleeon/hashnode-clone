@@ -10,6 +10,7 @@ import Explore from "../Pages/Explore";
 import Feed from "../Pages/Feed";
 import Home from "../Pages/Home";
 import PostPage from "../Pages/PostPage";
+import Profile from "../Pages/Profile";
 import Search from "../Pages/Search";
 import TagHome from "../Pages/TagHome";
 import Tags from "../Pages/Tags";
@@ -45,6 +46,7 @@ const LoggedInPage = () => {
       <Route path="/bookmarks" component={Bookmark} />
       <Route path="/search" component={Search} />
       <Route path="/about" component={About} />
+      <Route path="/u/:username" component={Profile} />
 
       <Redirect from="*" to="/" />
     </Switch>

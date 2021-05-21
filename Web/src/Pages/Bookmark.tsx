@@ -108,7 +108,7 @@ function Bookmark(): ReactElement {
             arr.map((_, i) => <SkeletonContent key={i} />)}
         </WhiteBox>
 
-        {!hasMore && (
+        {!hasMore && data?.bookmarks && data?.bookmarks?.length > 0 && (
           <WhiteBox
             marginTop="24px"
             padding="20px"
