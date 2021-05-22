@@ -12,7 +12,8 @@ import { BoldText, FlexColumnBox, FlexRowBox } from "../styles/Styles";
 import ReactMarkdown from "react-markdown";
 import { useForm } from "react-hook-form";
 import gfm from "remark-gfm";
-
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 interface Props {}
 
 type TextState = "write" | "preview" | "guide";
@@ -64,7 +65,26 @@ function CreatePost({}: Props): ReactElement {
             rowsMin={40}
             className="post_text post_textarea"
           />
-          <ReactMarkdown className="line-break" remarkPlugins={[gfm]}>
+          <ReactMarkdown
+            className="line-break"
+            remarkPlugins={[gfm]}
+            components={{
+              code: ({ node, inline, className, children, ...props }) => {
+                const match = /language-(\w+)/.exec(className || "");
+                return !inline && match ? (
+                  <SyntaxHighlighter
+                    style={materialDark}
+                    language={match[1]}
+                    PreTag="div"
+                    children={String(children).replace(/\n$/, "")}
+                    {...props}
+                  />
+                ) : (
+                  <code className={className} {...props} />
+                );
+              },
+            }}
+          >
             {watch("text")}
           </ReactMarkdown>
         </FlexColumnBox>
