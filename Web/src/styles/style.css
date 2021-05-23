@@ -92,3 +92,6 @@ blockquote::before {
   height: 100%;
   background-color: #d1d5db;
 }
+.line-break pre div {
+  border-radius: 5px;
+}

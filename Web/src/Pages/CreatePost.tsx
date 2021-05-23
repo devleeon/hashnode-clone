@@ -13,7 +13,8 @@ import ReactMarkdown from "react-markdown";
 import { useForm } from "react-hook-form";
 import gfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { materialOceanic } from "react-syntax-highlighter/dist/esm/styles/prism";
+import Menu from "../Components/CreatePost/Menu";
 interface Props {}
 
 type TextState = "write" | "preview" | "guide";
@@ -21,8 +22,7 @@ type TextState = "write" | "preview" | "guide";
 function CreatePost({}: Props): ReactElement {
   const [textState, setTextState] = useState<TextState>("write");
 
-  const { register, watch } = useForm();
-
+  const { register, watch, setValue, getValues } = useForm();
   return (
     <LayOutContainer maxWidth="xl" fixed>
       <FlexRowBox
@@ -47,46 +47,51 @@ function CreatePost({}: Props): ReactElement {
             <Button>add subtitle</Button>
           </FlexRowBox>
           <input placeholder="Title..." type="text" className="post_title" />
-          <Box
-            position="sticky"
-            top={0}
-            padding="10px"
-            zIndex={9}
-            bgcolor="secondary.light"
-            marginY="20px"
-            border="1px solid lightGrey"
-            borderRadius="4px"
-          >
-            items
-          </Box>
-          <TextareaAutosize
-            {...register("text")}
-            placeholder="Tell your story..."
-            rowsMin={40}
-            className="post_text post_textarea"
+          <Menu
+            textState={textState}
+            setTextState={setTextState}
+            setValue={setValue}
+            getValues={getValues}
           />
-          <ReactMarkdown
-            className="line-break"
-            remarkPlugins={[gfm]}
-            components={{
-              code: ({ node, inline, className, children, ...props }) => {
-                const match = /language-(\w+)/.exec(className || "");
-                return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={materialDark}
-                    language={match[1]}
-                    PreTag="div"
-                    children={String(children).replace(/\n$/, "")}
-                    {...props}
-                  />
-                ) : (
-                  <code className={className} {...props} />
-                );
-              },
-            }}
-          >
-            {watch("text")}
-          </ReactMarkdown>
+          {textState === "write" && (
+            <TextareaAutosize
+              {...register("text")}
+              placeholder="Tell your story..."
+              rowsMin={40}
+              className="post_text post_textarea"
+              id="post_textarea"
+            />
+          )}
+          {textState === "preview" && (
+            <ReactMarkdown
+              className="line-break"
+              remarkPlugins={[gfm]}
+              components={{
+                code: ({ node, inline, className, children, ...props }) => {
+                  const match = /language-(\w+)/.exec(className || "");
+                  return !inline ? (
+                    <SyntaxHighlighter
+                      style={materialOceanic}
+                      PreTag="div"
+                      children={String(children).replace(/\n$/, "")}
+                      {...props}
+                      {...(match
+                        ? { language: match[1] }
+                        : { className: className })}
+                    />
+                  ) : (
+                    <code
+                      className={className}
+                      {...props}
+                      children={String(children).replace(/\n$/, "")}
+                    />
+                  );
+                },
+              }}
+            >
+              {watch("text")}
+            </ReactMarkdown>
+          )}
         </FlexColumnBox>
       </Container>
     </LayOutContainer>
