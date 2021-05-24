@@ -1,5 +1,3 @@
-import { Secret } from "jsonwebtoken";
-
 declare namespace NodeJS {
   interface ProcessEnv {
     DATABASE_URL: string;
@@ -7,5 +5,7 @@ declare namespace NodeJS {
     SESSION_SECRET: string | string[];
     JWT_SECRET: Secret;
     REDIS_URL: string;
+    AWS_KEY: string;
+    AWS_SECRET: string;
   }
 }

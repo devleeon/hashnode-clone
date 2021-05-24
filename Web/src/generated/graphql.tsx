@@ -17,6 +17,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type AffectedRowsOutput = {
@@ -1037,6 +1039,7 @@ export type Mutation = {
   upsertTags: Tags;
   unBookmark: Scalars['Boolean'];
   toggleLike: Scalars['Boolean'];
+  upload: Scalars['String'];
   signUp: UserResponse;
   login: UserResponse;
 };
@@ -1209,6 +1212,11 @@ export type MutationUnBookmarkArgs = {
 
 export type MutationToggleLikeArgs = {
   postId: Scalars['String'];
+};
+
+
+export type MutationUploadArgs = {
+  file: Scalars['Upload'];
 };
 
 
@@ -2642,6 +2650,7 @@ export type TagsWhereUniqueInput = {
   name?: Maybe<Scalars['String']>;
 };
 
+
 export type User = {
   __typename?: 'User';
   id: Scalars['String'];
@@ -3511,6 +3520,16 @@ export type TopArticlesQuery = (
   )> }
 );
 
+export type UploadPhotoMutationVariables = Exact<{
+  upload: Scalars['Upload'];
+}>;
+
+
+export type UploadPhotoMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'upload'>
+);
+
 export type AllTimePopularQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3960,6 +3979,43 @@ export function useTopArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type TopArticlesQueryHookResult = ReturnType<typeof useTopArticlesQuery>;
 export type TopArticlesLazyQueryHookResult = ReturnType<typeof useTopArticlesLazyQuery>;
 export type TopArticlesQueryResult = Apollo.QueryResult<TopArticlesQuery, TopArticlesQueryVariables>;
+export const UploadPhotoDocument = gql`
+    mutation UploadPhoto($upload: Upload!) {
+  upload(file: $upload)
+}
+    `;
+export type UploadPhotoMutationFn = Apollo.MutationFunction<UploadPhotoMutation, UploadPhotoMutationVariables>;
+export type UploadPhotoComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UploadPhotoMutation, UploadPhotoMutationVariables>, 'mutation'>;
+
+    export const UploadPhotoComponent = (props: UploadPhotoComponentProps) => (
+      <ApolloReactComponents.Mutation<UploadPhotoMutation, UploadPhotoMutationVariables> mutation={UploadPhotoDocument} {...props} />
+    );
+    
+
+/**
+ * __useUploadPhotoMutation__
+ *
+ * To run a mutation, you first call `useUploadPhotoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadPhotoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadPhotoMutation, { data, loading, error }] = useUploadPhotoMutation({
+ *   variables: {
+ *      upload: // value for 'upload'
+ *   },
+ * });
+ */
+export function useUploadPhotoMutation(baseOptions?: Apollo.MutationHookOptions<UploadPhotoMutation, UploadPhotoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadPhotoMutation, UploadPhotoMutationVariables>(UploadPhotoDocument, options);
+      }
+export type UploadPhotoMutationHookResult = ReturnType<typeof useUploadPhotoMutation>;
+export type UploadPhotoMutationResult = Apollo.MutationResult<UploadPhotoMutation>;
+export type UploadPhotoMutationOptions = Apollo.BaseMutationOptions<UploadPhotoMutation, UploadPhotoMutationVariables>;
 export const AllTimePopularDocument = gql`
     query AllTimePopular {
   findManyTags(orderBy: {followCount: desc}, take: 10) {

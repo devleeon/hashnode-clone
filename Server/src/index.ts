@@ -18,13 +18,13 @@ import {
   PostRelationsResolver,
   TagsCrudResolver,
   TagsRelationsResolver,
-  UserCrudResolver,
   UserRelationsResolver,
 } from "./generated/typegraphql-prisma";
 import { CustomPostResolver } from "./resolvers/Post";
 import { CustomTagResolver } from "./resolvers/Tag";
 import { UserResolver } from "./resolvers/User";
 import { verifyToken } from "./utils/verifyToken";
+import { graphqlUploadExpress } from "graphql-upload";
 
 const init = async () => {
   const app = express();
@@ -102,6 +102,9 @@ const init = async () => {
       ],
       validate: false,
     }),
+    introspection: true,
+    playground: true,
+    uploads: false,
     context: ({ req, res, connection }) => {
       let token;
       if (connection) {
@@ -119,6 +122,14 @@ const init = async () => {
       };
     },
   });
+
+  app.use(
+    "/graphql",
+    graphqlUploadExpress({
+      maxFileSize: 10000000, // 10 MB
+      maxFiles: 10,
+    })
+  );
 
   apolloServer.applyMiddleware({
     app,

@@ -11,11 +11,14 @@ import {
 } from "@material-ui/icons";
 import React, {
   BaseSyntheticEvent,
+  ChangeEvent,
   ReactElement,
   TextareaHTMLAttributes,
+  useRef,
 } from "react";
 import { FlexRowBox } from "../../styles/Styles";
 import { setCursor } from "../../Utilities/setCursor";
+import { useUploadPhotoMutation } from "../../generated/graphql";
 
 const Container = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -47,16 +50,18 @@ const IconButton = styled(Button)({
 interface Props {
   textState: "write" | "preview" | "guide";
   setTextState: Function;
-  setValue: Function;
-  getValues: Function;
 }
 
-function Menu({
-  textState,
-  setTextState,
-  setValue,
-  getValues,
-}: Props): ReactElement {
+function Menu({ textState, setTextState }: Props): ReactElement {
+  const fileInput = useRef(null);
+  // todo
+  // how to upload photo and store it
+  // as a state?
+  // or as an array?
+  const [uploadPhotoMutation, { data }] = useUploadPhotoMutation();
+  const uploadPhoto = (e: BaseSyntheticEvent) => {
+    console.log(e.target.files[0]);
+  };
   const onClickHandler = (e: BaseSyntheticEvent) => {
     setTextState(e.currentTarget.name);
   };
@@ -168,11 +173,15 @@ function Menu({
             onClick={onClickIcon}
             children={<FormatListNumbered />}
           />
-          <IconButton
-            name={"photo"}
-            onClick={onClickIcon}
-            children={<CameraAltOutlined />}
-          />
+          <IconButton name={"photo"} onClick={onClickIcon}>
+            <CameraAltOutlined />
+            <input
+              onChange={uploadPhoto}
+              type="file"
+              accept="image/*"
+              multiple={false}
+            />
+          </IconButton>
         </FlexRowBox>
       )}
     </Container>

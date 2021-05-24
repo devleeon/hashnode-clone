@@ -47,12 +47,7 @@ function CreatePost({}: Props): ReactElement {
             <Button>add subtitle</Button>
           </FlexRowBox>
           <input placeholder="Title..." type="text" className="post_title" />
-          <Menu
-            textState={textState}
-            setTextState={setTextState}
-            setValue={setValue}
-            getValues={getValues}
-          />
+          <Menu textState={textState} setTextState={setTextState} />
           {textState === "write" && (
             <TextareaAutosize
               {...register("text")}

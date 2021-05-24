@@ -1,4 +1,6 @@
-import { MyContext } from "src/types";
+import { GraphQLUpload, FileUpload } from "graphql-upload";
+import { uploadPhoto } from "../aws";
+import { MyContext } from "../types";
 import {
   Arg,
   Ctx,
@@ -121,5 +123,13 @@ export class CustomPostResolver {
       });
       return true;
     }
+  }
+  @Mutation(() => String)
+  async upload(
+    @Arg("file", () => GraphQLUpload) file: FileUpload,
+    @Ctx() { userId }: MyContext
+  ): Promise<string> {
+    const address = await uploadPhoto({ file, userId });
+    return address;
   }
 }
