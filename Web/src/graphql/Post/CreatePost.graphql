@@ -1,0 +1,21 @@
+mutation CreatePost(
+  $title: String!
+  $content: String!
+  $text: String
+  $photo: String
+  $published: Boolean
+  $userId: String!
+) {
+  createPost(
+    data: {
+      title: $title
+      content: $content
+      text: $text
+      photo: $photo
+      author: { connect: { id: $userId } }
+      published: $published
+    }
+  ) {
+    id
+  }
+}

@@ -119,3 +119,13 @@ export const LightText = ({
     </Typography>
   );
 };
+export const UploadButton = styled(Button)({
+  minWidth: 0,
+  padding: 0,
+  textTransform: "none",
+});
+export const UploadLabel = styled("label")({
+  display: "flex",
+  padding: "4px",
+  cursor: "pointer",
+});

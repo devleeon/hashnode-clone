@@ -9,16 +9,10 @@ import {
   FormatQuote,
   InsertLink,
 } from "@material-ui/icons";
-import React, {
-  BaseSyntheticEvent,
-  ChangeEvent,
-  ReactElement,
-  TextareaHTMLAttributes,
-  useRef,
-} from "react";
-import { FlexRowBox } from "../../styles/Styles";
-import { setCursor } from "../../Utilities/setCursor";
+import React, { BaseSyntheticEvent, ReactElement } from "react";
 import { useUploadPhotoMutation } from "../../generated/graphql";
+import { FlexRowBox, UploadButton, UploadLabel } from "../../styles/Styles";
+import { setCursor } from "../../Utilities/setCursor";
 
 const Container = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -47,22 +41,33 @@ const IconButton = styled(Button)({
   minWidth: 0,
   padding: "4px",
 });
+
 interface Props {
   textState: "write" | "preview" | "guide";
   setTextState: Function;
 }
 
 function Menu({ textState, setTextState }: Props): ReactElement {
-  const fileInput = useRef(null);
-  // todo
-  // how to upload photo and store it
-  // as a state?
-  // or as an array?
-  const [uploadPhotoMutation, { data }] = useUploadPhotoMutation();
-  const uploadPhoto = (e: BaseSyntheticEvent) => {
-    console.log(e.target.files[0]);
+  const [uploadPhotoMutation] = useUploadPhotoMutation();
+  const uploadPhoto = async (e: BaseSyntheticEvent) => {
+    if (e.target.files[0]) {
+      const { data } = await uploadPhotoMutation({
+        variables: { upload: e.target.files[0] },
+      });
+      const txtarea = document.getElementById(
+        "post_textarea"
+      ) as HTMLInputElement;
+      setCursor({
+        txtarea,
+        before: `\n![Alt text of image](${data?.upload})\n`,
+        after: "",
+        startPos: 3,
+        endPos: "\n![Alt text of image".length,
+      });
+    }
   };
-  const onClickHandler = (e: BaseSyntheticEvent) => {
+  const StateChange = (e: BaseSyntheticEvent) => {
+    // chage text state
     setTextState(e.currentTarget.name);
   };
   const onClickIcon = (e: BaseSyntheticEvent) => {
@@ -100,17 +105,6 @@ function Menu({ textState, setTextState }: Props): ReactElement {
       case "ol":
         setCursor({ txtarea, before: "\n1. \n", after: "", startPos: 3 });
         break;
-      case "photo":
-        setCursor({
-          txtarea,
-          before: "\n![Alt text of image](put-link-to-image-here)\n",
-          after: "",
-          startPos:
-            "\n![Alt text of image](put-link-to-image-here)\n".length -
-            "put-link-to-image-here)\n".length,
-          endPos: "\n![Alt text of image](put-link-to-image-here)\n".length - 2,
-        });
-        break;
       default:
         break;
     }
@@ -119,21 +113,21 @@ function Menu({ textState, setTextState }: Props): ReactElement {
     <Container>
       <FlexRowBox>
         <TextButton
-          onClick={onClickHandler}
+          onClick={StateChange}
           name="write"
           color={textState === "write" ? "primary" : "default"}
         >
           write
         </TextButton>
         <TextButton
-          onClick={onClickHandler}
+          onClick={StateChange}
           name="preview"
           color={textState === "preview" ? "primary" : "default"}
         >
           preview
         </TextButton>
         <TextButton
-          onClick={onClickHandler}
+          onClick={StateChange}
           name="guide"
           color={textState === "guide" ? "primary" : "default"}
         >
@@ -173,15 +167,12 @@ function Menu({ textState, setTextState }: Props): ReactElement {
             onClick={onClickIcon}
             children={<FormatListNumbered />}
           />
-          <IconButton name={"photo"} onClick={onClickIcon}>
-            <CameraAltOutlined />
-            <input
-              onChange={uploadPhoto}
-              type="file"
-              accept="image/*"
-              multiple={false}
-            />
-          </IconButton>
+          <UploadButton className="filebox">
+            <UploadLabel htmlFor="input_file">
+              <CameraAltOutlined />
+            </UploadLabel>
+            <input type="file" id="input_file" onChange={uploadPhoto} />
+          </UploadButton>
         </FlexRowBox>
       )}
     </Container>

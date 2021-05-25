@@ -1,7 +1,8 @@
 import { useReactiveVar } from "@apollo/client";
 import React, { ReactElement } from "react";
 import { Redirect, Route, Switch } from "react-router";
-import { isLoggedInVar } from "../Apollo/localState";
+import { isLoggedInVar, meVar } from "../Apollo/localState";
+import { useMeQuery } from "../generated/graphql";
 import About from "../Pages/About";
 import Auth from "../Pages/Auth";
 import Bookmark from "../Pages/Bookmark";
@@ -53,6 +54,8 @@ const LoggedInPage = () => {
   );
 };
 function AppRouter(): ReactElement {
+  const { data } = useMeQuery();
+  meVar(data?.me);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   return <>{isLoggedIn ? <LoggedInPage /> : <LoggedOutPage />}</>;
 }

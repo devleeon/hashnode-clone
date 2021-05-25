@@ -15,7 +15,7 @@ type uploadProps = {
 export const uploadAvatar = async ({ file, userId }: uploadProps) => {
   const { filename, createReadStream } = await file;
   const readStream = createReadStream();
-  const objectName = `/${userId}/avatar/${filename}`;
+  const objectName = `${userId}/avatar/${filename}`;
   const { Location } = await s3
     .upload({
       Bucket: "cashnode",
@@ -29,7 +29,7 @@ export const uploadAvatar = async ({ file, userId }: uploadProps) => {
 export const uploadPhoto = async ({ file, userId }: uploadProps) => {
   const { filename, createReadStream } = await file;
   const readStream = createReadStream();
-  const objectName = `/${userId}/post/${Date.now()}-${filename}`;
+  const objectName = `${userId}/post/${Date.now()}-${filename}`;
   const { Location } = await s3
     .upload({
       Bucket: "cashnode",
