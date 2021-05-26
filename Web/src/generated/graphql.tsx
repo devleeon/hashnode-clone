@@ -3465,6 +3465,10 @@ export type RegularTagFragment = (
 export type RegularUserFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'username' | 'email' | 'avatar'>
+  & { blog?: Maybe<(
+    { __typename?: 'Blog' }
+    & Pick<Blog, 'address' | 'name'>
+  )> }
 );
 
 export type CreatePostMutationVariables = Exact<{
@@ -3717,6 +3721,10 @@ export const RegularUserFragmentDoc = gql`
   username
   email
   avatar
+  blog {
+    address
+    name
+  }
 }
     `;
 export const BlogsDocument = gql`

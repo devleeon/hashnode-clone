@@ -9,11 +9,11 @@ import {
   ListItemText,
   styled,
 } from "@material-ui/core";
-import { Inbox, Mail } from "@material-ui/icons";
-import React, { BaseSyntheticEvent, ReactElement } from "react";
+import { Close, Inbox, Mail } from "@material-ui/icons";
+import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
 import { useHistory } from "react-router";
 import { Maybe, useCreatePostMutation } from "../../generated/graphql";
-import { BoldText, FlexRowBox } from "../../styles/Styles";
+import { BoldText, FlexRowBox, WhiteBox } from "../../styles/Styles";
 
 const TextButton = styled(Button)({
   textTransform: "capitalize",
@@ -21,7 +21,25 @@ const TextButton = styled(Button)({
     marginRight: "10px",
   },
 });
-
+const DrawerBox = styled(Drawer)(({ theme }) => ({
+  "& .MuiDrawer-paper": {
+    padding: "12px 24px 40px",
+    maxWidth: "100%",
+    backgroundColor: theme.palette.secondary.light,
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
+    [theme.breakpoints.up("sm")]: {
+      width: "430px",
+    },
+  },
+}));
+const TagSearch = styled("input")({
+  border: 0,
+  fontSize: "16px",
+  padding: "8px 0",
+  width: "100%",
+});
 interface Props {
   title: string;
   photo: string;
@@ -30,25 +48,19 @@ interface Props {
 }
 
 function CreatePostHeader({ title, photo, text, userId }: Props): ReactElement {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+  const [drawer, setDrawer] = useState(false);
+  const [content, setContent] = useState("");
+
   const history = useHistory();
   const [createPostMutation] = useCreatePostMutation();
   const createPost = async (e: BaseSyntheticEvent) => {
     const option = e.currentTarget.name;
     let postId;
+    const variables = { title, photo, content, userId, text };
     if (option === "draft") {
       const { data } = await createPostMutation({
         variables: {
-          title,
-          photo,
-          content: "blogname",
-          userId,
-          text,
+          ...variables,
           published: false,
         },
       });
@@ -56,11 +68,7 @@ function CreatePostHeader({ title, photo, text, userId }: Props): ReactElement {
     } else {
       const { data } = await createPostMutation({
         variables: {
-          title,
-          photo,
-          content: "blogname",
-          userId,
-          text,
+          ...variables,
           published: true,
         },
       });
@@ -70,8 +78,7 @@ function CreatePostHeader({ title, photo, text, userId }: Props): ReactElement {
     history.replace(`/p/${postId}`);
   };
   const toggleDrawer =
-    (anchor: string, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
@@ -80,7 +87,7 @@ function CreatePostHeader({ title, photo, text, userId }: Props): ReactElement {
         return;
       }
 
-      setState({ ...state, [anchor]: open });
+      setDrawer(open);
     };
   return (
     <FlexRowBox
@@ -98,10 +105,45 @@ function CreatePostHeader({ title, photo, text, userId }: Props): ReactElement {
           name="publish"
           variant="outlined"
           color="primary"
-          onClick={createPost}
+          onClick={toggleDrawer(true)}
         >
           publish
         </TextButton>
+
+        {/* drawer menu */}
+        <DrawerBox anchor={"right"} open={drawer} onClose={toggleDrawer(false)}>
+          <Box onKeyDown={toggleDrawer(false)}>
+            {/* buttons */}
+            <FlexRowBox
+              alignItems="center"
+              justifyContent="space-between"
+              paddingBottom="12px"
+            >
+              <TextButton onClick={toggleDrawer(false)}>
+                <Close />
+                close
+              </TextButton>
+              <TextButton
+                name="publish"
+                variant="outlined"
+                color="primary"
+                onClick={createPost}
+              >
+                publish
+              </TextButton>
+            </FlexRowBox>
+
+            <Divider />
+            <WhiteBox marginTop="24px" padding="12px">
+              <BoldText fontSize="14px">Select your blog</BoldText>
+              <TagSearch type="text" placeholder="Start typing to search..." />
+            </WhiteBox>
+            <WhiteBox marginTop="24px" padding="12px">
+              <BoldText fontSize="14px">Select tags</BoldText>
+              <TagSearch type="text" placeholder="Start typing to search..." />
+            </WhiteBox>
+          </Box>
+        </DrawerBox>
       </FlexRowBox>
     </FlexRowBox>
   );
