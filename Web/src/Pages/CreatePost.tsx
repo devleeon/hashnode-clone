@@ -3,33 +3,24 @@ import {
   Button,
   Container,
   Divider,
-  Input,
   styled,
   TextareaAutosize,
 } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 import React, { BaseSyntheticEvent, ReactElement, useState } from "react";
+import { useForm } from "react-hook-form";
+import { meVar } from "../Apollo/localState";
+import CreatePostHeader from "../Components/CreatePost/CreatePostHeader";
+import Menu from "../Components/CreatePost/Menu";
 import { LayOutContainer } from "../Components/LayOut";
+import Markdown from "../Components/Markdown";
+import { useUploadPhotoMutation } from "../generated/graphql";
 import {
-  BoldText,
   FlexColumnBox,
   FlexRowBox,
   UploadButton,
   UploadLabel,
 } from "../styles/Styles";
-import ReactMarkdown from "react-markdown";
-import { useForm } from "react-hook-form";
-import gfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { materialOceanic } from "react-syntax-highlighter/dist/esm/styles/prism";
-import Menu from "../Components/CreatePost/Menu";
-import CreatePostHeader from "../Components/CreatePost/CreatePostHeader";
-import {
-  useUploadPhotoMutation,
-  useCreatePostMutation,
-} from "../generated/graphql";
-import { Close } from "@material-ui/icons";
-import { meVar } from "../Apollo/localState";
-import { useReactiveVar } from "@apollo/client";
 
 const TextButton = styled(Button)({
   textTransform: "capitalize",
@@ -146,36 +137,7 @@ function CreatePost({}: Props): ReactElement {
             />
           )}
           {/* markdown */}
-          {textState === "preview" && (
-            <ReactMarkdown
-              className="line-break"
-              remarkPlugins={[gfm]}
-              components={{
-                code: ({ node, inline, className, children, ...props }) => {
-                  const match = /language-(\w+)/.exec(className || "");
-                  return !inline ? (
-                    <SyntaxHighlighter
-                      style={materialOceanic}
-                      PreTag="div"
-                      children={String(children).replace(/\n$/, "")}
-                      {...props}
-                      {...(match
-                        ? { language: match[1] }
-                        : { className: className })}
-                    />
-                  ) : (
-                    <code
-                      className={className}
-                      {...props}
-                      children={String(children).replace(/\n$/, "")}
-                    />
-                  );
-                },
-              }}
-            >
-              {watch("text")}
-            </ReactMarkdown>
-          )}
+          {textState === "preview" && <Markdown>{watch("text")}</Markdown>}
         </FlexColumnBox>
       </Container>
     </LayOutContainer>

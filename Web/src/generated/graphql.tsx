@@ -3455,6 +3455,13 @@ export type RegularErrorFragment = (
 export type RegularPostFragment = (
   { __typename?: 'Post' }
   & Pick<Post, 'id' | 'title' | 'content' | 'authorname' | 'authorAvatar' | 'createdAt' | 'likesCount' | 'shortenedText' | 'commentsCount' | 'isBookmarked' | 'photo' | 'isLiked'>
+  & { author: (
+    { __typename?: 'User' }
+    & { blog?: Maybe<(
+      { __typename?: 'Blog' }
+      & Pick<Blog, 'name'>
+    )> }
+  ) }
 );
 
 export type RegularTagFragment = (
@@ -3487,6 +3494,24 @@ export type CreatePostMutation = (
     { __typename?: 'Post' }
     & Pick<Post, 'id'>
   ) }
+);
+
+export type GetPostQueryVariables = Exact<{
+  postId: Scalars['String'];
+}>;
+
+
+export type GetPostQuery = (
+  { __typename?: 'Query' }
+  & { post?: Maybe<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'text'>
+    & { tags: Array<(
+      { __typename?: 'Tags' }
+      & Pick<Tags, 'name'>
+    )> }
+    & RegularPostFragment
+  )> }
 );
 
 export type PostsQueryVariables = Exact<{
@@ -3701,6 +3726,11 @@ export const RegularPostFragmentDoc = gql`
   isBookmarked
   photo
   isLiked
+  author {
+    blog {
+      name
+    }
+  }
 }
     `;
 export const RegularTagFragmentDoc = gql`
@@ -3878,6 +3908,51 @@ export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const GetPostDocument = gql`
+    query getPost($postId: String!) {
+  post(where: {id: $postId}) {
+    ...RegularPost
+    text
+    tags {
+      name
+    }
+  }
+}
+    ${RegularPostFragmentDoc}`;
+export type GetPostComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetPostQuery, GetPostQueryVariables>, 'query'> & ({ variables: GetPostQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const GetPostComponent = (props: GetPostComponentProps) => (
+      <ApolloReactComponents.Query<GetPostQuery, GetPostQueryVariables> query={GetPostDocument} {...props} />
+    );
+    
+
+/**
+ * __useGetPostQuery__
+ *
+ * To run a query within a React component, call `useGetPostQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostQuery({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useGetPostQuery(baseOptions: Apollo.QueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, options);
+      }
+export function useGetPostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostQuery, GetPostQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostQuery, GetPostQueryVariables>(GetPostDocument, options);
+        }
+export type GetPostQueryHookResult = ReturnType<typeof useGetPostQuery>;
+export type GetPostLazyQueryHookResult = ReturnType<typeof useGetPostLazyQuery>;
+export type GetPostQueryResult = Apollo.QueryResult<GetPostQuery, GetPostQueryVariables>;
 export const PostsDocument = gql`
     query Posts($limit: Int, $orderBy: [PostOrderByInput!], $offset: Int) {
   posts(

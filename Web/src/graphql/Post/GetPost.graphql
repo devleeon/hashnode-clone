@@ -1,0 +1,9 @@
+query getPost($postId: String!) {
+  post(where: { id: $postId }) {
+    ...RegularPost
+    text
+    tags {
+      name
+    }
+  }
+}

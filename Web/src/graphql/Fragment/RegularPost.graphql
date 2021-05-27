@@ -11,4 +11,9 @@ fragment RegularPost on Post {
   isBookmarked
   photo
   isLiked
+  author {
+    blog {
+      name
+    }
+  }
 }
