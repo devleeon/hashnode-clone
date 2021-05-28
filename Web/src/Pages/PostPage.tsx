@@ -45,15 +45,17 @@ function PostPage({}: Props): ReactElement {
     return <></>;
   } else {
     return (
-      <>
+      <Box height="auto" overflow="visible">
         <Container maxWidth="xl" fixed>
           <FlexRowBox
             alignItems="center"
             justifyContent="space-between"
-            paddingTop="32px"
+            paddingY="32px"
           >
             <BoldText fontSize="24px" textColor="black">
-              {data.post?.author.blog?.name}
+              {data.post?.author.blog?.name
+                ? data.post?.author.blog?.name
+                : data.post?.authorname}
             </BoldText>
             <FlexRowBox>
               <IconButton className={classes.marginRight} variant="text">
@@ -71,8 +73,12 @@ function PostPage({}: Props): ReactElement {
         </Container>
         <Divider />
         <Container maxWidth="md" fixed>
-          <FlexRowBox>
-            <FlexColumnBox maxWidth="80%">
+          <FlexRowBox position="static" overflow="visible" height="auto">
+            <FlexColumnBox
+              width="800px"
+              paddingRight="48px"
+              position="relative"
+            >
               <img src={`${data.post?.photo}`} alt={data.post?.title} />
               <Box paddingY="20px">
                 <BoldText fontSize="40px" textColor="black">
@@ -91,14 +97,20 @@ function PostPage({}: Props): ReactElement {
               <Divider />
               <Markdown>{`${data.post?.text}`}</Markdown>
             </FlexColumnBox>
-            <FlexColumnBox position="sticky">
+            <FlexColumnBox
+              position="sticky"
+              alignItems="center"
+              marginTop="40px"
+              width="100%"
+              top={0}
+            >
               <Button>button</Button>
               <Button>button</Button>
               <Button>button</Button>
             </FlexColumnBox>
           </FlexRowBox>
         </Container>
-      </>
+      </Box>
     );
   }
 }
