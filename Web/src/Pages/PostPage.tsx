@@ -26,7 +26,9 @@ const IconButton = styled(Button)({
   minWidth: 0,
   borderRadius: "50%",
 });
-
+const PostContainer = styled(Container)({
+  height: "auto",
+});
 type Params = {
   postId: string;
 };
@@ -72,14 +74,19 @@ function PostPage({}: Props): ReactElement {
           </FlexRowBox>
         </Container>
         <Divider />
-        <Container maxWidth="md" fixed>
+        <PostContainer maxWidth="md" fixed>
           <FlexRowBox position="static" overflow="visible" height="auto">
             <FlexColumnBox
               width="800px"
               paddingRight="48px"
               position="relative"
+              paddingBottom="2000px"
             >
-              <img src={`${data.post?.photo}`} alt={data.post?.title} />
+              <img
+                src={`${data.post?.photo}`}
+                alt={data.post?.title}
+                width="800px"
+              />
               <Box paddingY="20px">
                 <BoldText fontSize="40px" textColor="black">
                   {data.post?.title}
@@ -109,7 +116,7 @@ function PostPage({}: Props): ReactElement {
               <Button>button</Button>
             </FlexColumnBox>
           </FlexRowBox>
-        </Container>
+        </PostContainer>
       </Box>
     );
   }
