@@ -129,3 +129,8 @@ export const UploadLabel = styled("label")({
   padding: "4px",
   cursor: "pointer",
 });
+export const IconButton = styled(Button)({
+  minWidth: 0,
+  padding: "8px",
+  textTransform: "none",
+});

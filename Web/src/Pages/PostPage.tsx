@@ -6,28 +6,40 @@ import {
   Divider,
   makeStyles,
   styled,
+  Theme,
+  useMediaQuery,
 } from "@material-ui/core";
-import { NightsStayOutlined, Search } from "@material-ui/icons";
+import {
+  BookmarkBorderOutlined,
+  EmojiEmotionsOutlined,
+  Instagram,
+  NightsStayOutlined,
+  Search,
+  Share,
+  ShareOutlined,
+} from "@material-ui/icons";
 import React, { ReactElement } from "react";
 import { useParams } from "react-router";
 import { meVar } from "../Apollo/localState";
 import Markdown from "../Components/Markdown";
+import PostPageHeader from "../Components/PostPage/PostPageHeader";
 import { useGetPostQuery } from "../generated/graphql";
-import { BoldText, FlexColumnBox, FlexRowBox } from "../styles/Styles";
+import {
+  BoldText,
+  FlexColumnBox,
+  FlexRowBox,
+  LightText,
+  IconButton as Icon,
+} from "../styles/Styles";
+import { getDate } from "../Utilities/getDate";
 
-const useStyles = makeStyles({
-  marginRight: {
-    "&:not(:last-child)": {
-      marginRight: "10px",
-    },
-  },
-});
-const IconButton = styled(Button)({
-  minWidth: 0,
-  borderRadius: "50%",
-});
 const PostContainer = styled(Container)({
   height: "auto",
+});
+
+const ImageBox = styled(Box)({
+  width: "100%",
+  paddingTop: "52.5%",
 });
 type Params = {
   postId: string;
@@ -35,57 +47,42 @@ type Params = {
 interface Props {}
 
 function PostPage({}: Props): ReactElement {
-  const classes = useStyles();
   const { postId } = useParams<Params>();
-  const me = meVar();
   const { data } = useGetPostQuery({
     variables: {
       postId,
     },
   });
+  const lg = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"));
+
+  const { month, year, date } = getDate(data?.post?.createdAt as string);
+
   if (!data) {
     return <></>;
   } else {
     return (
-      <Box height="auto" overflow="visible">
-        <Container maxWidth="xl" fixed>
-          <FlexRowBox
-            alignItems="center"
-            justifyContent="space-between"
-            paddingY="32px"
-          >
-            <BoldText fontSize="24px" textColor="black">
-              {data.post?.author.blog?.name
-                ? data.post?.author.blog?.name
-                : data.post?.authorname}
-            </BoldText>
-            <FlexRowBox>
-              <IconButton className={classes.marginRight} variant="text">
-                <Search />
-              </IconButton>
-              <IconButton className={classes.marginRight} variant="text">
-                <NightsStayOutlined />
-              </IconButton>
-              <Button className={classes.marginRight} variant="outlined">
-                follow
-              </Button>
-              <Avatar src={me?.avatar} />
-            </FlexRowBox>
-          </FlexRowBox>
-        </Container>
+      <Box>
+        <PostPageHeader
+          blogname={data.post?.author.blog?.name}
+          authorname={data.post?.authorname as string}
+        />
         <Divider />
-        <PostContainer maxWidth="md" fixed>
+        <PostContainer
+          fixed
+          {...(lg ? { maxWidth: "md" } : { maxWidth: "sm" })}
+        >
           <FlexRowBox position="static" overflow="visible" height="auto">
             <FlexColumnBox
-              width="800px"
-              paddingRight="48px"
-              position="relative"
+              flex="1 1 100%"
               paddingBottom="2000px"
+              width="800px"
+              {...(lg && { paddingRight: "48px" })}
             >
-              <img
-                src={`${data.post?.photo}`}
-                alt={data.post?.title}
-                width="800px"
+              <ImageBox
+                style={{
+                  backgroundImage: `url(${data.post!.photo})`,
+                  backgroundSize: "cover",
+                }}
               />
               <Box paddingY="20px">
                 <BoldText fontSize="40px" textColor="black">
@@ -93,28 +90,49 @@ function PostPage({}: Props): ReactElement {
                 </BoldText>
               </Box>
               <Divider />
-              <FlexRowBox>
-                <Avatar src={`${data.post?.authorAvatar}`} sizes="small" />
-                <FlexColumnBox>
+              <FlexRowBox alignItems="center" paddingY="10px">
+                <Avatar
+                  src={`${data.post?.authorAvatar}`}
+                  style={{ width: "64px", height: "64px" }}
+                />
+                <FlexColumnBox paddingX="20px">
                   <BoldText fontSize="24px" textColor="black">
                     {data.post?.authorname}
                   </BoldText>
+                  <LightText>{`Publishied on ${month} ${date}, ${year}`}</LightText>
                 </FlexColumnBox>
               </FlexRowBox>
               <Divider />
               <Markdown>{`${data.post?.text}`}</Markdown>
             </FlexColumnBox>
-            <FlexColumnBox
-              position="sticky"
-              alignItems="center"
-              marginTop="40px"
-              width="100%"
-              top={0}
-            >
-              <Button>button</Button>
-              <Button>button</Button>
-              <Button>button</Button>
-            </FlexColumnBox>
+            {lg && (
+              <FlexColumnBox
+                flex="1 0 160px"
+                position="sticky"
+                alignItems="center"
+                height="335px"
+                justifyContent="space-between"
+                paddingTop="64px"
+                top={0}
+              >
+                <Icon>
+                  <EmojiEmotionsOutlined
+                    style={{ marginRight: "10px" }}
+                    fontSize="large"
+                  />
+                  Like
+                </Icon>
+                <Icon>
+                  <BookmarkBorderOutlined fontSize="large" />
+                </Icon>
+                <Icon>
+                  <Instagram fontSize="large" />
+                </Icon>
+                <Icon>
+                  <ShareOutlined fontSize="large" />
+                </Icon>
+              </FlexColumnBox>
+            )}
           </FlexRowBox>
         </PostContainer>
       </Box>

@@ -88,12 +88,12 @@ function Menu({ textState, setTextState }: Props): ReactElement {
       case "link":
         setCursor({
           txtarea,
-          before: "[I'm an inline link](put-link-here)",
+          before: "[I'm an inline link](/put-link-here)",
           after: "",
           startPos:
-            "[I'm an inline link](put-link-here)".length -
-            "put-link-here)".length,
-          endPos: "[I'm an inline link](put-link-here)".length - 1,
+            "[I'm an inline link](/put-link-here)".length -
+            "/put-link-here)".length,
+          endPos: "[I'm an inline link](/put-link-here)".length - 1,
         });
         break;
       case "code":
