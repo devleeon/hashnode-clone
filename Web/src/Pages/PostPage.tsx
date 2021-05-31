@@ -1,10 +1,8 @@
 import {
   Avatar,
   Box,
-  Button,
   Container,
   Divider,
-  makeStyles,
   styled,
   Theme,
   useMediaQuery,
@@ -13,14 +11,10 @@ import {
   BookmarkBorderOutlined,
   EmojiEmotionsOutlined,
   Instagram,
-  NightsStayOutlined,
-  Search,
-  Share,
   ShareOutlined,
 } from "@material-ui/icons";
 import React, { ReactElement } from "react";
 import { useParams } from "react-router";
-import { meVar } from "../Apollo/localState";
 import Markdown from "../Components/Markdown";
 import PostPageHeader from "../Components/PostPage/PostPageHeader";
 import { useGetPostQuery } from "../generated/graphql";
@@ -28,8 +22,8 @@ import {
   BoldText,
   FlexColumnBox,
   FlexRowBox,
-  LightText,
   IconButton as Icon,
+  LightText,
 } from "../styles/Styles";
 import { getDate } from "../Utilities/getDate";
 
