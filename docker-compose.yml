@@ -1,0 +1,50 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./Nginx
+    ports:
+      - "80:80"
+    networks:
+      - server
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379"
+    networks:
+      - server
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  backend:
+    depends_on: redis
+    container_name: backend
+    build:
+      dockerfile: Dockerfile
+      context: ./Server
+    volumes:
+      - ./server:/app
+    ports:
+      - "4000:4000"
+    networks:
+      - server
+  frontend:
+    container_name: frontend
+    build:
+      dockerfile: Dockerfile
+      context: ./Web
+    ports:
+      - "8080:8080"
+    networks:
+      - server
+networks:
+  server:
+    driver: bridge
